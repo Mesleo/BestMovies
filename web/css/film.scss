@@ -1,0 +1,103 @@
+@import "variables/colors";
+
+a{
+  &:hover{
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+div.panel-title.row{
+  padding: 12px 18px;
+  h3{
+    padding: 0;
+    margin: 0;
+  }
+  span.date-add{
+    padding-top: 6px;
+  }
+}
+
+.form-group{
+  .col-xs-12:not(:last-child){
+    margin-bottom: 10px;
+  }
+}
+
+textarea{
+  max-width: 100%;
+  min-width: 100%;
+  max-height: 100px;
+  text-align: left;
+}
+
+div.div-picture{
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  >div{
+    width: 50%;
+    iframe{
+      width: 90%;
+      height: 200px;
+    }
+  }
+  img{
+    width: 150px;
+    height: 200px;
+    text-align: right;
+  }
+}
+
+input[type=checkbox]{
+  border: none;
+  box-shadow: none;
+  &:focus{
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.btn.btn-accept{
+  background-color: $mainColorLight;
+  box-shadow: 2px 2px 1px 1px $shadowLight;
+  color: $secundaryTextColor;
+  &:active{
+    background-color: $mainColor;
+    box-shadow: none;
+  }
+}
+
+.btn.btn-cancel{
+  background-color: $secundaryColorLight;
+  box-shadow: 2px 2px 1px 1px $shadowLight;
+  &:active{
+    background-color: $secundaryColor;
+    box-shadow: none;
+  }
+}
+
+span.date-add{
+  //position: absolute;
+  //right: 50px;
+}
+
+@media screen and (min-width: 768px){
+  div.div-picture{
+    height: 300px;
+    img{
+      width: 200px;
+      height: 260px;
+      left: 35%;
+      transition: 0.8s;
+      &:hover{
+        transform: scale(1.6, 1.6);
+        box-shadow: 3px -3px 2px 2px $shadowLight,
+                    -3px -3px 2px 2px $shadowLight,
+                    3px 3px 2px 2px $shadowLight,
+                    -3px 3px 2px 2px $shadowLight;
+      }
+    }
+  }
+}

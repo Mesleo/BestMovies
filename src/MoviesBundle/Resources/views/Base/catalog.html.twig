@@ -1,0 +1,256 @@
+{% if pagination|length > 1 %}
+    <div class="pagination-films">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endif %}
+<section id="panel-movies">
+{% if vfOne is defined and vfOne == false %}
+    <ul id="list-movie" class="row">
+        {% for movie in pagination %}
+            <li class="movie col-xs-12 col-sm-6 col-md-4">
+                <div class="panel-movie" >
+                    <div class="title-rating">
+                        {% set punt = movie.rating|replace({".": ""}) %}
+                        {% set rest = 100 - punt %}
+                        <h3>{{ movie.originalTitle }}</h3><span class="rating">{{ movie.rating }}</span>
+                        <span class="punt" style="background: linear-gradient(to top, #CAAF00 {{ punt }}%, #fffffa 0%, #fffffa {{ rest }}%)"></span>
+                    </div>
+                    <div class="title-saga">
+                    {% if movie.saga != null %}
+                        <h4><b>Saga: </b>{{ movie.saga }}</h4>
+                    {% endif %}
+                    </div>
+                    <ul class="nav nav-tabs nav-film">
+                        <li role="presentation" class="a-desc active" data-id="{{ movie.num }}">
+                            <a href="javascript:void(0);" data-id="{{ movie.num }}">Descripción</a>
+                        </li>
+                        <li role="presentation" class="a-trai" data-id="{{ movie.num }}">
+                            <a href="javascript:void(0);" data-id="{{ movie.num }}">Más...</a>
+                        </li>
+                        <li role="presentation" class="a-plus" data-id="{{ movie.num }}">
+                            <a href="javascript:void(0);" data-id="{{ movie.num }}">Comentarios</a>
+                        </li>
+                    </ul>
+                    <div class="description" data-id="{{ movie.num }}">
+                        <p class="image">
+                            {#<img class="img-film" src="/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">#}
+                            <img class="img-film" src="web/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">
+                        </p>
+                        <p><b>Director: </b> {{ movie.director }}</p>
+                        <p class="actors"><b>Actores: </b> {{ movie.actors }}</p>
+                        <div class="year-length">
+                            <span><b>Año: </b> {{ movie.year }}</span><span><b>Duración: </b>{{ movie.length }} min</span>
+                        </div>
+                        <p><b>Género: </b>{{ movie.category }}</p>
+                        <p class="country-ubication">
+                            <span><b>País: </b> {{ movie.country }}</span>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <span><b>Ubicación: </b> {{ movie.media }}</span>
+                        {% endif %}
+                        </p>
+                        <div class="buttons-share">
+                            <div class="button-share">
+                                <a href="http://www.facebook.com/sharer.php?s=100&u=http://pelishd.esy.es/films/film?idF={{ movie.num }}"
+                                   class="share-facebook" >
+                                    <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+                                </a>
+                            </div>
+
+                            <div class="button-share">
+                                <a href="javascript:void(0);" data-id="{{ movie.num }}" data-film="{{ movie.originalTitle|replace({' ':'','-':'','+':'Mas',':':''}) }}"
+                                   class="share-twitter" >
+                                    <i class="fa fa-twitter-square fa-2x"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="trailers" data-id="{{ movie.num }}">
+                        {% if movie.urlVideo is defined and movie.urlVideo != null %}
+                            <div class="show-trailer">
+                                <button type="button" class="btn btn-info btn-url-video" data-url="{{ movie.urlVideo }}">Ver tráiler</button>
+                            </div>
+                        {% else %}
+                            <h4>No hay ningún vídeo para mostrar.</h4>
+                        {% endif %}
+                        {% if movie.description is defined and movie.description != null %}
+                            <h4>Sinopsis</h4>
+                            <p class="sipnosis">
+                                {{ movie.description }}
+                            </p>
+                        {% else %}
+                            <h4>No hay sinopsis para esta película.</h4>
+                        {% endif %}
+                        {% if movie.visto is defined %}
+                            {% if movie.visto == 1 %}
+                                {% set che = 'checked' %}
+                            {% else %}
+                                {% set che = '' %}
+                            {% endif %}
+                            <p class="format-view" id="p_{{ movie.num }}">
+                                <span><b>Formato: </b> {{ movie.videoFormat }}</span>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                <span class="view"><b>Vista: </b></span>
+                                {% endif %}
+                            </p>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <input class="inline" type="checkbox" data-film="{{ movie.num }}" name="checkbox-view" {{ che }}>
+                            {% endif %}
+                            <p class="hidden view_{{ movie.num }}"></p>
+                        {% endif %}
+                        {#{% if movie.miNota is defined and movie.miNota != null %}#}
+                            {#<p class="my-punt_{{ movie.num }}"><b>Nota media usuarios: </b><span class="rating">{{ movie.miNota|replace({'.0':''}) }}</span> </p>#}
+                        {#{% endif %}#}
+                        <p id="punt_{{ movie.num }}"></p>
+                        <p><b>Tamaño: </b>{{ movie.fileSize }} GB</p>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
+                        {% endif %}
+                    </div>
+                    <div class="plus" data-id="{{ movie.num }}">
+                        <div class="view-comments"></div>
+                        {% if app.user %}
+                            <form action="{{ path('comment_add') }}" method="post">
+                                <input type="text" class="hidden" value="{{ movie.num }}" name="film" id="film">
+                                <p class="p-button-edit"><button type="submit" class="btn btn-default">Puntuar</button></p>
+                            </form>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    {% for movie in pagination %}
+        <div class="movie-single">
+            <div class="title">
+                {% set punt = movie.rating|replace({".": ""}) %}
+                {% set rest = 100 - punt %}
+                <h3>{{ movie.originalTitle }}</h3>
+                <div class="punt-rating">
+                    <span class="punt"></span>
+                    <span class="rating">{{ movie.rating|replace({'.0':''}) }}</span>
+                </div>
+            </div>
+            {% if movie.saga != null %}
+                <div class="title-saga">
+                    <h4>Saga - {{ movie.saga }}</h4>
+                </div>
+            {% endif %}
+            <ul class="nav nav-tabs nav-film">
+                <li role="presentation" class="a-desc active" data-id="{{ movie.num }}">
+                    <a href="javascript:void(0);" data-id="{{ movie.num }}">Descripción</a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li role="presentation" class="a-trai" data-id="{{ movie.num }}">
+                        <a href="javascript:void(0);" data-id="{{ movie.num }}">Más...</a>
+                    </li>
+                {% endif %}
+                <li role="presentation" class="a-plus" data-id="{{ movie.num }}">
+                    <a href="javascript:void(0);" data-id="{{ movie.num }}">Comentarios</a>
+                </li>
+            </ul>
+            <div class="description" data-id="{{ movie.num }}">
+                <div class="img-video" data-id="{{ movie.num }}">
+                    <div class="image">
+                        {% if movie.urlVideo is defined and movie.urlVideo != null %}
+                            {#<img class="img-film" src="/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">#}
+                            <img class="img-film" src="/web/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">
+                        {% else %}
+                            {#<img class="img-film" src="/upload/icons/no_image.png" alt="{{ movie.originalTitle }}">#}
+                            <img class="img-film" src="/web/upload/icons/no_image.png" alt="{{ movie.originalTitle }}">
+                        {% endif %}
+                    </div>
+                    {% if movie.urlVideo is defined and movie.urlVideo != null %}
+                    <div class="video">
+                        <iframe src="{{ movie.urlVideo|replace({'watch?v=':'embed/'}) }}" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                    {% else %}
+                        <h5>No hay ningún vídeo para mostrar.</h5>
+                    {% endif %}
+                </div>
+                <div class="panel panel-body">
+                    <div class="field-film">
+                        <span class="year"><b>Año: </b> {{ movie.year }}</span>
+                        <span class="length"><b>Duración: </b>{{ movie.length }} min</span>
+                    </div>
+                    <div class="field-film">
+                        <span><b>País: </b> {{ movie.country }}</span>
+                    </div>
+                    <div class="field-film">
+                        <span><b>Director: </b> {{ movie.director }}</span>
+                    </div>
+                    <div class="field-film">
+                        <span><b>Género: </b> {{ movie.category }}</span>
+                    </div>
+                    <h5>Actores</h5>
+                    <p class="actors">{{ movie.actors }}</p>
+                    {% if movie.description is defined and movie.description != null %}
+                        <h5>Sinopsis</h5>
+                        <p class="sipnosis">
+                            {{ movie.description }}
+                        </p>
+                    {% else %}
+                        <h4>No hay sinopsis para esta película.</h4>
+                    {% endif %}
+                    <div class="buttons-share">
+                        <div class="button-share">
+                            <a href="http://www.facebook.com/sharer.php?s=100&u=http://pelishd.esy.es/films/film?idF={{ movie.num }}"
+                               class="share-facebook" >
+                                <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
+                            </a>
+                        </div>
+
+                        <div class="button-share">
+                            <a href="javascript:void(0);" data-id="{{ movie.num }}" data-film="{{ movie.originalTitle|replace({' ':'','-':'','+':'Mas',':':''}) }}"
+                               class="share-twitter" >
+                                <i class="fa fa-twitter-square fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="trailers" data-id="{{ movie.num }}">
+                    {% if movie.visto is defined %}
+                        {% if movie.visto == 1 %}
+                            {% set che = 'checked' %}
+                        {% else %}
+                            {% set che = '' %}
+                        {% endif %}
+                        <p class="format-view" id="p_{{ movie.num }}">
+                            <span><b>Formato: </b> {{ movie.videoFormat }}</span>
+                            {% if is_granted('ROLE_ADMIN') %}
+                                <span class="view"><b>Vista: </b></span>
+                            {% endif %}
+                        </p>
+                            <input class="inline" type="checkbox" data-film="{{ movie.num }}" name="checkbox-view" {{ che }}>
+                        <p class="hidden view_{{ movie.num }}"></p>
+                    {% endif %}
+                    <p id="punt_{{ movie.num }}"></p>
+                    <div class="field-film"><b>Tamaño: </b>{{ movie.fileSize }} GB</div>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="field-film">
+                            <span><b>Ubicación: </b> {{ movie.media }}</span>
+                        </div>
+                        <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
+                    {% endif %}
+                </div>
+            {% endif %}
+            <div class="plus" data-id="{{ movie.num }}">
+                <div class="view-comments"></div>
+                {% if app.user %}
+                    <form action="{{ path('comment_add') }}" id="punt-film" method="post">
+                        <input type="text" class="hidden" value="{{ movie.num }}" name="film" id="film">
+                        <p class="p-button-edit"><button type="submit" class="btn btn-default">Puntuar</button></p>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endfor %}
+{% endif %}
+</section>
+    {% if pagination|length > 1 %}
+        <div class="pagination-films">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+    {% endif %}

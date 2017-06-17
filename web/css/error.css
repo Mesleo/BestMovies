@@ -1,0 +1,15 @@
+body{
+    position: relative;
+}
+
+#error{
+    width: 90%;
+    position: absolute;
+    left: 5%;
+}
+
+#message{
+    font-size: 2.5rem;
+    font-family: 'TakaoMincho';
+    text-align: center;
+}

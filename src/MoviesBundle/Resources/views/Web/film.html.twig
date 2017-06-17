@@ -1,0 +1,318 @@
+{% extends "MoviesBundle:Base:base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('node_modules/sweetalert/dist/sweetalert.css') }}">
+    <link rel="stylesheet" href="/web/node_modules/sweetalert/dist/sweetalert.css">
+    {#<link rel="stylesheet" href="/css/autocomplete.css">
+    <link rel="stylesheet" href="/web/css/autocomplete.css">
+    {#<link rel="stylesheet" href="/css/films.css">#}
+    <link rel="stylesheet" href="/web/css/films.css">
+    {#<link rel="stylesheet" href="/css/film.css">#}
+    <link rel="stylesheet" href="/web/css/film.css">
+{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'MoviesBundle:Base:nav_admin.html.twig' %}
+    {% endif %}
+
+    {% if result is defined %}
+        <div id="result">
+            <p class="info-result">{{ result }}</p>
+        </div>
+    {% endif %}
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {% if film is defined %}
+                    Editar - {{ film.originalTitle }}
+                {% else %}
+                    Nueva película
+                {% endif %}<span class="date-add">
+                {% if film is defined %}
+                    {{ film.dateAdd }}
+                {% else %}
+                    {{ "now"|date("d-m-Y") }}
+                    </span>
+                {% endif %}
+            </h3>
+        </div>
+
+        <form action="{% if film is defined %}{{ path('save_film') }}{% else %}{{ path('add_new_film') }}{% endif %}" method="post" class="form-horizontal"  enctype="multipart/form-data">
+            {% if film is defined %}
+                <input type="text" class="hidden" name="id_film" id="id_film" value="{{ film.num }}">
+            {% endif %}
+            <div class="panel-body">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="title" class="control-label col-xs-12 col-sm-2">Título:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" name="title" id="title" {% if film is defined %} value="{{ film.originalTitle }}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="saga" class="control-label col-xs-12 col-sm-2">Saga: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" name="saga" id="saga" {% if film is defined %} value="{{ film.saga }}" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="year" class="control-label col-xs-12 col-sm-2">Año:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="number" class="form-control" name="year" id="year" title="Formato YYYY" {% if film is defined %} value="{{ film.year }}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="time" class="control-label col-xs-12 col-sm-2">Duración: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="number" class="form-control" name="time" id="time" title="En minutos" {% if film is defined %} value="{{ film.length }}" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="director" class="control-label col-xs-12 col-sm-2">Director:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" name="director" id="director" {% if film is defined %} value="{{ film.director }}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="country" class="control-label col-xs-12 col-sm-2">País:</label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" name="country" id="country" {% if film is defined %} value="{{ film.country }}" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="rating" class="control-label col-xs-12 col-sm-2">Nota: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="number" class="form-control" step="0.01" name="rating" id="rating" {% if film is defined %} value="{{ film.rating }}" {% endif %} title="En caso de decimales, separar con coma">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="last-update" class="control-label col-xs-12 col-sm-3">Últ. Edición: </label>
+                            <div class="col-xs-12 col-sm-9">
+                                <input type="date" class="form-control" readonly name="last-update" id="last-update" {% if film is defined %} value="{{ film.dateUpdate }}" {% endif %}>
+                                <input type="date" class="hidden" readonly name="date-update" id="date-update">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12">
+                            <label for="category" class="col-xs-12 col-sm-1">Categoría: </label>
+                            <div class="col-xs-12 col-sm-11">
+                                <input type="text" class="form-control" name="category" id="category" {% if film is defined %} value="{{ film.category }}" {% endif %} title="Separar las categorías por punto ('.')
+                                 y espacio. Ejemplo: Acción. Drama">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12">
+                            <label for="actors" class=" col-xs-12 col-sm-1">Actores: </label>
+                            <div class="col-xs-12 col-sm-11">
+                                <textarea type="text" rows="5" class="form-control" name="actors" id="actors">{% if film is defined %} {{ film.actors }} {% endif %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12">
+                            <label for="description" class="control-label col-xs-12 col-sm-1">Sinopsis: </label>
+                            <div class="col-xs-12 col-sm-11">
+                                <textarea type="text" rows="5" class="form-control" name="description" id="description">{% if film is defined %} {{ film.description }} {% endif %}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="video" class="control-label col-xs-12 col-sm-2">Vídeo: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="url" class="form-control" placeholder="URL video" name="video" id="video" {% if film is defined %} value="{{ film.urlVideo }}" {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6">
+                            <label for="img" class="control-label col-xs-12 col-sm-2">Carátula: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="file" name="upl" id="upl" multiple class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    {% if film is defined %}
+                        <div class="div-picture">
+                            <div id="video">
+                                <iframe src="{{ film.urlVideo|replace({'watch?v=': 'embed/'}) }}" frameborder="0" allowfullscreen></iframe>
+                            </div>
+                            <div id="image">
+                                <img src="/web/upload/img/{{ film.picture }}" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+            </div>
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Datos específicos
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-5">
+                            <label for="filesize" class="control-label col-xs-12 col-sm-2">Tamaño: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="number" step="0.01" class="form-control" placeholder="5.40" name="filesize" id="filesize" {% if film is defined %} value="{{ film.fileSize }}" {% endif %} title="En caso de decimales separar por punto">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-7">
+                            <label for="format" class="control-label col-xs-12 col-sm-2">Formato: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" placeholder="MKV/AVI" name="format" id="format" {% if film is defined %} value="{{ film.videoFormat }}" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-5">
+                            <label for="view" class="control-label col-xs-12 col-sm-2">Vista: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="checkbox" class="form-control" placeholder="URL video" name="view" id="view" {% if film is defined %} {% if film.visto == 1 %} checked {% endif %} {% endif %}>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-7">
+                            <label for="my-calification" class="control-label col-xs-12 col-sm-2">Mi nota: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="number" class="form-control" step="0.01" placeholder="5,5" name="my-calification" id="my-calification" {% if film is defined %} value="{{ film.miNota }}" {% endif %} title="En caso de decimales, separar por coma">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-12">
+                            <label for="ubication" class="control-label col-xs-12 col-sm-2">Ubicación: </label>
+                            <div class="col-xs-12 col-sm-10">
+                                <input type="text" class="form-control" name="ubication" id="ubication" {% if film is defined %} value="{{ film.media }}" {% endif %}>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                {% if film is defined %}
+                    <div class="form-group pull-left">
+                        <input type="text" class="hidden" name="id_film" id="id_film" value="{{ film.num }}">
+                        <button type="button" class="btn btn-danger" id="btn-del">Eliminar</button>
+                    </div>
+                {% endif %}
+                <div class="form-group pull-right">
+                    <a class="btn btn-cancel" href="{{ path('films') }}">Cancelar</a>
+                    <button class="btn btn-accept">Aceptar</button>
+                </div>
+            </div>
+        </form>
+{% endblock %}
+
+{% block javascripts %}
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    {#<script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>#}
+    <script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        (function(){
+
+            var inputDateAdd, inputLastUpdate, btnDel, inputSaga, arrSaga;
+
+            initVars();
+
+            function initVars(){
+                btnDel = $('button#btn-del');
+                inputDateAdd = $('input#date-update');
+                inputLastUpdate = $('input#last-update');
+                inputSaga = $('input#saga');
+                getDate(inputDateAdd);
+                {% if film is not defined %}
+                    getDate(inputLastUpdate);
+                {% endif %}
+            }
+
+            function getDate(input){
+                var d = new Date();
+                var day = new String(d.getDate());
+                if(day.length < 2) day = '0'+day;
+                var month = new String(d.getMonth()+1);
+                if(month.length < 2) month = '0'+month;
+                var year = new String(d.getFullYear());;
+                var today = year+'-'+month+'-'+day;
+                input.val(today);
+            }
+
+            {% if film is defined %}
+                btnDel.on('click', function(){
+                    swal({
+                            title: "¿Estás seguro?",
+                            text: "¿Quieres eliminar la película?",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Si, quiero",
+                            cancelButtonText: "Cancelar",
+                            closeOnConfirm: true,
+                            closeOnCancel: true
+                        },
+                        function(isConfirm){
+                        if(isConfirm) {
+                            var idFilm = $('input#id_film').val();
+                            window.location.href = "{{ path('delete_film') }}?id_film="+idFilm;
+                        }else{
+                            swal("Cancelado", "No se ha eliminado la película", "error");
+                        }
+                    });
+                });
+            {% endif %}
+
+            $('input#saga').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ sagas|raw }}, request.term);
+                    response(results.slice(0, 10));
+                }
+            });
+            $('input#director').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ director|raw }}, request.term);
+                    response(results.slice(0, 10));
+                }
+            });
+            $('input#country').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ country|raw }}, request.term);
+                    response(results.slice(0, 10));
+                }
+            });
+            $('input#category').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ categories|raw }}, request.term);
+                    response(results.slice(0, 16));
+                }
+            });
+            $('input#format').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ format|raw }}, request.term);
+                    response(results.slice(0, 10));
+                }
+            });
+            $('input#ubication').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ ubication|raw }}, request.term);
+                    response(results.slice(0, 10));
+                }
+            });
+        })();
+    </script>
+{% endblock %}

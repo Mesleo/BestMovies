@@ -1,0 +1,668 @@
+{% extends "MoviesBundle:Base:base.html.twig" %}
+
+{% block stylesheets %}
+    {#<link rel="stylesheet" href="{{ asset('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}">#}
+    <link rel="stylesheet" href="/web/node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css">
+    {#<link rel="stylesheet" href="{{ asset('css/jquery.sweet-modal.min.css') }}">#}
+    <link rel="stylesheet" href="/web/css/jquery.sweet-modal.min.css">
+    {#<link rel="stylesheet" href="{{ asset('node_modules/sweetalert/dist/sweetalert.css') }}">#}
+    <link rel="stylesheet" href="/web/node_modules/sweetalert/dist/sweetalert.css">
+    {#<link rel="stylesheet" href="{{ asset('css/bootstrap-switch.min.css') }}">#}
+    <link rel="stylesheet" href="/web/css/bootstrap-switch.min.css">
+    {#<link rel="stylesheet" href="/css/autocomplete.css">#}
+    <link rel="stylesheet" href="/web/css/autocomplete.css">
+    {#<link rel="stylesheet" href="{{ asset('css/films.css') }}">#}
+    <link rel="stylesheet" href="/web/css/films.css">
+    {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}">#}
+    <link rel="stylesheet" href="/web/css/comment.css">
+{% endblock %}
+
+{% block body %}
+
+    {% if result is defined and result != NULL %}
+        <div id="result">
+            <p class="info-result">{{ result }}</p>
+        </div>
+    {% endif %}
+
+    <div class="panel" id="form-films">
+        {% include 'MoviesBundle:Base:filters.html.twig' %}
+        {% include "MoviesBundle:Base:filter_category.html.twig" %}
+    </div>
+
+
+    {% include 'MoviesBundle:Base:catalog.html.twig' %}
+    <div class="to-top">
+        {#<img src="/upload/icons/arrow_up.png" />#}
+        <img src="/web/upload/icons/arrow_up.png" />
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {#<script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>#}
+    <script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    {#<script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>#}
+    <script src="/web/node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+    {#<script src="{{ asset('js/jquery.sweet-modal.min.js') }}"></script>#}
+    <script src="/web/js/jquery.sweet-modal.min.js"></script>
+    {#<script src="{{ asset('js/bootstrap-switch.min.js') }}"></script>#}
+    <script src="/web/js/bootstrap-switch.min.js"></script>
+    {#<script src="{{ asset('js/filter_category.js')}}"></script>#}
+    <script src="/web/js/filter_category.js"></script>
+    {#<script src="{{ asset('js/filter_range.js')}}"></script>#}
+    <script src="/web/js/filter_range.js"></script>
+    <script>
+        (function(){
+            var response = "", paginationFilms, pNumFilms, bNumFilms, idFilm, arrView, arrCategories, limit = 1, lastScrollTop = 0,
+                    coorY = "";
+            const offset = 40;
+
+            function initVars(){
+                bNumFilms = $('#num_films');
+                pNumFilms = $('#p-num-films');
+                paginationFilms = $('.pagination-films');
+                idFilm = "";
+            }
+
+            var normalize = (function() {
+                var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
+                        to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
+                        mapping = {};
+
+                for(var i = 0, j = from.length; i < j; i++ )
+                    mapping[ from.charAt( i ) ] = to.charAt( i );
+
+                return function( str ) {
+                    var ret = [];
+                    for( var i = 0, j = str.length; i < j; i++ ) {
+                        var c = str.charAt( i );
+                        if( mapping.hasOwnProperty( str.charAt( i ) ) )
+                            ret.push( mapping[ c ] );
+                        else
+                            ret.push( c );
+                    }
+                    return ret.join( '' );
+                }
+
+            })();
+
+            //Check to see if the window is top if not then display button
+            $(window).scroll(function(){
+                if ($(this).scrollTop() > 750) {
+                    $('.to-top').fadeIn();
+                } else {
+                    $('.to-top').fadeOut();
+                }
+            });
+
+            //Click event to scroll to top
+            $('.to-top').click(function(){
+                $('html, body').animate({scrollTop : 0},800);
+                return false;
+            });
+
+            $('input#name-filter').on('focus', function(){
+                $("input#name-filter").autocomplete({
+                    minLength: 0,
+                    source: function (request, response) {
+                        if($('input#name-filter').val().length > 1) {
+                            var matches = $.map({{ films|raw }}, function (acItem) {
+                                var label = acItem.label.toUpperCase();
+                                var pat = request.term.toUpperCase();
+                                if(label.match(pat)){
+                                    return {'label': acItem.label, 'icon': acItem.icon};
+                                }
+                            });
+                            response(matches.slice(0, 8));
+                        }
+                        else{
+                            response("");
+                        }
+                    },
+                    select: function (event, ui) {
+                        $("input#name-filter").val(ui.item.label);
+                        var film = ui.item.label.replace(/\+/g, '%5B');
+                        film = film.replace(':', '%3A');
+                        film = film.replace('-', '%5D');
+                        film = film.replace(/ /g, '%5O');
+                        film = normalize(film);
+                        window.location.href = "{{ path('film_view') }}?m="+film;
+                    }
+                }).autocomplete("instance")._renderItem = function (ul, item) {
+                    return $("<li>")
+//                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/upload/img/" + item.icon + "' />" + item.label + "</div>")
+                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/web/upload/img/" + item.icon + "' />" + item.label + "</div>")
+                            .appendTo(ul);
+                };
+            });
+
+            function showModalVideo() {
+                $('button.btn-url-video').on('click', function () {
+                    var url = $(this).attr('data-url').replace('watch?v=', 'embed/');
+                    $.sweetModal({
+                        title: '',
+                        content: '<iframe width="560" height="315" src="'+url+'" frameborder="0" allowfullscreen></iframe>',
+                        theme: $.sweetModal.THEME_DARK
+                    }).css({
+                        'width': '100%',
+                        'left': '5%'
+                    });
+                });
+            }
+
+            function sendDataView(a, b, c){
+                var val = 1;
+                if(b == false) {
+                    val = 0;
+                }
+                var object = {
+                    'idFilm': a,
+                    'view':val,
+                    'punt': c
+                };
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('set_view_film') }}",
+                    data: object,
+                    dataType : 'json',
+                    success: function() {
+                        $('p.my-punt_' + a).remove();
+                        if(!isNaN(c)){
+                            var respo = '<p class="my-punt_'+a+'"><b>Mi calificación: </b><span class="rating"> '+c.replace('.0', '')+'</span></p>';
+                            $(respo).insertAfter('p.view_'+a);
+                        }
+                    }
+                }).done(function(){
+                });
+            }
+
+            /**
+             * Muestro un modal si se intenta cambiar el campo de visto/no visto
+             */
+            function changeInputView(){
+
+                $("[name='checkbox-view']").bootstrapSwitch({
+                    'onColor': 'default',
+                    'offColor': 'danger',
+//                    'onText': '<img class="img-ico" src="/upload/icons/tick_true.png" alt="Vista">',
+                    'onText': '<img class="img-ico" src="/web/upload/icons/tick_true.png" alt="Vista">',
+//                    'offText': '<img class="img-ico" src="/upload/icons/icon_red.png" alt="Vista">',
+                    'offText': '<img class="img-ico" src="/web/upload/icons/icon_red.png" alt="Vista">',
+                    'onSwitchChange': function(){
+                        var idFilm = $(this).attr('data-film');
+                        var che = $(this).is(':checked');
+                        var title = "¿Estás seguro que has visto esta película?";
+                        var message = "¡Puntúala si es así!";
+                        var type = "input";
+                        if(!che){
+                            title = "¿Estás seguro que no has visto esta película?";
+                            type = "warning";
+                            message = "";
+                        }
+                        swal({
+                            title: title,
+                            text: message,
+                            type: type,
+                            showCancelButton: true,
+                            confirmButtonColor: "#DD6B55",
+                            confirmButtonText: "Aceptar",
+                            cancelButtonText: "Cancelar",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(value){
+                            if (value != "") {
+                                sendDataView(idFilm, che, value);
+                                swal("¡Cambios guardados correctamente!", "success");
+                            } else {
+                                var pFilm = $('p#p_'+idFilm);
+                                var divNext = pFilm.next();
+                                var clase = divNext.hasClass('bootstrap-switch-on');
+                                if(clase) {
+                                    divNext.removeClass('bootstrap-switch-on');
+                                    divNext.addClass('bootstrap-switch-off');
+                                    $('div.bootstrap-switch-container').css('margin-left', '-46px');
+                                }else{
+                                    divNext.addClass('bootstrap-switch-on');
+                                    divNext.removeClass('bootstrap-switch-off');
+                                    $('div.bootstrap-switch-container').css('margin-left', '0px');
+                                }
+                                swal("No se han realizado cambios", "error");
+                            }
+                        });
+                    }
+                });
+            }
+
+            {% if num_films is defined and page == 0 %}
+
+                $('#myModal').modal();
+
+                setTimeout(function() {
+                    $('#myModal').modal('hide');
+                }, 3000);
+            {% endif %}
+
+            function writeResponse(data){
+                if(data['movies'].length > 0) {
+                    {% set vfOne = false %}
+                    response = '<ul id="list-movies"  class="row">';
+                    for (var i = 0; i < data['movies'].length; i++) {
+                        var movie = data['movies'][i]['originalTitle'];
+                        var punt = data['movies'][i]['rating'].replace(".", "");
+                        var rest = 100 - punt;
+                        response += '<li class="movie col-xs-12 col-sm-6 col-md-4"><div class="panel-movie" ><div class="title-rating">' +
+                                '<h3>' + data['movies'][i]["originalTitle"] + '</h3><span class="rating">' + data['movies'][i]["rating"] +
+                                '</span><span class="punt" style="background: linear-gradient(to top, #CAAF00 ' + punt + '%,' +
+                                '#fffffa 0%, #fffffa ' + rest + '%)"></span>' +
+                                '</div>';
+                        response += '<div class="title-saga">';
+                        if (data['movies'][i]['saga'] != "") {
+                            response += '<h4><b>Saga : </b>' + data['movies'][i]['saga'] + '</h4>';
+                        }
+                        response += '</div>';
+                        response += '<ul class="nav nav-tabs nav-film">' +
+                                '<li role="presentation" class="a-desc active" data-id="' + data['movies'][i]['num'] + '">' +
+                                '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '">Descripción</a>' +
+                                '</li>' +
+                                '<li role="presentation" class="a-trai" data-id="' + data['movies'][i]['num'] + '">' +
+                                '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '">Más...</a>' +
+                                '</li>' +
+                                '<li role="presentation" class="a-plus" data-id="' + data['movies'][i]['num'] + '">' +
+                                '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '">Comentarios</a>' +
+                                '</li>' +
+                                '</ul>' +
+                                '<div class="description" data-id="' + data['movies'][i]['num'] + '">' +
+                                '<p class="image"><img class="img-film" ' +
+//                                'src="/upload/img/' + data['movies'][i]["picture"] + '" alt="' + data['movies'][i]["originalTitle"] + '"></p>' +
+                            'src="/web/upload/img/'+data['movies'][i]["picture"]+'" alt="'+data['movies'][i]["originalTitle"]+'"></p>' +
+                                '<p><b>Director:</b>' + data['movies'][i]["director"] + '</p><p class="actors"><b>Actores: </b>' + data['movies'][i]["actors"] + '</p>' +
+                                '<div class="year-length"><span><b>Año: </b>' + data['movies'][i]["year"] + '</span><span><b>Duración: ' +
+                                '</b>' + data['movies'][i]["length"] + ' min</span></div><p><b>Género: </b>' + data['movies'][i]["category"] + '</p>' +
+                                '<p class="country-ubication"><span><b>País: </b> ' + data['movies'][i]["country"] + ' </span>';
+                        {% if is_granted('ROLE_ADMIN') %}
+                        response += '<span><b> Ubicación: </b>' + data['movies'][i]["media"] + '</span>';
+                        {% endif %}
+                        response += '</p>';
+                        response += '<div class="buttons-share">' +
+                                '<div class="button-share">' +
+                                '<a href="http://www.facebook.com/sharer.php?s=100&u=http://pelishd.esy.es/films/film?idF=' + data['movies'][i]['num'] + '"' +
+                                'class="share-facebook" >' +
+                                '<i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>' +
+                                '</a>' +
+                                '</div>' +
+                                '<div class="button-share">';
+                        for (var w = 0; w < movie.length; w++) {
+                            if (movie[w] == ' ')
+                                movie = movie.replace(' ', '');
+                        }
+                        movie = movie.replace(' ', '');
+                        movie = movie.replace(/\+/g, '');
+                        movie = movie.replace('-', '');
+                        movie = movie.replace(':', '');
+                        response += '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '" data-film="' + movie + '"' +
+                                'class="share-twitter" >' +
+                                '<i class="fa fa-twitter-square fa-2x"></i>' +
+                                '</a>' +
+                                '</div>' +
+                                '</div>' +
+                                '</div>' +
+                                '<div class="trailers" data-id="' + data['movies'][i]['num'] + '">';
+                        if (data['movies'][i]['urlVideo'] != "") {
+                            response += '<div class="show-trailer"><button type="button" class="btn btn-info btn-url-video" ' +
+                                    'data-url="' + data['movies'][i]['urlVideo'] + '">Ver tráiler</button></div>';
+                        } else {
+                            response += '<h4>No hay ningún vídeo para mostrar.</h4>';
+                        }
+
+                        if (data['movies'][i]['description'] != "") {
+                            response += '<h4>Sinopsis</h4><p class="sipnosis">' + data['movies'][i]['description'] + '</p>';
+                        } else {
+                            response += '<h4>No hay sinopsis para esta película.</h4>';
+                        }
+                        if (data['movies'][i]['visto']) {
+                            if (data['movies'][i]['visto'] == 1) {
+                                che = "checked";
+                            } else {
+                                che = "";
+                            }
+                            response += '<p class="format-view" id="' + data['movies'][i]['num'] + '">' +
+                                    '<span><b>Formato: </b>' + data['movies'][i]['videoFormat'] + '</span>';
+                            {% if is_granted('ROLE_ADMIN') %}
+                            response += '<span class="view"><b>Vista: </b></span>';
+                            {% endif %}
+                            response += '</p>';
+                            {% if is_granted('ROLE_ADMIN') %}
+                            response += '<input class="inline view_' + data['movies'][i]['num'] + '" type="checkbox" ' +
+                                    'data-film="' + data['movies'][i]['num'] + '" name="checkbox-view" ' + che + '>';
+                            {% endif %}
+                            response += '<p class="hidden view_' + data['movies'][i]['num'] + '" ></p>';
+                        }
+                        response += '<p id="punt_' + data['movies'][i]['num'] + '"></p>' +
+                                '<p><b>Tamaño: </b>' + data['movies'][i]['fileSize'] + ' GB</p>';
+                        {% if is_granted('ROLE_ADMIN') %}
+                        var value = data['movies'][i]['num'];
+                        var url = "{{ path('show_edit_film', {'id_film': 'wid'}) }}";
+                        url = url.replace("wid", value);
+                        response += '<p class="p-button-edit"><a class="btn btn-default" href="' + url + '">Editar</a></p>';
+                        {% endif %}
+
+                        response += '</div>' +
+                                '<div class="plus" data-id="' + data['movies'][i]['num'] + '"><div class="view-comments"></div>';
+                        {% if app.user %}
+                        response += '<form action="{{ path('comment_add') }}" method="post">' +
+                                '<input type="text" class="hidden" value="' + data['movies'][i]['num'] + '" name="film" id="film">' +
+                                '<p class="p-button-edit"><button type="submit" class="btn btn-default">Puntuar</button></p>' +
+                                '</form>';
+                        {% endif %}
+                        response += '</div></div></li>';
+                    }
+                    response += '</ul>';
+                    $("#panel-movies").html(response);
+                    bNumFilms.html(data['total_pelis']);
+                    pNumFilms.removeClass('hidden');
+                    var cont = 0;
+                    var cont2 = 0;
+                    for (var x = 0; x < $('input[name=category]').length; x++) {
+                        if ($('input[name=category]')[x].checked) {
+                            cont = cont + 1;
+                        }
+                    }
+                    for (var y = 0; x < $('input[name=view]').length; y++) {
+                        if ($('input[name=view]')[y].checked) {
+                            cont2 = cont2 + 1;
+                        }
+                    }
+                    $('p#result-films').css('display', "none");
+                    if (cont == 0 && cont2 == 0) {
+                        bNumFilms.html("");
+                        pNumFilms.addClass("hidden");
+                        $('p#result-films').css('display', "block");
+                    }
+                    writePagination(data);
+                    changeNavFilm();
+                    showModalVideo();
+                    changeInputView();
+                    getFunctionPagination();
+                    functionsButtonsShare();
+                }
+            }
+
+            function writePagination(data) {
+                var paginate = "";
+                if (data['total_paginas'] > 1) {
+                    paginate = '<div class="pagination-true">';
+                    for (var i = 0; i < data['total_paginas']; i++) {
+                        if (data['total_paginas'] > 4 && data['page_num'] > 1 && i < 1
+                                && data['page_num'] - 2 > 0) {
+                            paginate += '<span class="first"><a class="a-page" data-page="0"><<</a></span>';
+                            paginate += '<span class="previous"><a class="a-page" data-page="' + (data['page_num'] - 1) + '">&lt;</a></span>';
+                        }
+                        if (data['page_num'] == i) {
+                            paginate += '<span class="current">' + (i + 1) + '</span>';
+                        }
+                        if (data['total_paginas'] > 4) {
+                            if (data['page_num'] + 3 < data['total_paginas'] &&
+                                    i == data['total_paginas'] - 1 && data['page_num'] < data['total_paginas'] - 2) {
+                                paginate += '<span class="last">' +
+                                        '<a class="a-page" data-page="' + (data['total_paginas'] - 1) + '">>></a></span>';
+                            } else if (data['page_num'] + 3 < data['total_paginas'] - 1
+                                    && i == data['total_paginas'] - 2 && data['page_num'] < data['total_paginas'] - 1) {
+                                paginate += '<span class="next"><a class="a-page" data-page="' + (data['page_num'] + 1) + '">&gt;</a></span>';
+                            }
+                            if ((i < data['page_num'] + 3) && (i > data['page_num'] - 3)
+                                    && i != data['page_num']) {
+                                paginate += '<span class="page"><a class="a-page" data-page="' + i + '">' + (i + 1) + '</a></span>';
+                            }
+                        } else if (i > data['page_num'] || i < data['page_num']) {
+                            paginate += '<span><a class="a-page" data-page="' + i + '">' + (i + 1) + '</a></span>';
+                        }
+                    }
+                    paginate += '</div>';
+                    paginationFilms.html(paginate);
+                }else
+                    paginationFilms.html('');
+            }
+
+            function ajaxCommentsMedia(film) {
+                var item = $('#punt_'+film);
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('media_comments_film') }}",
+                    data: {film: film},
+                    dataType: 'json',
+                    beforeSend: function () {
+                        item.html("");
+                        item.html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                    },
+                    success: function (response) {
+                        var html = "";
+                        if(response['media'] != null){
+                            html += '<b>Nota media usuarios: </b><span class="rating">'
+                                    +response['media'].replace('.0', '')+'</span>';
+                        }
+                        item.html(html);
+                    }
+                });
+            }
+
+            /**
+             * Obtiene los comentarios de una película por AJAX
+             */
+            function ajaxCommentsFilm(film, divComments) {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('comments_film') }}",
+                    data: {'scroll': limit += 1, 'film': film},
+                    dataType: 'json',
+                    beforeSend: function () {
+                        divComments.html("");
+                        divComments.html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                    },
+                    success: function (response) {
+                        var html = "";
+                        {% include 'MoviesBundle:Comment:comment.js.twig' %}
+                        divComments.html(html);
+                        var altDiv = divComments.height();
+                        divComments.scroll(function() {
+                            $(document).mousemove(function(event){
+                                coorY = event.pageY;
+                                var st = altDiv;
+                                var winScroll = Number($(window).scrollTop());
+                                var winHeight = Number(window.innerHeight);
+                                if (st > lastScrollTop) {
+                                    // Scroll hacia abajo
+//                                if ((winScroll + st >= (docHeight - offset))
+//                                        && (Number($(window).scrollTop()) + Number($(window).height()) <= Number($(document).height() - 10))) {
+                                    ajaxCommentsFilm(film, divComments);
+//                                }
+                                } else {
+                                    // Scroll hacia arriba
+                                }
+                                lastScrollTop = st;
+                            });
+                        });
+                    }
+                });
+            }
+
+            /**
+             * Funciones para los elementos li de cada película (menu pestañas)
+             */
+            function changeNavFilm(){
+                $('.a-desc').on('click', function(){
+                    idFilm = $(this).attr('data-id');
+                    $('li[role="presentation"][data-id="'+idFilm+'"]').removeClass('active');
+                    $(this).addClass('active');
+                    $('.trailers[data-id="'+idFilm+'"]').css('display', 'none');
+                    $('.plus[data-id="'+idFilm+'"]').css('display', 'none');
+                    $('.description[data-id="'+idFilm+'"]').css('display', 'block');
+                });
+
+                $('.a-trai').on('click', function(){
+                    idFilm = $(this).attr('data-id');
+                    $('li[role="presentation"][data-id="'+idFilm+'"]').removeClass('active');
+                    $(this).addClass('active');
+                    $('.description[data-id="'+idFilm+'"]').css('display', 'none');
+                    $('.plus[data-id="'+idFilm+'"]').css('display', 'none');
+                    $('.trailers[data-id="'+idFilm+'"]').css('display', 'block');
+                    ajaxCommentsMedia(idFilm);
+                });
+
+                $('.a-plus').on('click', function(){
+                    idFilm = $(this).attr('data-id');
+                    var divPlus = $('.plus[data-id="'+idFilm+'"]');
+                    var divComments = divPlus.children('div.view-comments');
+                    $('li[role="presentation"][data-id="'+idFilm+'"]').removeClass('active');
+                    $(this).addClass('active');
+                    $('.description[data-id="'+idFilm+'"]').css('display', 'none');
+                    $('.trailers[data-id="'+idFilm+'"]').css('display', 'none');
+                    divPlus.css('display', 'block');
+                    limit = 1;
+                    lastScrollTop = 0;
+                    ajaxCommentsFilm(idFilm, divComments);
+                });
+            }
+
+            /**
+             * Obtiene la paginación por AJAX
+             */
+            function getFunctionPagination(){
+                $('a.a-page').on('click', function(){
+                    var page = $(this).attr('data-page');
+                    $.ajax({
+                        type: "GET",
+                        url: "{{ path('filter_films_category') }}",
+                        data: {'page':page},
+                        dataType : 'json',
+                        beforeSend: function () {
+                            paginationFilms.html("");
+                            $("#list-movies").html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                        },
+                        success: function(data) {
+                            writeResponse(data);
+                        }
+                    });
+                });
+            }
+
+            /**
+             * Función que se ejecuta cada vez que se cambia una categoría
+             */
+            $('input[name=category]').on('change', function(){
+                arrCategories = [];
+                arrView = [];
+                $.each($('input[name="category"]:checked'), function() {
+                    var value = $(this).val();
+                    arrCategories.push(value);
+                });
+                $.each($('input[name="view"]:checked'), function() {
+                    var value = $(this).val();
+                    arrView.push(value);
+                });
+                var object = {
+                    'categories': arrCategories,
+                    'view': arrView
+                };
+                $.ajax({
+                    data: object,
+                    url:   '{{ path('filter_films_category') }}',
+                    type:  'post',
+                    dataType : 'json',
+                    beforeSend: function () {
+                        $("#list-movies").html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                    },
+                    success:  function (data) {
+                        writeResponse(data);
+                    }
+                })
+            });
+
+            // Cada vez que se cambia a vistas/no vistas
+            $('input[name=view]').on('change', function(){
+                arrCategories = [];
+                arrView = [];
+                $.each($('input[name="view"]:checked'), function() {
+                    var value = $(this).val();
+                    arrView.push(value);
+                });
+                $.each($('input[name="category"]:checked'), function() {
+                    var value = $(this).val();
+                    arrCategories.push(value);
+                });
+                var object = {
+                    'categories': arrCategories,
+                    'view': arrView
+                };
+                $.ajax({
+                    data: object,
+                    url:   '{{ path('filter_films_category') }}',
+                    type:  'post',
+                    dataType : 'json',
+                    beforeSend: function () {
+                        $("#list-movies").html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                    },
+                    success:  function (data) {
+                        writeResponse(data);
+                    }
+                })
+            });
+
+            initVars();
+            changeNavFilm();
+            showModalVideo();
+            {% if is_granted('ROLE_ADMIN') %}
+                changeInputView();
+            {% endif %}
+
+            function functionsButtonsShare(){
+                $('a.share-facebook').on('click', function(e){
+                    e.preventDefault();
+                    var link = $(this);
+                    var url = link.attr('href');
+                    var oneW = window.open(url, 'Compartir película', '_blank');
+                    if (oneW) {
+                        //Browser has allowed it to be opened
+                        oneW.focus();
+                    }
+                });
+
+                $('a.share-twitter').on('click', function(e){
+                    e.preventDefault();
+                    var link = $(this);
+                    var idF = $(this).data('id');
+                    var film = $(this).data('film');
+                    film = film.replace('!','');
+                    film = film.replace('¡','');
+                    var bitLink = "";
+                    $.get("{{ path('link_bitly') }}" , {'idF':idF}, function(resp){
+                        bitLink = resp;
+                        var href = 'https://twitter.com/intent/tweet?hashtags='+film+'&original_referer='+resp+'&ref_src=twsrc%5Etfw&related=twitterapi%2Ctwitter&text=Me%20gusta%20la%20peli&tw_p=tweetbutton&url='+resp+'&via=jbenitezdelpozo';
+                        var url = link.attr('href', href);
+                        var oneW = window.open(href, 'Compartir película', '_blank');
+                        if (oneW) {
+                            //Browser has allowed it to be opened
+                            oneW.focus();
+                        }
+                    }, "json");
+                });
+            }
+
+            $('#button-filtrar').on('click', function(e){
+                $('#filters-categories').fadeIn(300);
+                $(this).css('visibility', 'hidden');
+                $('#button-filtrar-hidden').css('visibility', 'visible');
+            });
+            $('#button-filtrar-hidden').on('click', function(e){
+                $('#filters-categories').fadeOut(300);
+                $(this).fadeIn(400);
+                $(this).css('visibility', 'hidden');
+                $('#button-filtrar').css('visibility', 'visible');
+            });
+
+            functionsButtonsShare();
+        })();
+    </script>
+{% endblock %}

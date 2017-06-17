@@ -1,0 +1,437 @@
+
+$mainColor : #13143c;
+$mainColorLight : #2A14CA;
+$secundaryColor : #7E6D00;
+$secundaryColorLight : #caaf00;
+$mainTextColor : #002020;
+$secundaryTextColor : #d3d7d1;
+$shadowLight : #b8c8cf;
+$flash : rgba(255, 251, 5, 0.58);
+$background : #f8fff4;
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: $background;
+}
+
+button, a.btn{
+  border-radius: 0 !important;
+}
+
+#panel-movies {
+  padding: 0;
+  margin: 0;
+  ul#list-movies {
+    background-color: $background;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border: none;
+  }
+}
+
+div#form-films{
+  width: 100%;
+  background-color: $secundaryColorLight;
+  padding: 15px !important;
+  min-height: 400px;
+}
+
+div#form-login{
+  border: 2px groove $mainColorLight;
+  box-shadow: 3px 2px 3px 1px $shadowLight,
+              -2px 3px 3px 1px $shadowLight,
+              3px -2px 3px 1px $shadowLight;
+  h2.title{
+    margin: 0;
+    padding: 10px;
+    background-color: $mainColorLight;
+    color: $secundaryTextColor;
+    text-align: center;
+  }
+  div.input-label{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    height: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    input{
+      position: absolute;
+      bottom: 0;
+      border: 2px outset $secundaryColor;
+      border-radius: 0;
+      &:focus{
+        border: 1px inset $secundaryColor;
+        box-shadow: 1px 1px 3px 1px $mainColorLight,
+        -1px -1px 3px 1px $mainColorLight;
+      }
+    }
+    label{
+      z-index: 999;
+      position: absolute;
+      bottom: 2%;
+      left: 4%;
+      font-size: 1.4rem;
+      color: $secundaryColor;
+    }
+  }
+}
+
+div.panel-heading, div.title-rating{
+  font-family: "Taviraj";
+}
+
+div.panel-heading-title{
+  text-align: center;
+  margin: 0 0 15px 0;
+  padding: 10px 0;
+  background-color: $mainColor;
+  h1{
+    font-weight: bold;
+    color: $secundaryTextColor;
+  }
+}
+
+div.slider.slider-horizontal{
+  display: block;
+  width: 95%;
+  margin: auto;
+}
+
+b.val-range{
+  display: block;
+  text-align: center;
+  width: 80%;
+  margin: 0 auto;
+}
+
+div.div-buttons{
+  width: 92%;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  height: 40px;
+  margin-top: 40px;
+  position: relative;
+  button.btn-primary-search{
+    background-color: $mainColorLight;
+    color: $secundaryTextColor;
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-weight: bold;
+    letter-spacing: 3px;
+    border: none ;
+    width: 40%;
+    box-shadow: 2px 2px 3px 1px #24129b;
+    &:active{
+      top: 2px;
+      border: none ;
+      box-shadow: 1px 1px 1px 0px #24129b ;
+      color: white;
+    }
+  }
+  .btn-primary-reset{
+    background-color: #0A8ACA;
+    color: $mainTextColor;
+    left:5px;
+    width: 40%;
+    position: absolute;
+    top: 0;
+    font-weight: bold;
+    letter-spacing: 3px;
+    box-shadow: 2px 2px 3px 1px #096a9f;
+    &:active{
+      top: 2px;
+      border: none ;
+      box-shadow: 1px 1px 1px 0px #096a9f;
+    }
+  }
+}
+
+button.btn-custom-checkbox{
+  margin: 4px;
+}
+
+li.panel-movie{
+  margin-top: 20px;
+  width: 100%;
+  border: 2px outset #565E69;
+  margin-bottom: 40px;
+  box-shadow: 5px -5px 3px 3px $shadowLight;
+  &:active{
+    box-shadow:
+            3px 4px 5px 8px $flash,
+            3px 4px 5px 8px $flash,
+            3px 4px 5px 8px $flash,
+            3px 4px 5px 8px $flash;
+  }
+  div.title-rating{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    background-color: $mainColor;
+    padding: 10px 10px 5px 10px;
+    position: relative;
+    h3{
+      margin: 0;
+      display: inline-flex;
+      width: 75%;
+      color: $secundaryTextColor;
+      font-weight: bold;
+    }
+    span{
+      font-weight: bold;
+      color: $secundaryTextColor;
+      font-size: 2.5rem;
+    }
+    span.punt{
+      position: absolute;
+      right: 1px;
+      top: 0;
+      width: 15px;
+      height: 96%;
+      background: linear-gradient(to top, $secundaryColorLight 50%, white 50%);
+    }
+  }
+  div.title-saga{
+    min-height: 0px;
+    margin-bottom: 15px;
+    background-color: $mainColorLight;
+    padding: 10px 10px 5px 10px;
+    color: $secundaryTextColor;
+    border-bottom: 1px solid $shadowLight;
+    box-shadow: 0px 2px 1px 1px $shadowLight;
+  }
+  p.image{
+    width: 93%;
+    margin: 0 auto;
+    img{
+      width: 100%;
+      height: 400px;
+    }
+  }
+  p:not(.format-view), div.year-length{
+    width: 100%;
+    padding: 10px;
+    padding-top: 20px;
+    text-align: justify;
+    display: inline-block;
+  }
+  span.rating{
+    -webkit-text-stroke: 1px $secundaryColorLight;
+    width: 15%;
+    font-size: 2rem;
+    margin-left: 5%;
+  }
+}
+
+p.format-view {
+  display: inline-block;
+  width: 60%;
+  position: relative;
+  margin-top: 50px;
+  vertical-align: bottom;
+  span:first-child {
+    position: absolute;
+    display: inline-block;
+    margin-right: 10%;
+    left: 10px;
+    bottom: 0;
+  }
+  span.view {
+    position: absolute;
+    right: 15px;
+    bottom: 0;
+    display: inline-block;
+    margin-right: 5%;
+  }
+  span:last-child{
+    display: inline-block;
+    vertical-align: top;
+  }
+}
+
+input.inline{
+  display: inline-block;
+}
+
+img.img-ico{
+  width: 22px;
+  height: 22px;
+}
+
+div.year-length, p.country-ubication{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  span:not(:last-child){
+    display: inline-flex;
+    margin-right: 2%;
+    width: 50%;
+  }
+}
+
+footer{
+  margin-top: 40px;
+  background-color: $mainColor;
+  padding: 15px 0;
+  p{
+    font-size: 1.5rem;
+    text-align: center;
+    color: $secundaryTextColor
+  }
+  a{
+    color: $secundaryTextColor;
+    &:hover{
+      text-decoration: none;
+      color: $secundaryColorLight
+    }
+  }
+  div#socials{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    a{
+      padding: 7px;
+    }
+  }
+}
+
+ul.nav-film{
+  margin-top: 15px;
+  padding-left: 10px;
+  li[role="presentation"].active {
+    a {
+      color: $secundaryTextColor;
+      font-weight: 900;
+      letter-spacing: 1px;
+      border-bottom: 1px solid white;
+      box-shadow: 3px -3px 5px 0px rgba(214,214,214,1),
+                  -3px -3px 5px 0px rgba(214,214,214,1);
+      background: linear-gradient(to bottom, $mainColor, $mainColorLight, #2d14fe, rgba(224, 230, 242, 0.75));
+    }
+  }
+}
+
+div.trailers, div.plus{
+  min-height: 380px;
+  display: none;
+  iframe{
+    width: 100%;
+    margin: 0 auto;
+    margin-top: 40px;
+  }
+  h4{
+    padding: 10px;
+    text-align: center;
+  }
+}
+
+span.view-movie{
+  display: inline-block;
+  padding-bottom: 9px !important;
+  width: 15%;
+}
+
+
+div.custom-pagination, div.pagination {
+  width: 100%;
+  text-align: center;
+  span {
+    a {
+      text-decoration: none;
+      padding: 10px;
+      border: 1px outset $mainColor;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
+      &:active{
+        border: 1px inset $mainColorLight;
+      }
+    }
+  }
+  span.current {
+    padding: 10px;
+    border: 1px groove $mainColor;
+    color: $mainTextColor;
+    background: $secundaryColor;
+    cursor: auto;
+    &:hover {
+      background: #615000;
+    }
+  }
+  span.page {
+    a {
+      background-color: $secundaryColorLight;
+      &:hover {
+        background: $secundaryColor;
+      }
+    }
+  }
+  span.previous, span.next {
+    a {
+      color: $secundaryTextColor;
+      background-color: $mainColorLight;
+      &:hover {
+        background: $mainColor;
+      }
+    }
+  }
+  span.first, span.last {
+    a {
+      color: $secundaryTextColor;
+      background-color: $mainColor;
+      &:hover {
+        background: #0E0E1C;
+      }
+    }
+  }
+}
+
+
+div.sweet-modal-content:not(.confirm){
+  padding: 0px !important;
+  iframe{
+    width: 100%;
+  }
+}
+
+div.sweet-modal-box.alert.confirm, div.sweet-modal-box.prompt{
+  width: 90%;
+  top: 30px;
+  left: 4%;
+  height: 250px;
+  input {
+    width: 80% !important;
+    margin-left: 10%;
+    margin-top: 15px;
+  }
+}
+
+div.sweet-modal-overlay.light-overlay.light-modal.open{
+  >div{
+    width: 90%;
+    margin: 0 auto;
+    left: 5%;
+    top: 5%;
+    height: 250px;
+    div.sweet-modal-content{
+      padding: 10px !important;
+      input{
+        padding: 5px;
+      }
+    }
+  }
+}
+
+div.show-trailer{
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+}

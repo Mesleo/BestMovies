@@ -1,0 +1,57 @@
+div#form-login {
+  border: 2px groove #2A14CA;
+  box-shadow: 3px 2px 3px 1px #b8c8cf, -2px 3px 3px 1px #b8c8cf, 3px -2px 3px 1px #b8c8cf; }
+  div#form-login h2.title {
+    margin: 0;
+    padding: 10px;
+    background-color: #2A14CA;
+    color: #d3d7d1;
+    text-align: center; }
+  div#form-login div#fos_user_change_password_form > div {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    height: 90px;
+    margin-top: 30px;
+    margin-bottom: 10px; }
+    div#form-login div#fos_user_change_password_form > div ul {
+      position: absolute;
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin: 0; }
+      div#form-login div#fos_user_change_password_form > div ul li {
+        list-style: none;
+        padding: 7px;
+        text-align: center;
+        border-radius: 5px;
+        width: 100%;
+        background-color: rgba(0, 13, 220, 0.64); }
+    div#form-login div#fos_user_change_password_form > div input {
+      width: 100%;
+      padding: 4px 7px;
+      position: absolute;
+      bottom: 0;
+      height: 33px;
+      border: 2px outset #7E6D00;
+      border-radius: 0; }
+      div#form-login div#fos_user_change_password_form > div input:focus {
+        border: 1px inset #7E6D00;
+        box-shadow: 1px 1px 3px 1px #2A14CA, -1px -1px 3px 1px #2A14CA; }
+    div#form-login div#fos_user_change_password_form > div label {
+      z-index: 999;
+      position: absolute;
+      bottom: 2%;
+      left: 4%;
+      font-size: 1.4rem;
+      color: #7E6D00; }
+
+@media screen and (min-width: 768px) {
+  div#form-login {
+    width: 55%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 50px; } }
+
+/*# sourceMappingURL=forms.css.map */

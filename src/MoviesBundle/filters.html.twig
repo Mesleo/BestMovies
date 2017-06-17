@@ -1,0 +1,144 @@
+
+<form class="form-inline" action="{{ path('search_films') }}" method="post">
+    <div class="responses">
+    {% if name_filter is defined and name_filter != "" %}
+        <p>Resultados para: <b>'{{ name_filter }}'</b></p>
+        <p>Buscando en: <b>{{ field }}</b></p>
+    {% endif %}
+    {% if num_films is defined %}
+        <p id="result-films">Se encontraron <b>{{ num_films }}</b> película/s</p>
+    {% endif %}
+        <p id="p-num-films" class="hidden">Se encontraron <b id="num_films"></b> película/s</p>
+    </div>
+    <div class="row">
+        <div class="group-field-input col-xs-12 col-sm-6 col-md-2">
+            <select name="filter" id="filter" class="form-control">
+                <option value="6"
+                        {% if filter is defined and filter == 6 %} selected{% endif %} >
+                    Todo
+                </option>
+                <option value="1"
+                        {% if filter is defined and filter == 1 %} selected{% endif %} >
+                    Título
+                </option>
+                <option value="2"
+                        {% if filter is defined and filter == 2 %} selected{% endif %}>
+                    Intérpretes
+                </option>
+                <option value="3"
+                        {% if filter is defined and filter == 3 %} selected{% endif %}>
+                    Director
+                </option>
+                <option value="4"
+                        {% if filter is defined and filter == 4 %} selected{% endif %}>
+                    País
+                </option>
+                <option value="5"
+                        {% if filter is defined and filter == 5 %} selected{% endif %}>
+                    Saga
+                </option>
+            </select>
+        </div>
+        <div class="group-field-input col-xs-12 col-sm-6 col-md-4">
+            <label for="filter" class="hidden-xs">Búsqueda: </label>
+            <input type="text" class="form-control" id="name-filter" {% if name_filter is defined %}value="{{ name_filter }}"{% endif %} name="name-filter"  placeholder="Título">
+        </div>
+        <div class="group-field-input col-xs-12 col-sm-6 col-md-4">
+            <label for="filter" class="hidden-xs">Ordenar por: </label>
+            <select name="order" id="order" class="form-control">
+                <option value="1"
+                        {% if order is defined and order == 1 %} selected{% endif %} >
+                    Más nueva
+                </option>
+                <option value="2"
+                        {% if order is defined and order == 2 %} selected{% endif %} >
+                    Mejor puntuación
+                </option>
+                <option value="3"
+                        {% if order is defined and order == 3 %} selected{% endif %}>
+                    Alfabéticamente
+                </option>
+                <option value="4"
+                        {% if order is defined and order == 4 %} selected{% endif %}>
+                    Mayor duración
+                </option>
+                <option value="5"
+                        {% if order is defined and order == 5 %} selected{% endif %}>
+                    País
+                </option>
+                <option value="6"
+                        {% if order is defined and order == 6 %} selected{% endif %}>
+                    Saga
+                </option>
+                <option value="7"
+                        {% if order is defined and order == 7 %} selected{% endif %}>
+                    Fecha añadido
+                </option>
+                <option value="8"
+                        {% if order is defined and order == 8 %} selected{% endif %}>
+                    Director
+                </option>
+                <option value="9"
+                        {% if order is defined and order == 9 %} selected{% endif %}>
+                    Tamaño
+                </option>
+            </select>
+        </div>
+        <div class="group-field-input col-xs-12 col-sm-6 col-md-2">
+            <div class="checkbox">
+                <label><input type="checkbox" name="inv-order" id="inv-order" value="1" {% if direction_order is defined and direction_order == 1 %} checked{% endif %}>Invertir orden</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-1 pull-center">
+            <label for="anio">Año</label>
+        </div>
+        <div class="col-xs-12 col-sm-5">
+            <b id="anio-min" class="val-range">1960</b>
+            <input id="anio" type="text" class="span2 form-control" value=""
+                   data-slider-min="{% if values is defined %}{{ values.min_year - 1 }}{% endif %}"
+                   data-slider-max="{% if values is defined %}{{ values.max_year + 1 }}{% endif %}" name="anio" data-slider-step="1"
+                   data-slider-value="[{% if year is defined %}{{ year }}{% else %}
+                    {% if values is defined %}{{ values.min_year }}{% endif %},{% if values is defined %}{{ values.max_year }}{% endif %}{% endif %}]"/>
+            <b id="anio-max" class="val-range">2017</b>
+        </div>
+        <div class="col-xs-12 col-sm-1 pull-center">
+            <label for="length">Duración</label>
+        </div>
+        <div class="col-xs-12 col-sm-5">
+            <b id="length-min" class="val-range">75</b>
+            <input id="length" type="text" class="span2" name="duracion" value=""
+                   data-slider-min="{% if values is defined %}{{ values.min_length - 1 }}{% endif %}"
+                   data-slider-max="{% if values is defined %}{{ values.max_length + 1 }}{% endif %}" data-slider-step="1"
+                   data-slider-value="[{% if time is defined %}{{ time }}{% else %}
+                    {% if values is defined %}{{ values.min_length }}{% endif %},{% if values is defined %}{{ values.max_length }}{% endif %}{% endif %}]"/>
+            <b id="length-max" class="val-range">240</b>
+        </div>
+    </div>
+    <div class="row">
+        <div class="div-buttons">
+            <a href="{{ path('clean_filters') }}" class="col-md-5 btn btn-primary-reset">Reset</a>
+            <button type="submit" class="col-md-5 btn btn-primary-search">Buscar</button>
+        </div>
+    </div>
+</form>
+
+{% if num_films is defined %}
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Resultados</h4>
+                </div>
+                <div class="modal-body">
+                    <h3>{{ num_films }} {% if num_films == 1 %}resultado encontrado{% else %}resultados encontrados{% endif %}</h3>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,30 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+             <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="{{ path('films') }}" class="btn btn-default navbar-btn">Películas <span class="sr-only">(current)</span></a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle btn btn-default navbar-btn" data-toggle="dropdown" role="button"
+                       aria-haspopup="true" aria-expanded="false">Comentarios <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('show_comments') }}">Ver mis comentarios</a></li>
+                        {#<li><a href="#">Something else here</a></li>#}
+                        {#<li role="separator" class="divider"></li>#}
+                        {#<li><a href="#">Separated link</a></li>#}
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle  btn-default navbar-btn" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mi cuenta <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('fos_user_change_password') }}">Cambiar contraseña</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="{{ path('fos_user_security_logout') }}">Salir</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

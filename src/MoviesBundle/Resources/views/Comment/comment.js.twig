@@ -1,0 +1,41 @@
+if(response.length > 0) {
+    var user = "";
+    {% if not app.user %}
+    html += '<p>Para poder valorar la película debes estar logeado. <a href="{{ path('comment_add') }}?film='+film+'&p=1">Valorar</a></p>';
+    {% endif %}
+    for (var i = 0; i < response.length; i++) {
+        {% if app.user %}
+        if(response[i]['user'] == '{{ app.user.username }}') {
+            user = "Tú mismo";
+        }else{
+            if(response[i]['user'] == null){
+                user = '- Anónimo -';
+            }else {
+                user = response[i]['user'];
+            }
+        }
+        {% else %}
+            user = response[i]['user'];
+        {% endif %}
+        html += '<div class="box-comment">' +
+                '<header>' +
+                '<h3>' + user + ' <span class="score">' + response[i]['score'] + '</span></h3><hr></header>' +
+                '<p class="date-comment">' + response[i]['fechaAdd'] + '</p>';
+        if (response[i]['title'] != null) {
+            html += '<h4 class="title-comment">' + response[i]['title'] + '</h4>';
+        }
+        if (response[i]['comment'] != null) {
+            var text = response[i]['comment'];
+            if (text.length > 15) {
+                text = text.slice(0, 150) + '...';
+            }
+            html += '<p class="comment">' + text + '</p>';
+            html += '<p class="p-button-view"><a href="{{ path('comment_view') }}?m=' + response[i]["id"] + '" ' +
+                    'class="btn btn-default">Ver más...</a></p>';
+        }
+        html += '</div>';
+    }
+}else{
+    html += '<h4>No hay críticas aún sobre esta película</h4>' +
+            '<p class="first-com"><a href="{{ path('comment_add') }}?film='+film+'&p=1">Se el primero</a>';
+}

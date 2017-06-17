@@ -1,0 +1,30 @@
+{% extends "MoviesBundle:Base:base.html.twig" %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/films.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    {% if movie is defined %}
+        <div id="video-film">
+            <iframe src="{{ movie.url|replace({"watch?v=":"embed/"}) }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    {% endif %}
+    <div class="div-btns">
+        <a href="{{ path('search_films') }}" class="btn btn-back-to btn-cancel">Volver atrás</a>
+    </div>
+
+    <div class="panel" id="form-films">
+        {% include 'MoviesBundle:Base:filters.html.twig' %}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
+    <script src="{{ asset('js/filter_category.js') }}"></script>
+    <script src="{{ asset('js/filter_range.js') }}"></script>
+{% endblock %}

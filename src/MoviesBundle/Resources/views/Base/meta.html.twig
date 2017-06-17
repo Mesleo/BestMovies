@@ -1,0 +1,7 @@
+<meta content='{% if film is not defined or vfOne is not defined %}http://pelishd.esy.es/
+{% else %}{{ url }}{% endif %}' property='og:url'/>
+<meta id="meta-content" content='{% if film is not defined or vfOne is not defined %}Best Movies
+{% else %}{{ film.originalTitle }}{% endif %}' property='og:title'/>
+<meta content='{% if film is not defined or vfOne is not defined %}Conoce las mejores películas, actores, directores. Valóralas y sirve de consejo a otros usuarios
+{% else %}{{ film.description }}{% endif %}' property='og:description'/>
+<title>{% if film is not defined or vfOne is not defined %}Best Movies{% else %}{{ film.originalTitle }} | BestMovies{% endif %}</title>

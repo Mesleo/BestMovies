@@ -1,0 +1,136 @@
+{# src/UserBundleBundle/Events/create_comment.html.twig #}
+{% extends 'MoviesBundle:Base:base.html.twig' %}
+
+{% block stylesheets %}
+    {#<link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />#}
+    <link rel="stylesheet" href="/web/bower_components/sweetalert/dist/sweetalert.css" />
+    {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}" />#}
+    <link rel="stylesheet" href="/web/css/comment.css" />
+{% endblock %}
+
+{% block body %}
+    {% if film is defined and film != null %}
+        <header>
+            <h2>
+                {% if comment is defined and comment.id != null %}
+                    Editar
+                {% else %}
+                    Añadir
+                {% endif %}
+                comentario - <strong>"{{ film.originaltitle }}"</strong></h2>
+        </header>
+        <!-- Page Content -->
+        <div class="cont">
+            <main>
+                <section class="box-create">
+                    <article class="panel panel-body">
+                        <form action="{{ path('comment_add') }}" method="POST" id="form-add">
+                            {{ form_row(form._token) }}
+                            {% if comment is defined and comment.id != null %}
+                                <input type="text" class="hidden" value="{{ comment.id }}" name="comment">
+                            {% endif %}
+
+                            <input type="text" class="hidden" value="{{ film.num }}" name="film">
+
+                            <div class="box-field-form">
+                                {{ form_row(form.score) }}
+                            </div>
+
+                            <div class="box-field-form">
+                                {{ form_row(form.title) }}
+                            </div>
+
+                            <div class="box-field-form">
+                                {{ form_row(form.comment) }}
+                            </div>
+
+                            <div class="div-buttons">
+                                {{ form_row(form.cancel) }}
+                                {{ form_row(form.save) }}
+                            </div>
+                            {% if comment is defined and comment.id != null %}
+                                <div class="div-del">
+                                    {{ form_row(form.delete) }}
+                                </div>
+                            {% endif %}
+                        </form>
+
+                    </article>
+                </section>
+            </main>
+        </div>
+    {% else %}
+        <!-- Añadir páginas error -->
+        {% include 'MoviesBundle:Errors:error404.html.twig' %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {#<script src="{{ asset('bower_components/sweetalert/dist/sweetalert.min.js') }}"></script>#}
+    <script src="/web/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        (function(){
+            {% if comment is defined and comment.id != null %}
+            $('#appbundle_comment_delete').on('click', function(e){
+                e.preventDefault();
+                swal({
+                            title: "¿Estas seguro?",
+                            text: "No podras recuperarlo",
+                            type: "warning",
+                            showCancelButton: true,
+                            confirmButtonColor: "#13143c",
+                            confirmButtonText: "Si, eliminarlo",
+                            cancelButtonText: "Cancelar",
+                            closeOnConfirm: false,
+                            closeOnCancel: false
+                        },
+                        function(isConfirm){
+                            if (isConfirm) {
+                                var form = $('#form-add');
+                                form.attr('action', "{{ path('comment_del') }}");
+                                form.submit();
+                            } else {
+                                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                            }
+                        });
+            });
+            {% else %}
+//            $('#appbundle_comment_delete').css('display', 'none');
+            {% endif %}
+            {% if info is defined and info != null %}
+            swal({
+                        title: "¡Perfecto!",
+                        text: "Comentario añadido correctamente",
+                        type: "success",
+                        showCancelButton: true,
+                        confirmButtonColor: "#13143c",
+                        confirmButtonText: "Ir a pelis",
+                        cancelButtonText: "Seguir aqui",
+                        closeOnConfirm: false
+                    },
+                    function(){
+                        window.location.href = "{{ path('films') }}";
+                    });
+            {% endif %}
+            $('#appbundle_comment_save').on('click', function(e){
+                e.preventDefault();
+                swal({
+                    title: "¿Estas seguro?",
+                    text: "",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#13143c",
+                    confirmButtonText: "Si",
+                    cancelButtonText: "Cancelar",
+                    closeOnConfirm: false
+                },
+                function(){
+                    $('#form-add').submit();
+                });
+            });
+            $('#appbundle_comment_cancel').on('click', function(e){
+                e.preventDefault();
+                window.location.href = "{{ path('films') }}" ;
+            });
+        })();
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{# src/UserBundleBundle/Events/show_comments.html.twig #}
+{% extends 'MoviesBundle:Base:base.html.twig' %}
+
+{% block stylesheets %}
+{% endblock %}
+
+{% block body %}
+    {% if comment is defined and comment != null %}
+        <div id="view-comment">
+            <header>
+                <h2>
+                    {{ comment.movie.originaltitle }}
+                </h2>
+            </header>
+            <!-- Page Content -->
+            <div class="cont">
+                <main>
+                    <section>
+                        <article id="comment">
+                                <div class="box-comment">
+                                    <header id="header">
+
+                                        <div class="date">
+                                            <div>{{ comment.user.username }}</div>
+                                            {{ comment.dateAdd|date('d-m-Y H:i') }} <span class="score">{{ comment.score }}</span>
+                                        </div>
+                                        {% if comment.title != null %}
+                                            <h4 class="title-comment">{{ comment.title }}</h4>
+                                        {% endif %}
+                                    </header>
+                                    {% if comment.comment != null %}
+                                        <hr class="separator-title">
+                                        <div>
+                                            <p class="text-comment">{{ comment.comment }}</p>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            <div class="div-buttons">
+                                <a href="javascript:history.back(-1);">Atrás</a>
+                                {% if app.user and app.user.id == comment.user.id %}
+                                    <form action="/app_dev.php/comment/create" method="post">
+                                        <input class="hidden" value="{{ comment.movie.num }}" name="film" id="film" type="text">
+                                        <div class="div-buttons">
+                                            <button type="submit" class="btn btn-primary-search">Editar</button>
+                                        </div>
+                                    </form>
+                                {% endif %}
+                            </div>
+                        </article>
+                    </section>
+                </main>
+            </div>
+        </div>
+    {% else %}
+        <!-- Añadir páginas error -->
+        {% include 'MoviesBundle:Errors:error404.html.twig' %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+{% endblock %}

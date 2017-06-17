@@ -1,0 +1,235 @@
+{# src/UserBundleBundle/Events/show_comments.html.twig #}
+{% extends 'MoviesBundle:Base:base.html.twig' %}
+
+{% block stylesheets %}
+    {#<link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />#}
+    <link rel="stylesheet" href="/web/bower_components/sweetalert/dist/sweetalert.css" />
+    {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}" />#}
+    <link rel="stylesheet" href="/web/css/comment.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+    {% if comments is defined %}
+        {% set totalComments = comments_length["COUNT(*)"] %}
+        {% if comments|length > 0 %}
+            <header>
+                <div class="panel panel-body">
+                    <form class="form-inline" id="form-search" method="post">
+                        <div class="form-group">
+                            <label class="mr-sm-2" for="comment-what-search">Buscar por</label>
+                            <select class="form-control mb-2 mr-sm-2 mb-sm-0" name="comment-what-search" id="comment-what-search">
+                                <option value="1">Película</option>
+                                <option value="2">Título</option>
+                                <option value="3">Comentario</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="sr-only" for="comment-filter">Búsqueda</label>
+                            <input type="text" class="form-control" id="comment-filter" {% if comment_filter is defined %}
+                                value="{{ comment_filter }}"{% endif %} name="comment-filter"  placeholder="Busca...">
+                        </div>
+                        <button type="button" id="submit-search" class="btn btn-primary">Buscar</button>
+                    </form>
+                    <div class="form-group">
+                        <div class="row">
+                            <label class="col-xs-4" for="comment-order">Ordenar por</label>
+                            <select class="form-control col-xs-8" name="comment-order" id="comment-order">
+                                <option value="1">Fecha (+ nuevo)</option>
+                                <option value="2">Fecha (+ viejo)</option>
+                                <option value="3">Puntuación (mejor)</option>
+                                <option value="4">Puntuación (peor)</option>
+                                <option value="5">Título (0-Z)</option>
+                                <option value="6">Título (Z-0)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <h2>
+                    Mis comentarios
+                </h2>
+                <p style="text-align: center">
+                    Has valorado {{ comments_length["COUNT(*)"] }}
+                    {% if comments_length["COUNT(*)"] == 1 %}
+                        película
+                    {% else %}
+                        películas
+                    {% endif %}
+                </p>
+            </header>
+            <!-- Page Content -->
+            <div class="cont">
+                <main>
+                    <section class="box-create">
+                        <article id="comments">
+                            {% for c in comments %}
+                                <div class="box-comment">
+                                    <header>
+                                        <h3>{{ c.originaltitle }}</h3>
+                                        <p>{{ c.fechaAdd }} <span class="score">{{ c.score }}</span></p>
+                                        {% if c.title != null %}
+                                            <h4 class="title-comment">{{ c.title }}</h4>
+                                        {% endif %}
+                                        <hr>
+                                    </header>
+                                    {% if c.comment != null %}
+                                        <div>
+                                            <p class="text-comment">{{ c.comment }}</p>
+                                        </div>
+                                    {% endif %}
+                                    <form action="{{ path('comment_add') }}" method="post">
+                                        <input class="hidden" value="{{ c.film }}" name="film" id="film" type="text">
+                                        <div class="div-buttons">
+                                            <button type="submit" class="btn btn-primary-search">Editar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            {% endfor %}
+                            {% if totalComments > 3 %}
+                                <div class="div-button-view">
+                                    <button type="button" class="col-md-5 btn btn-primary-search view-plus">Ver más</button>
+                                </div>
+                            {% endif %}
+                        </article>
+                    </section>
+                </main>
+            </div>
+            <div class="to-top">
+                {#<img src="/upload/icons/arrow_up.png" />#}
+                <img src="/web/upload/icons/arrow_up.png" />
+            </div>
+        {% else %}
+            <header>
+                <p class="no-comment">
+                    Aún no has puesto ninguna crítica. Ve a la pestaña "Comentarios" de una película y pulsa el botón "Puntuar" que hay en la parte inferior.
+                </p>
+            </header>
+        {% endif %}
+    {% else %}
+        <!-- Añadir páginas error -->
+        {% include 'MoviesBundle:Errors:error404.html.twig' %}
+    {% endif %}
+{% endblock %}
+{% block javascripts %}
+    {#<script src="/bower_components/sweetalert/dist/sweetalert.min.js"></script>#}
+    <script src="/web/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+            src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+            integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30="
+            crossorigin="anonymous"></script>
+    <script>
+        (function(){
+            const offset = 40;
+            var lastScrollTop = 0;
+            var limit = 3, sN = "", s = "";
+            var order = 1;
+            var totalComments = {{ comments_length["COUNT(*)"] }};
+
+            //Check to see if the window is top if not then display button
+            $(window).scroll(function(){
+                if ($(this).scrollTop() > 850) {
+                    $('.to-top').fadeIn();
+                } else {
+                    $('.to-top').fadeOut();
+                }
+            });
+
+            //Click event to scroll to top
+            $('.to-top').click(function(){
+                $('html, body').animate({scrollTop : 0},800);
+                return false;
+            });
+
+            $( "#comment-filter" ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax( {
+                        url: "{{ path('filter_comments') }}",
+                        dataType: "json",
+                        data: {
+                            q: request.term,
+                            s: $('#comment-what-search').val()
+                        },
+                        success: function( data ) {
+                            response(data);
+                        }
+                    });
+                },
+                minLength: 3,
+                select: function( event, ui ) {
+                    window.location.href = "{{ path('comment_view') }}?m="+ui.item.id;
+                }
+            });
+
+            function getResponseAjax() {
+                $.ajax({
+                    type: "POST",
+                    url: "{{ path('more_comments') }}",
+                    data: {'scroll': limit += 3, 'order': order, 'sN': sN, 's': s},
+                    dataType: 'json',
+                    success: function (response) {
+                        var html = "";
+                        if (response.length > 0) {
+                            for (var i = 0; i < response.length; i++) {
+                                html += '<div class="box-comment">' +
+                                        '<header>' +
+                                        '<h3>' + response[i]['originaltitle'] + '</h3>' +
+                                        '<p>' + response[i]['fechaAdd'] + ' <span class="score">' + response[i]['score'] + '</span></p>';
+                                if (response[i]['title'] != null) {
+                                    html += '<h4 class="title-comment">' + response[i]['title'] + '</h4>';
+                                }
+                                html += '<hr>' +
+                                        '</header>';
+                                if (response[i]['comment'] != null) {
+                                    html += '<div>' +
+                                            '<p>' + response[i]['comment'] + '</p>' +
+                                            '</div>';
+                                }
+                                html += '<form action="{{ path('comment_add') }}" method="post">' +
+                                        '<input class="hidden" value="' + response[i]["film"] + '" name="film" id="film" type="text">' +
+                                        '<div class="div-buttons"><button type="submit" class="btn btn-primary-search">Editar</button></div>' +
+                                        '</form>' +
+                                        '</div>';
+                            }
+                        }
+                        $('#comments').html(html);
+                        if (totalComments > $('div.box-comment').length) {
+                            html += '<div class="div-button-view">' +
+                                    '<button type="button" class="col-md-5 btn btn-primary-search view-plus">Ver más</button>' +
+                                    '</div>';
+                            $('#comments').html(html);
+                        }
+                        actionViewPlus();
+                    }
+                }).done(function () {
+
+                });
+            }
+
+            $('#comment-order').on('change', function(){
+                order = $(this).val();
+                limit = 0;
+                sN = null;
+                s = null;
+                getResponseAjax();
+            });
+
+            $('#submit-search').on('click', function(e){
+                e.preventDefault();
+                order = $(this).val();
+                limit = 0;
+                sN = $('#comment-what-search').val();
+                s = $('#comment-filter').val();
+                getResponseAjax();
+            });
+
+            function actionViewPlus(){
+                $('.view-plus').on('click', function(){
+                    var that = $(this).parent('div').css('display', 'none');
+                    getResponseAjax();
+                });
+            }
+
+            actionViewPlus();
+        })();
+    </script>
+{% endblock %}

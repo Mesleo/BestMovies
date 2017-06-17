@@ -1,0 +1,74 @@
+@import "variables/colors";
+
+div#form-login{
+  border: 2px groove $mainColorLight;
+  box-shadow: 3px 2px 3px 1px $shadowLight,
+  -2px 3px 3px 1px $shadowLight,
+  3px -2px 3px 1px $shadowLight;
+  h2.title{
+    margin: 0;
+    padding: 10px;
+    background-color: $mainColorLight;
+    color: $secundaryTextColor;
+    text-align: center;
+  }
+  div#fos_user_change_password_form>div{
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+    height: 90px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    ul{
+      position: absolute;
+      display: block;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      li{
+        list-style: none;
+        padding: 7px;
+        text-align: center;
+        border-radius: 5px;
+        width: 100%;
+        background-color: $mainColorTransparent;
+      }
+
+    }
+    input{
+      width: 100%;
+      padding: 4px 7px;
+      position: absolute;
+      bottom: 0;
+      height: 33px;
+      border: 2px outset $secundaryColor;
+      border-radius: 0;
+      &:focus{
+        border: 1px inset $secundaryColor;
+        box-shadow: 1px 1px 3px 1px $mainColorLight,
+        -1px -1px 3px 1px $mainColorLight;
+      }
+    }
+    label{
+      z-index: 999;
+      position: absolute;
+      bottom: 2%;
+      left: 4%;
+      font-size: 1.4rem;
+      color: $secundaryColor;
+    }
+  }
+}
+
+
+@media screen and (min-width: 768px) {
+
+  div#form-login {
+    width: 55%;
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 50px;
+  }
+
+}
