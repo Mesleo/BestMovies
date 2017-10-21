@@ -40,17 +40,13 @@ Creada con Symfony haciendo uso de Bootstrap, jQuery, Ajax, etc.<p>
       <ul>
           <li>Año</li>
           <li>Duración (minutos)</li>
-          <li>Categoría (se pueden elegir varias)</li>
-          <li>Vistas/No vistas (Sólo para el usuario administrador)</li>
+          <li>Categoría (se pueden elegir varias)</li><li>Vistas/No vistas (Sólo para el usuario administrador)</li>
       </ul>
   </li>
   <br>
   <li>Valorar películas:
       <ul>
-          <li>Puntuación (del 1 al 10)</li>
-          <li>Poner un título al comentario</li>
-          <li>Una descripción de tu comentario</li>
-          <li>Eliminar comentario o editar cuando quiera (sólo se permite un comentario por película para cada usuario.</li>
+          <li>Puntuación (del 1 al 10)</li><li>Poner un título al comentario</li><li>Una descripción de tu comentario</li><li>Eliminar comentario o editar cuando quiera (sólo se permite un comentario por película para cada usuario).</li>
       </ul>
   </li>
 </ul>
