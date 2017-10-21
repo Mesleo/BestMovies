@@ -1,20 +1,20 @@
 {% extends "MoviesBundle:Base:base.html.twig" %}
 
 {% block stylesheets %}
-    {#<link rel="stylesheet" href="{{ asset('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}">#}
-    <link rel="stylesheet" href="/web/node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css">
-    {#<link rel="stylesheet" href="{{ asset('css/jquery.sweet-modal.min.css') }}">#}
-    <link rel="stylesheet" href="/web/css/jquery.sweet-modal.min.css">
-    {#<link rel="stylesheet" href="{{ asset('node_modules/sweetalert/dist/sweetalert.css') }}">#}
-    <link rel="stylesheet" href="/web/node_modules/sweetalert/dist/sweetalert.css">
-    {#<link rel="stylesheet" href="{{ asset('css/bootstrap-switch.min.css') }}">#}
-    <link rel="stylesheet" href="/web/css/bootstrap-switch.min.css">
-    {#<link rel="stylesheet" href="/css/autocomplete.css">#}
-    <link rel="stylesheet" href="/web/css/autocomplete.css">
-    {#<link rel="stylesheet" href="{{ asset('css/films.css') }}">#}
-    <link rel="stylesheet" href="/web/css/films.css">
-    {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}">#}
-    <link rel="stylesheet" href="/web/css/comment.css">
+    <link rel="stylesheet" href="{{ asset('node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css') }}">
+    {#<link rel="stylesheet" href="/web/node_modules/bootstrap-slider/dist/css/bootstrap-slider.min.css">#}
+    <link rel="stylesheet" href="{{ asset('css/jquery.sweet-modal.min.css') }}">
+    {#<link rel="stylesheet" href="/web/css/jquery.sweet-modal.min.css">#}
+    <link rel="stylesheet" href="{{ asset('node_modules/sweetalert/dist/sweetalert.css') }}">
+    {#<link rel="stylesheet" href="/web/node_modules/sweetalert/dist/sweetalert.css">#}
+    <link rel="stylesheet" href="{{ asset('css/bootstrap-switch.min.css') }}">
+    {#<link rel="stylesheet" href="/web/css/bootstrap-switch.min.css">#}
+    <link rel="stylesheet" href="/css/autocomplete.css">
+    {#<link rel="stylesheet" href="/web/css/autocomplete.css">#}
+    <link rel="stylesheet" href="{{ asset('css/films.css') }}">
+    {#<link rel="stylesheet" href="/web/css/films.css">#}
+    <link rel="stylesheet" href="{{ asset('css/comment.css') }}">
+    {#<link rel="stylesheet" href="/web/css/comment.css">#}
 {% endblock %}
 
 {% block body %}
@@ -33,30 +33,30 @@
 
     {% include 'MoviesBundle:Base:catalog.html.twig' %}
     <div class="to-top">
-        {#<img src="/upload/icons/arrow_up.png" />#}
-        <img src="/web/upload/icons/arrow_up.png" />
+        <img src="/upload/icons/arrow_up.png" />
+        {#<img src="/web/upload/icons/arrow_up.png" />#}
     </div>
 
 {% endblock %}
 
 {% block javascripts %}
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    {#<script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>#}
-    <script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>
-    {#<script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>#}
-    <script src="/web/node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
-    {#<script src="{{ asset('js/jquery.sweet-modal.min.js') }}"></script>#}
-    <script src="/web/js/jquery.sweet-modal.min.js"></script>
-    {#<script src="{{ asset('js/bootstrap-switch.min.js') }}"></script>#}
-    <script src="/web/js/bootstrap-switch.min.js"></script>
-    {#<script src="{{ asset('js/filter_category.js')}}"></script>#}
-    <script src="/web/js/filter_category.js"></script>
-    {#<script src="{{ asset('js/filter_range.js')}}"></script>#}
-    <script src="/web/js/filter_range.js"></script>
+    <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
+    {#<script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>#}
+    <script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
+    {#<script src="/web/node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"></script>#}
+    <script src="{{ asset('js/jquery.sweet-modal.min.js') }}"></script>
+    {#<script src="/web/js/jquery.sweet-modal.min.js"></script>#}
+    <script src="{{ asset('js/bootstrap-switch.min.js') }}"></script>
+    {#<script src="/web/js/bootstrap-switch.min.js"></script>#}
+    <script src="{{ asset('js/filter_category.js')}}"></script>
+    {#<script src="/web/js/filter_category.js"></script>#}
+    <script src="{{ asset('js/filter_range.js')}}"></script>
+    {#<script src="/web/js/filter_range.js"></script>#}
     <script>
         (function(){
             var response = "", paginationFilms, pNumFilms, bNumFilms, idFilm, arrView, arrCategories, limit = 1, lastScrollTop = 0,
-                    coorY = "";
+                    coorY = "", crossClose;
             const offset = 40;
 
             function initVars(){
@@ -64,6 +64,7 @@
                 pNumFilms = $('#p-num-films');
                 paginationFilms = $('.pagination-films');
                 idFilm = "";
+                crossClose = $('div.close-cross');
             }
 
             var normalize = (function() {
@@ -108,6 +109,7 @@
                     minLength: 0,
                     source: function (request, response) {
                         if($('input#name-filter').val().length > 1) {
+                            crossClose.fadeIn('fast');
                             var matches = $.map({{ films|raw }}, function (acItem) {
                                 var label = acItem.label.toUpperCase();
                                 var pat = request.term.toUpperCase();
@@ -118,6 +120,7 @@
                             response(matches.slice(0, 8));
                         }
                         else{
+                            crossClose.fadeOut('fast');
                             response("");
                         }
                     },
@@ -288,7 +291,7 @@
                         response += '</p>';
                         response += '<div class="buttons-share">' +
                                 '<div class="button-share">' +
-                                '<a href="http://www.facebook.com/sharer.php?s=100&u=http://pelishd.esy.es/films/film?idF=' + data['movies'][i]['num'] + '"' +
+                                '<a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.hol.es/films/film?idF=' + data['movies'][i]['num'] + '"' +
                                 'class="share-facebook" >' +
                                 '<i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>' +
                                 '</a>' +
@@ -660,6 +663,10 @@
                 $(this).fadeIn(400);
                 $(this).css('visibility', 'hidden');
                 $('#button-filtrar').css('visibility', 'visible');
+            });
+            crossClose.on('click', function(e){
+                $('input#name-filter').val("");
+                $(this).fadeOut('fast');
             });
 
             functionsButtonsShare();

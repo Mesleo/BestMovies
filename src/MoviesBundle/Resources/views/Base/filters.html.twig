@@ -12,7 +12,7 @@
     </div>
     <div class="row-search row">
         <div class="group-field-input col-xs-12 col-sm-3">
-            <label for="filter" class="hidden-xs">Buscar en... </label>
+            <label for="filter" class="hidden-xs">Buscar por: </label>
             <select name="filter" id="filter" class="form-control">
                 <option value="6"
                         {% if filter is defined and filter == 6 %} selected{% endif %} >
@@ -43,6 +43,7 @@
         <div class="group-field-input col-xs-12 col-sm-4">
             <label for="filter" class="hidden-xs">Búsqueda: </label>
             <input type="text" class="form-control" id="name-filter" {% if name_filter is defined %}value="{{ name_filter }}"{% endif %} name="name-filter"  placeholder="Título">
+            <div class="close-cross">x</div>
         </div>
         <div class="group-field-input col-xs-12 col-sm-4">
             <label for="filter" class="hidden-xs">Ordenar por: </label>

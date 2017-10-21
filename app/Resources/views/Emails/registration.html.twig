@@ -1,0 +1,10 @@
+{# app/Resources/views/Emails/registration.html.twig #}
+{#<img src="http://localhost/upload/icons/logo_bestmovies.png" alt="BestMovies">#}
+<h1>Bienvenido a BestMovies</h1>
+<h3>¡Registro con éxito!</h3>
+
+{# example, assuming you have a route named "login" #}
+<h4>Para verificar su cuenta pinche en el siguiente enlace</h4>
+<a href="{{ url('enabled_user', {'email': email}) }}">Acceso a BestMovies</a>.
+
+¡Muchas gracias!

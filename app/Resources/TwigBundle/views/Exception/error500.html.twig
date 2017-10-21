@@ -1,0 +1,20 @@
+{% extends "MoviesBundle:Base:base.html.twig" %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/login.css">
+    {#<link rel="stylesheet" href="/web/css/login.css">#}
+{% endblock %}
+{% block body %}
+    <section>
+        <article>
+            <div id="error">
+                <h1 id="message">¡¡Error inesperado!! Vuelve a cargar la página en un momentín</h1>
+            </div>
+        </article>
+        <article class="a-red-center">
+            <div class="button raised">
+                <a href="{{ path('films') }}">Ir a pelis</a>
+            </div>
+        </article>
+    </section>
+
+{% endblock body %}

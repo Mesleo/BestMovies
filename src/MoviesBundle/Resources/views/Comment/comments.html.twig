@@ -5,8 +5,8 @@
     {#<link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />#}
     <link rel="stylesheet" href="/web/bower_components/sweetalert/dist/sweetalert.css" />
     {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}" />#}
-    <link rel="stylesheet" href="/web/css/comment.css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/web/css/comment.css" />
 {% endblock %}
 
 {% block body %}
@@ -154,7 +154,7 @@
                         }
                     });
                 },
-                minLength: 3,
+                minLength: 2,
                 select: function( event, ui ) {
                     window.location.href = "{{ path('comment_view') }}?m="+ui.item.id;
                 }

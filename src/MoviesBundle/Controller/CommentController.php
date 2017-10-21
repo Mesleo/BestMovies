@@ -23,7 +23,7 @@ class CommentController extends Controller
     private $params = null;
 
     /**
-     * Displays comments of the logged in user
+     * Muestra la vista de los comentarios del usuario logeado
      *
      * @Route("/", name="show_comments")
      */
@@ -42,7 +42,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Displays comment of a movie
+     * Muestra la vista de un comentario de una película
      *
      * @Route("/view", name="comment_view" )
      */
@@ -58,8 +58,8 @@ class CommentController extends Controller
     }
 
     /**
-     * Create form for add comment of a movie
-     * if form is submit, it is validated
+     * Crea el formulario para añadir un nuevo comentario a una película.
+     * Si el formulario se envía se valida
      *
      * @Route("/create", name="comment_add" )
      */
@@ -129,10 +129,10 @@ class CommentController extends Controller
                     $this->em->persist($comment);
                     $this->em->flush();
 
-                    return $this->redirectToRoute('comment_add', array(
-                        'info' => ' ',
-                        'film' => $film->getNum()
-                    ));
+//                    return $this->redirectToRoute('comment_add', array(
+//                        'info' => ' ',
+//                        'film' => $film->getNum()
+//                    ));
                 }
             }
 
@@ -154,7 +154,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Deletes comment but it is clone to other table for not to lose it altogether
+     * Elimina un comentario pero se clona a otra tabla para no perderlo del todo
      * @Route("/delete", name="comment_del" )
      */
     public function deleteCommentAction(Request $request){
@@ -183,7 +183,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Loads comments by a movie
+     * Carga los comentarios de una película
      * @Route("/film", name="comments_film" )
      */
     public function loadCommentsFilm(Request $request){
@@ -200,7 +200,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Loads average score by a movie
+     * Carga la nota media de una película
      * @Route("/mediaScore", name="media_comments_film" )
      */
     public function getMediaCommentsFilm(Request $request){
@@ -215,7 +215,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Filter comments for AJAX
+     * Filtra los comentarios por AJAX
      * @Route("/filterComments", name="filter_comments" )
      */
     public function filterCommentsJson(Request $request){
@@ -232,7 +232,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Loads comments for AJAX requests
+     * Carga más comentarios por AJAX
      * @Route("/moreComments", name="more_comments" )
      */
     public function loadMoreCommentsAjax(Request $request){
@@ -255,18 +255,11 @@ class CommentController extends Controller
         return null;
     }
 
-    /**
-     * Gets user logged in
-     * @return user
-     */
     private function getUserLogged(){
         return $this->em->getRepository('AppBundle:User')
         ->findOneById($this->getUser());
     }
 
-    /**
-     * Initializes database handler and params variable
-     */
     private function initialize(){
         $this->em = $this->getDoctrine()->getManager();
         $this->params = [];

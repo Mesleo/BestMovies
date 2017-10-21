@@ -83,6 +83,36 @@ span.date-add{
   //right: 50px;
 }
 
+.tm-tag{
+  padding: 6px !important;
+  background-color: $mainColorLight2 !important;
+  color: $secundaryTextColor !important;
+  a{
+    color: $secundaryTextColor !important;
+    opacity: 0.6 !important;
+    &:hover{
+      color:  white !important;
+    }
+  }
+}
+
+.tt-menu{
+  width: 100%;
+  margin-top: 5px;
+  background-color: $secundaryTextColor;
+  border: 0.5px solid grey;
+  border-radius: 4px;
+  .tt-suggestion.tt-selectable{
+    padding: 7px;
+    border-bottom: 0.3px solid #969696;
+    cursor: pointer;
+    &:hover, &:focus, &:visited{
+      color: $secundaryTextColor;
+      background-color: $mainColorLight2;
+    }
+  }
+}
+
 @media screen and (min-width: 768px){
   div.div-picture{
     height: 300px;

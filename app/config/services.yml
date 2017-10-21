@@ -1,0 +1,13 @@
+# app/config/services.yml
+
+services:
+    authentication.handler.login_success_handler:
+        class:  MoviesBundle\Security\LoginSuccessHandler
+        arguments:  ['@router', '@security.authorization_checker']
+
+#services:
+#    moviesbundle.registration_complet:
+#        class: MoviesBundle\EventListener\RegistrationConfirmListener
+#        arguments: [@router]
+#        tags:
+#            - { name: kernel.event_subscriber }

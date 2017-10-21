@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+
+        {% block stylesheets %}
+            <title xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">Películas Javi</title>
+            <meta name="viewport" content="width=device-width, user-scalable=no">
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            <link href="https://fonts.googleapis.com/css?family=Taviraj" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
+            <link rel="stylesheet" href="{{ asset('css/font-awesome/css/font-awesome.min.css') }}">
+            {#<link rel="stylesheet" href="/web/css/font-awesome/css/font-awesome.min.css">#}
+            <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+            {#<link rel="stylesheet" href="/web/css/main.css">#}
+            {#<link rel="icon" type="image/x-icon" href="favicon.ico" />#}
+            <link rel="icon" type="image/x-icon" href="/web/favicon.ico" />
+        {% endblock %}
+    </head>
+    <body>
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+
+        <div>
+            {% block fos_user_content %}
+            {% endblock fos_user_content %}
+        </div>
+    {% block javascripts %}
+
+    {% endblock %}
+    </body>
+</html>

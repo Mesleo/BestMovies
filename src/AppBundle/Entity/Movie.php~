@@ -71,13 +71,6 @@ class Movie
     /**
      * @var string
      *
-     * @ORM\Column(name="CATEGORY", type="string", length=255, nullable=false)
-     */
-    private $category;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="YEAR", type="string", length=100, nullable=false)
      */
     private $year;
@@ -139,6 +132,13 @@ class Movie
     private $description;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="CATEGORY", type="string", length=1500, nullable=true)
+     */
+    private $category;
+
+    /**
      * @var boolean
      *
      * @ORM\Column(name="CF_VISTO", type="boolean", nullable=true)
@@ -153,6 +153,13 @@ class Movie
     private $miNota;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="URL_TORRENT", type="string", length=1000, nullable=true)
+     */
+    private $urlTorrent;
+
+    /**
      * Una película puede tener muchos comentarios.
      * @ORM\OneToMany(targetEntity="Comment", mappedBy="movie")
      */
@@ -164,6 +171,11 @@ class Movie
      * @ORM\Column(name="CLICKS", type="integer", nullable=true)
      */
     private $click;
+
+//    /**
+//     * @ORM\OneToMany(targetEntity="MovieCategory", mappedBy="movies")
+//     */
+//    private $hasCategories;
 
     /**
      * @var boolean
@@ -668,6 +680,7 @@ class Movie
     public function __construct()
     {
         $this->comment = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -704,4 +717,110 @@ class Movie
     {
         return $this->comment;
     }
+
+    /**
+     * Set click
+     *
+     * @param integer $click
+     *
+     * @return Movie
+     */
+    public function setClick($click)
+    {
+        $this->click = $click;
+
+        return $this;
+    }
+
+    /**
+     * Get click
+     *
+     * @return integer
+     */
+    public function getClick()
+    {
+        return $this->click;
+    }
+
+//    /**
+//     * Add category
+//     *
+//     * @param \AppBundle\Entity\Category $category
+//     *
+//     * @return Movie
+//     */
+//    public function addCategory(\AppBundle\Entity\Category $category, $order)
+//    {
+//        $this->categories[] = [$category, $order];
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove category
+//     *
+//     * @param \AppBundle\Entity\Category $category
+//     */
+//    public function removeCategory(\AppBundle\Entity\Category $category)
+//    {
+//        $this->categories->removeElement($category);
+//    }
+//
+//    /**
+//     * Get categories
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getCategories()
+//    {
+//        return $this->categories;
+//    }
+//
+//    /**
+//     * Set categories
+//     *
+//     * @param integer $categories
+//     *
+//     * @return Movie
+//     */
+//    public function setCategories($categories)
+//    {
+//        $this->categories = $categories;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Add hasCategory
+//     *
+//     * @param \AppBundle\Entity\MovieCategory $hasCategory
+//     *
+//     * @return Movie
+//     */
+//    public function addHasCategory(\AppBundle\Entity\MovieCategory $hasCategory)
+//    {
+//        $this->hasCategories[] = $hasCategory;
+//
+//        return $this;
+//    }
+//
+//    /**
+//     * Remove hasCategory
+//     *
+//     * @param \AppBundle\Entity\MovieCategory $hasCategory
+//     */
+//    public function removeHasCategory(\AppBundle\Entity\MovieCategory $hasCategory)
+//    {
+//        $this->hasCategories->removeElement($hasCategory);
+//    }
+//
+//    /**
+//     * Get hasCategories
+//     *
+//     * @return \Doctrine\Common\Collections\Collection
+//     */
+//    public function getHasCategories()
+//    {
+//        return $this->hasCategories;
+//    }
 }

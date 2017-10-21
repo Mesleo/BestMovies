@@ -42,7 +42,7 @@ input[type=checkbox] {
     box-shadow: none; }
 
 .btn.btn-accept {
-  background-color: #2A14CA;
+  background-color: #2a14b9;
   box-shadow: 2px 2px 1px 1px #b8c8cf;
   color: #d3d7d1; }
   .btn.btn-accept:active {
@@ -55,6 +55,30 @@ input[type=checkbox] {
   .btn.btn-cancel:active {
     background-color: #7E6D00;
     box-shadow: none; }
+
+.tm-tag {
+  padding: 6px !important;
+  background-color: rgba(45, 20, 249, 0.93) !important;
+  color: #d3d7d1 !important; }
+  .tm-tag a {
+    color: #d3d7d1 !important;
+    opacity: 0.6 !important; }
+    .tm-tag a:hover {
+      color: white !important; }
+
+.tt-menu {
+  width: 100%;
+  margin-top: 5px;
+  background-color: #d3d7d1;
+  border: 0.5px solid grey;
+  border-radius: 4px; }
+  .tt-menu .tt-suggestion.tt-selectable {
+    padding: 7px;
+    border-bottom: 0.3px solid #969696;
+    cursor: pointer; }
+    .tt-menu .tt-suggestion.tt-selectable:hover, .tt-menu .tt-suggestion.tt-selectable:focus, .tt-menu .tt-suggestion.tt-selectable:visited {
+      color: #d3d7d1;
+      background-color: rgba(45, 20, 249, 0.93); }
 
 @media screen and (min-width: 768px) {
   div.div-picture {

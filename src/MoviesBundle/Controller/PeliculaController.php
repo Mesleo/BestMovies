@@ -2,7 +2,9 @@
 
 namespace MoviesBundle\Controller;
 
+use AppBundle\Entity\Category;
 use AppBundle\Entity\Movie;
+use AppBundle\Entity\MovieCategory;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -43,6 +45,7 @@ class PeliculaController extends Controller
         $this->initialize();
         if($request->request->has('title')) {
             $ok = 0;
+            $arrCategories = [];
             if($request->request->get('id-film')){
                 $movie = $this->em->getRepository("AppBundle:Movie")
                     ->findOneBy(["num" => $request->request->get('id-film')]);
@@ -58,7 +61,34 @@ class PeliculaController extends Controller
             $movie->setCountry(trim($request->request->get('country')));
             $movie->setRating(trim($request->request->get('rating')));
             $movie->setDateUpdate(new \DateTime());
-            $movie->setCategory(trim($request->request->get('category')));
+            $arrCategories = explode("/", trim($request->request->get('categories')));
+
+            $a = 1;
+            foreach($arrCategories as $category){
+                $categ = $this->em->getRepository("AppBundle:Category")
+                    ->findOneBy(['name' => $category]);
+                if($categ==null){
+                    $categ = new Category();
+                    $categ->setName($category);
+                    $this->em->persist($categ);
+                    $this->em->flush();
+                }
+                $movieCateg = $this->em->getRepository("AppBundle:MovieCategory")
+                    ->findOneBy(
+                        ['movies' => $movie->getNum(),
+                            'categories' => $categ->getId()
+                        ]
+                    );
+                if($movieCateg == null){
+                    $movieCateg = new MovieCategory();
+                }
+                $movieCateg->setCategories($categ);
+                $movieCateg->setMovies($movie);
+                $movieCateg->setSequence($a);
+                $movie->addHasCategory($movieCateg);
+                $this->em->persist($movieCateg);
+                $a++;
+            }
             $movie->setActors(trim($request->request->get('actors')));
             $movie->setDescription(trim($request->request->get('description')));
             $movie->setUrlVideo(trim($request->request->get('video')));
@@ -82,6 +112,8 @@ class PeliculaController extends Controller
                 && $_FILES['upl']['size'] > 0) {
                 if(!$this->uploadFileFilm($movie)){
                     $ok = 1;
+                }else{
+                    $ok = 3;
                 }
             }else{
                 if($movie->getPicture() == "" || $movie->getPicture() == null) {
@@ -115,6 +147,7 @@ class PeliculaController extends Controller
         $this->initialize();
         $this->getDifferentValues();
         if ($request->request->has('id_film')) {
+            $arrCategories = [];
             $movie = $this->em->getRepository("AppBundle:Movie")
                 ->findOneBy(['num' => $request->request->get('id_film')]);
 
@@ -124,7 +157,6 @@ class PeliculaController extends Controller
                 $view = true;
             }
 
-
             $movie->setOriginalTitle(trim($request->request->get('title')));
             $movie->setSaga(trim($request->request->get('saga')));
             $movie->setYear(trim($request->request->get('year')));
@@ -133,7 +165,37 @@ class PeliculaController extends Controller
             $movie->setCountry(trim($request->request->get('country')));
             $movie->setRating(trim($request->request->get('rating')));
             $movie->setDateUpdate(new \DateTime());
-            $movie->setCategory(trim($request->request->get('category')));
+            $arrCategories = explode("/", trim($request->request->get('categories')));
+            $this->em->getRepository("AppBundle:MovieCategory")
+                ->deleteFromMovieCategory($movie->getNum());
+
+            $a = 1;
+            foreach($arrCategories as $category){
+                $categ = $this->em->getRepository("AppBundle:Category")
+                    ->findOneBy(['name' => $category]);
+                if($categ==null){
+                    $categ = new Category();
+                    $categ->setName($category);
+                    $this->em->persist($categ);
+//                    $this->em->flush();
+                }
+                $movieCateg = $this->em->getRepository("AppBundle:MovieCategory")
+                    ->findOneBy(
+                        ['movies' => $movie->getNum(),
+                        'categories' => $categ->getId()
+                        ]
+                    );
+                if($movieCateg == null){
+                    $movieCateg = new MovieCategory();
+                }
+                $movieCateg->setCategories($categ);
+                $movieCateg->setMovies($movie);
+                $movieCateg->setSequence($a);
+                $movie->addHasCategory($movieCateg);
+                $this->em->persist($movieCateg);
+                $a++;
+            }
+
             $movie->setActors(trim($request->request->get('actors')));
             $movie->setDescription(trim($request->request->get('description')));
             $movie->setUrlVideo(trim($request->request->get('video')));
@@ -153,7 +215,7 @@ class PeliculaController extends Controller
 
             if ($_FILES['upl'] && $_FILES['upl']['name'] != "" && $_FILES['upl']['type'] != ""
                 && $_FILES['upl']['size'] > 0) {
-                if(!$this->uploadFileFilm($movie)){
+                if($this->uploadFileFilm($movie)){
                     $ok = 1;
                 }
             }else{
@@ -173,7 +235,6 @@ class PeliculaController extends Controller
             }
             $this->params['film'] = $movie;
         }
-
         return $this->render('MoviesBundle:Film:film.html.twig', $this->params);
     }
 
@@ -208,7 +269,7 @@ class PeliculaController extends Controller
             $movie->setTrash(true);
             $this->em->persist($movie);
             $this->em->flush();
-            $this->params['result'] = "Película elimada correctamente";
+            $this->params['result'] = "Película eliminada correctamente";
         }
 
         return $this->redirectToRoute('films', $this->params);
@@ -230,8 +291,14 @@ class PeliculaController extends Controller
             ->findOneBy(["num" => $m->getNum()]);
         $image = $_FILES["upl"]["name"];
         $ext = pathinfo($image, PATHINFO_EXTENSION);
-        $fileName = "peliculashd_" . $movie->getNum() . "." . $ext;
-        $movie->setPicture($fileName);
+        if($_FILES['upl']['size']>0.01){
+            $fileName = "peliculashd_" . $movie->getNum() . "." . $ext;
+            $movie->setPicture($fileName);
+        }else{
+            $fileName = "img_not_found.png";
+            $movie->setPicture($fileName);
+//            return true;
+        }
         //You need to handle  both cases
         //If Any browser does not support serializing of multiple files using FormData()
         if (!is_array($_FILES["upl"]["name"])) //single file
@@ -273,8 +340,8 @@ class PeliculaController extends Controller
                 ->getDistincValuesByField("COUNTRY")
         );
         $this->params['categories'] = json_encode(
-            $this->em->getRepository("AppBundle:Movie")
-                ->getDistincValuesByField("CATEGORY")
+            $this->em->getRepository('AppBundle:Category')
+                ->findAll()
         );
         $this->params['format'] = json_encode(
             $this->em->getRepository("AppBundle:Movie")

@@ -1,0 +1,39 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<header>
+    <div class="panel-heading-title">
+        <h1 class="center-h1 title-page">
+            <a class="title-a" href="{{ path('films') }}">
+                <div id="logo-main">
+                    <img src="{{ asset('favicon.ico') }}" alt="">
+                    {#<img src="/web/favicon.ico" alt="Best Movies">#}
+                </div>
+                Best Movies</a></h1>
+        <div class="div-login">
+            {% if app.user != null %}
+                <h2 id="name-user">¡Hola {{ app.user }}!</h2>
+            {% endif %}
+        </div>
+    </div>
+</header>
+<div class="container">
+    <main id="response">
+        <section class="main-box">
+            <article>
+                <p><b>Contraseña cambiada correctamente para el usuario:</b> {{ user }}</p>
+                <p><b>Email:</b> {{ user.email }}</p>
+                <div class="div-buttons">
+                    <p class="back-films">
+                        <a href="{{ path('films') }}" class="btn btn-primary-search">Ir a pelis</a>
+                    </p>
+                </div>
+            </article>
+        </section>
+    </main>
+</div>
+
+{% include 'MoviesBundle:Base:footer.html.twig' %}
+
+{% block javascripts %}
+{% endblock %}
+
+

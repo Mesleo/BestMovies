@@ -1,0 +1,78 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<header>
+    <div class="panel-heading-title">
+        <h1 class="center-h1 title-page">
+            <a class="title-a" href="{{ path('films') }}">
+                <div id="logo-main">
+                    <img src="{{ asset('favicon.ico') }}" alt="">
+                    {#<img src="/web/favicon.ico" alt="Best Movies">#}
+                </div>
+                Best Movies</a></h1>
+    </div>
+</header>
+<div class="container container-login">
+    <div id="form-login">
+        <h2 class="title">Login</h2>
+        <form action="{{ path('fos_user_security_check')  }}" method="post" class="form_lr">
+            {% if error %}
+                <div class="form-group2">
+                    <p class="info-error">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                </div>
+            {% endif %}
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+            {% if film and p %}
+                {{ app.session.set('film', film) }}
+                {{ app.session.set('p', p) }}
+                <input type="hidden" name="film" id="film" value="{{ film }}" />
+                <input type="hidden" name="p" id="p" value="1" />
+            {% elseif app.session.get('film') and app.session.get('p') %}
+                <input type="hidden" name="film" id="film" value="{{ app.session.get('film') }}" />
+                <input type="hidden" name="p" id="p" value="{{ app.session.get('p') }}" />
+            {% endif %}
+            <div class="input-label">
+                <label for="name">Nombre</label>
+                <input type="text" id="name" name="_username" value="{{ last_username }}"
+                       class="form-control input-login" required="required" />
+            </div>
+            <div class="input-label">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="_password"  class="form-control input-login" required="required" />
+            </div>
+            <div class="form-group2">
+                <p>¿Aún no tienes cuenta? <a href="{{ path('fos_user_registration_register') }}">Regístrate</a></p>
+            </div>
+            <div class="form-group2">
+                <p><a href="{{ path('fos_user_resetting_request') }}">Recordar contraseña</a></p>
+            </div>
+            <div class="div-buttons">
+                <a href="{{ path('films') }}" class="col-md-5 btn btn-primary-reset">Cancelar</a>
+                <button type="submit" class="col-md-5 btn btn-primary-search" id="_submit" name="_submit">Aceptar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include 'MoviesBundle:Base:footer.html.twig' %}
+
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+            var inputName, labelName, inputLogin;
+
+            function initVars(){
+                inputName = $('#name');
+                labelName = $('label[for="name"]');
+                inputPass = $('#password');
+                labelPass = $('label[for="password"]');
+                inputLogin = $('.input-login');
+            }
+
+            initVars();
+    </script>
+{% endblock %}

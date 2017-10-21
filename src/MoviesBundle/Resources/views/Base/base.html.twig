@@ -8,22 +8,24 @@
     <link href="https://fonts.googleapis.com/css?family=Taviraj" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua" rel="stylesheet">
-    {#<link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">#}
-    <link rel="stylesheet" href="/web/css/font-awesome/css/font-awesome.min.css">
-    {#<link rel="stylesheet" href="/css/main.css">#}
-    <link rel="stylesheet" href="/web/css/main.css">
+    <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
+    {#<link rel="stylesheet" href="/web/css/font-awesome/css/font-awesome.min.css">#}
+    <link rel="stylesheet" href="/css/main.css">
+    {#<link rel="stylesheet" href="/web/css/main.css">#}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    {#<link rel="icon" type="image/x-icon" href="/web/favicon.ico" />#}
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
 <header>
     <div class="panel-heading-title">
-        <h1>
+        <h1 class="title-page">
+            <a class="title-a" href="{{ path('films') }}">
             <div id="logo-main">
-                {#<img src="{{ asset('favicon.ico') }}" alt="">#}
-                <img src="/web/favicon.ico" alt="Best Movies">
+                <img src="{{ asset('favicon.ico') }}" alt="">
+                {#<img src="/web/favicon.ico" alt="Best Movies">#}
             </div>
-            Best Movies</h1>
+            Best Movies</a></h1>
         <div class="div-login">
         {% if app.user == null %}
             <a href="{{ path('fos_user_security_login') }}" class="btn-login"><span>Login</span></a>

@@ -1,10 +1,10 @@
 div#form-login {
-  border: 2px groove #2A14CA;
+  border: 2px groove #2a14b9;
   box-shadow: 3px 2px 3px 1px #b8c8cf, -2px 3px 3px 1px #b8c8cf, 3px -2px 3px 1px #b8c8cf; }
   div#form-login h2.title {
     margin: 0;
     padding: 10px;
-    background-color: #2A14CA;
+    background-color: #2a14b9;
     color: #d3d7d1;
     text-align: center; }
   div#form-login div#fos_user_change_password_form > div {
@@ -38,7 +38,7 @@ div#form-login {
       border-radius: 0; }
       div#form-login div#fos_user_change_password_form > div input:focus {
         border: 1px inset #7E6D00;
-        box-shadow: 1px 1px 3px 1px #2A14CA, -1px -1px 3px 1px #2A14CA; }
+        box-shadow: 1px 1px 3px 1px #2a14b9, -1px -1px 3px 1px #2a14b9; }
     div#form-login div#fos_user_change_password_form > div label {
       z-index: 999;
       position: absolute;

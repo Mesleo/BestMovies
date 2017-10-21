@@ -2,11 +2,13 @@
 {% extends 'MoviesBundle:Base:base.html.twig' %}
 
 {% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/web/css/comment.css" />
 {% endblock %}
 
 {% block body %}
     {% if comment is defined and comment != null %}
-        <div id="view-comment">
+        <div id="v-comment">
             <header>
                 <h2>
                     {{ comment.movie.originaltitle }}
@@ -17,11 +19,18 @@
                 <main>
                     <section>
                         <article id="comment">
-                                <div class="box-comment">
+                                <div class="panel panel-body">
                                     <header id="header">
 
                                         <div class="date">
-                                            <div>{{ comment.user.username }}</div>
+                                            <div><b>
+                                                    {% if app.user and app.user.id == comment.user.id %}
+                                                        Tu comentario
+                                                    {% else %}
+                                                        {{ comment.user.username }}
+                                                    {% endif %}
+                                                </b>
+                                            </div>
                                             {{ comment.dateAdd|date('d-m-Y H:i') }} <span class="score">{{ comment.score }}</span>
                                         </div>
                                         {% if comment.title != null %}
@@ -34,19 +43,27 @@
                                             <p class="text-comment">{{ comment.comment }}</p>
                                         </div>
                                     {% endif %}
-                                </div>
-                            <div class="div-buttons">
-                                <a href="javascript:history.back(-1);">Atrás</a>
-                                {% if app.user and app.user.id == comment.user.id %}
-                                    <form action="/app_dev.php/comment/create" method="post">
-                                        <input class="hidden" value="{{ comment.movie.num }}" name="film" id="film" type="text">
+                                    {% if app.user and app.user.id == comment.user.id %}
                                         <div class="div-buttons">
-                                            <button type="submit" class="btn btn-primary-search">Editar</button>
+                                                <form action="{{ path('comment_add') }}" method="post">
+                                                    <input class="hidden" value="{{ comment.movie.num }}" name="film" id="film" type="text">
+                                                    <div class="div-buttons">
+                                                        <button type="submit" class="btn btn-primary-search-edit">Editar</button>
+                                                    </div>
+                                                </form>
                                         </div>
-                                    </form>
-                                {% endif %}
-                            </div>
+                                    {% endif %}
+                                    <div>
+                                        <div class="like">
+
+                                        </div>
+                                        <div class="not-like">
+
+                                        </div>
+                                    </div>
+                                </div>
                         </article>
+                        <a href="javascript:history.back(-1);">Atrás</a>
                     </section>
                 </main>
             </div>

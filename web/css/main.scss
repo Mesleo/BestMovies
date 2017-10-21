@@ -1,5 +1,30 @@
 @import "variables/colors";
 
+.a-red-center{
+  width: 60%;
+  margin: 0 auto;
+  >div{
+    width: 80%;
+    margin: 0 auto;
+    padding: 10px;
+    background: #a9aa68;
+    text-align: center;
+    font-weight: 700;
+    cursor: pointer;
+    a{
+      text-decoration: none;
+      &:visited, &:hover{
+        text-decoration: none;
+      }
+    }
+  }
+}
+
+.alert{
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
 b{
   margin-right: 4px;
 }
@@ -11,6 +36,17 @@ body {
   background: -webkit-linear-gradient(top, #b3b3b0 0%, #e3e2dd 500px);
 }
 
+.button.raised {
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: 0.2s;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+}
+
+.button.raised:active {
+  box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2);
+  transition-delay: 0s;
+}
+
 .center-h1{
   text-align: center;
   font-size: 1.7em;
@@ -18,6 +54,21 @@ body {
   color: $secundaryTextColor;
   font-style: italic;
   margin: 10px 0 0 0;
+}
+
+.close-cross{
+  display:none;
+  position: absolute;
+  cursor: pointer;
+  right: 22px;
+  color: #839892;
+  padding: 0px 7px 1px 8px;
+  border-radius: 13px;
+  top: 4px;
+  border: 0.5px groove yellow;
+  font-size: 16px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  background-color: rgba(184, 134, 11, 0.5);
 }
 
 div.buttons-share {
@@ -43,6 +94,11 @@ div.buttons-share {
     height: 35px;
     margin: 3px;
     display: inline-block;
+    i.fa{
+      -webkit-box-shadow: 1px 1px 20px 2px rgba(128,128,128,1);
+      -moz-box-shadow: 1px 1px 20px 2px rgba(128,128,128,1);
+      box-shadow: 1px 1px 20px 2px rgba(128,128,128,1);
+    }
   }
 }
 
@@ -79,12 +135,34 @@ div.container-fluid{
   }
 }
 
+.fos_user_registration_register{
+  >div>div{
+    @extend .form-group2;
+    >input{
+      border-radius: 5px;
+      height: 35px;
+      padding: 6px;
+    }
+    >label{
+      margin-top: 5px;
+      padding: 5px;
+    }
+  }
+}
+
 .panel-body{
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .flash-success{
   display: none;
+}
+
+.form-group2{
+  display: block;
+  width: 86%;
+  margin: 0 auto;
+  padding: 5px;
 }
 
 .suggestion{
@@ -271,12 +349,14 @@ div.panel-heading-title{
 }
 
 #form-films, #form-login {
+  .lb-d{
+    padding: 10px 6px;
+  }
   div.div-buttons {
     position: relative;
-    width: 92%;
-    margin: 0 auto;
+    width: 84%;
     height: 55px;
-    margin-top: 20px;
+    margin: 26px auto 15px;
     .btn-primary-search {
       background-color: $mainColorLight;
       color: $secundaryTextColor;
@@ -334,6 +414,7 @@ div.panel-heading-title{
 
 #error{
   margin: 55px 0;
+  font-size: 1.5rem;
   text-align: center;
 }
 
@@ -341,6 +422,15 @@ div.panel-heading-title{
   margin: 50px 0;
   min-height: 130px;
   text-align: center;
+}
+
+.info-error{
+  color: #930300;
+  padding: 10px 7px 0 7px;
+  margin-bottom: -5px;
+  font-style: italic;
+  color: #930300;
+  font-size: 1.3rem;
 }
 
 .navbar.navbar-default{
@@ -447,6 +537,15 @@ div.show-trailer{
 
 }
 
+.title-page{
+  a{
+    text-decoration: none !important;
+    color: $secundaryColorLight;
+    &:hover, &:visited, &:link{
+      text-decoration: none !important;
+    }
+  }
+}
 
 .to-top {
   position: fixed;

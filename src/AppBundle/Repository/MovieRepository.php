@@ -117,18 +117,18 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $query = "SELECT
-                      NUM AS num, 
-                      MEDIA AS media, 
-                      ORIGINALTITLE AS originalTitle, 
-                      DATEADD AS dateAdd, 
+                      NUM AS num,
+                      MEDIA AS media,
+                      ORIGINALTITLE AS originalTitle,
+                      DATEADD AS dateAdd,
                       RATING AS rating,
-                      DIRECTOR AS director, 
-                      COUNTRY AS country, 
-                      CATEGORY AS category, 
-                      YEAR AS year, 
-                      LENGTH AS length, 
-                      ACTORS AS actors, 
-                      CF_SAGA AS saga, 
+                      DIRECTOR AS director,
+                      COUNTRY AS country,
+                      CATEGORY AS category,
+                      YEAR AS year,
+                      LENGTH AS length,
+                      ACTORS AS actors,
+                      CF_SAGA AS saga,
                       PICTURENAME AS picture,
                       URL AS urlVideo,
                       FILESIZE AS fileSize,
@@ -136,8 +136,35 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
                       DESCRIPTION AS description,
                       CF_VISTO AS visto,
                       CF_NOTA AS miNota
-                  FROM 
+                  FROM
                       movies AS m";
+
+//        $query = "SELECT
+//                      NUM AS num,
+//                      MEDIA AS media,
+//                      ORIGINALTITLE AS originalTitle,
+//                      DATEADD AS dateAdd,
+//                      RATING AS rating,
+//                      DIRECTOR AS director,
+//                      COUNTRY AS country,
+//                      YEAR AS year,
+//                      LENGTH AS length,
+//                      ACTORS AS actors,
+//                      CF_SAGA AS saga,
+//                      PICTURENAME AS picture,
+//                      URL AS urlVideo,
+//                      FILESIZE AS fileSize,
+//                      VIDEOFORMAT AS videoFormat,
+//                      DESCRIPTION AS description,
+//                      CF_VISTO AS visto,
+//                      CF_NOTA AS miNota,
+//					  c.nombre AS category
+//                  FROM
+//                      movies AS m
+//					RIGHT JOIN movie_category AS mc
+//						ON m.num = mc.movie_id
+//					RIGHT JOIN category AS c
+//						ON mc.category_id = c.id";
 
         $queryEvery = "
                     WHERE
@@ -177,6 +204,13 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             for($i = 0; $i < count($category); $i++){
                 $query .= " AND
                         m.CATEGORY LIKE :category$i";
+            }
+        }
+
+        if($category != null){
+            for($i = 0; $i < count($category); $i++){
+                $query .= " AND
+                        c.id = :category$i";
             }
         }
 
@@ -227,6 +261,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         if($view != "TODO" || $view == false){
             $stmt->bindValue(':view', $view, \PDO::PARAM_INT);
         }
+
 
         $stmt->execute();
         return $stmt->fetchAll();
@@ -291,8 +326,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
                       DATEADD AS dateAdd, 
                       RATING AS rating,
                       DIRECTOR AS director, 
-                      COUNTRY AS country, 
-                      CATEGORY AS category, 
+                      COUNTRY AS country,  
                       YEAR AS year, 
                       LENGTH AS length, 
                       ACTORS AS actors, 

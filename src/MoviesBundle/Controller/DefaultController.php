@@ -37,6 +37,7 @@ class DefaultController extends Controller
 
         $result = null;
         $info = null;
+        $aux = "";
         if($request->query->has('result')){
             $result = $request->query->get('result');
             $this->order = 7;
@@ -49,9 +50,27 @@ class DefaultController extends Controller
         $this->params['movies'] = $this->em->getRepository("AppBundle:Movie")
             ->getFilmByField($this->filter, $this->nameFilter, $this->sy, $this->fy,
                 intval($this->st), intval($this->ft), null, null, null, $this->order, $this->directionOrder);
+        $a = 0;
+        $count = count($this->params['movies']);
+//        for($i = 0; $i < $count; $i++){
+//            if($this->params['movies'][$i]['num'] != $aux){
+//                $a = $i;
+//                $this->params['movies'][$i]['categories'] = [];
+//                array_push($this->params['movies'][$i]['categories'], $this->params['movies'][$i]['category']);
+//                $aux = $this->params['movies'][$i]['num'];
+//            }else{
+//                array_push($this->params['movies'][$a]['categories'], $this->params['movies'][$i]['category']);
+//                unset($this->params['movies'][$i]);
+//            }
+//        }
 
         $this->params['values'] = $this->em->getRepository("AppBundle:Movie")
             ->getValuesMinMaxLengthYear();
+
+//        $categories = $this->em->getRepository("AppBundle:Category")
+//            ->findBy([],[
+//                'name' => 'ASC'
+//            ]);
 
         // Añadimos el paginador (En este caso el parámetro "1" es la página actual,
         // y parámetro "6" es el número de peliculas a mostrar)
@@ -66,11 +85,13 @@ class DefaultController extends Controller
 
         return $this->render('MoviesBundle:Film:films.html.twig', array(
             'pagination' => $pagination,
+//            'categories' => $categories,
             'films' => $films,
             'values' => $this->params['values'],
             'result' => $result,
             'info' => $info,
-            'vfOne' => false
+            'vfOne' => false,
+            'page' => null
         ));
     }
 
@@ -85,6 +106,7 @@ class DefaultController extends Controller
 
         $session = $request->getSession();
         $page = 0;
+        $aux = "";
         if(
             $request->request->has('filter')
             && $request->request->has('anio')
@@ -130,6 +152,20 @@ class DefaultController extends Controller
         $this->params['movies'] = $this->em->getRepository("AppBundle:Movie")
             ->getFilmByField($this->filter, $this->nameFilter, $this->sy, $this->fy,
                     intval($this->st), intval($this->ft), null, null, null, $this->order, $this->directionOrder);
+
+        $a = 0;
+        $count = count($this->params['movies']);
+        for($i = 0; $i < $count; $i++){
+            if($this->params['movies'][$i]['num'] != $aux){
+                $a = $i;
+                $this->params['movies'][$i]['categories'] = [];
+                array_push($this->params['movies'][$i]['categories'], $this->params['movies'][$i]['category']);
+                $aux = $this->params['movies'][$i]['num'];
+            }else{
+                array_push($this->params['movies'][$a]['categories'], $this->params['movies'][$i]['category']);
+                unset($this->params['movies'][$i]);
+            }
+        }
 
         $this->params['values'] = $this->em->getRepository("AppBundle:Movie")
             ->getValuesMinMaxLengthYear();
@@ -404,7 +440,7 @@ class DefaultController extends Controller
         if($request->query->has('idF')) {
             $idF = trim($request->query->get('idF'));
             $usuario = "o_3km6es2rq5";
-            $url = 'http://pelishd.esy.es/films/film?idF='.$idF;
+            $url = 'http://bestmovies.hol.es/films/film?idF='.$idF;
             $apikey = "R_fade2190453f4169b9c7803dd42c05cc";
             $temp = "http://api.bit.ly/v3/shorten?login=" . $usuario . "&apiKey=" . $apikey . "&uri=" . $url . "&format=txt";
             return new JsonResponse(file_get_contents($temp));

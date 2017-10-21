@@ -1,0 +1,6 @@
+[
+    {% for c in categories %}
+    "{{ c.nombre }}"
+    {% if not loop.last %},{% endif %}
+    {% endfor %}
+]

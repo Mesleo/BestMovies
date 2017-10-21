@@ -24,8 +24,6 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
         $orden = "";
 
-//        var_dump($order);
-
         switch ($order){
             case "1":
                 $orden = " ORDER BY c.dateAdd DESC";

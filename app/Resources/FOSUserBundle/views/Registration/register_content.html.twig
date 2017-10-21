@@ -1,0 +1,61 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<header>
+    <div class="panel-heading-title">
+        <h1 class="center-h1 title-page">
+            <a class="title-a" href="{{ path('films') }}">
+                <div id="logo-main">
+                    <img src="{{ asset('favicon.ico') }}" alt="">
+                    {#<img src="/web/favicon.ico" alt="Best Movies">#}
+                </div>
+                Best Movies</a></h1>
+    </div>
+</header>
+<div class="container container-login">
+    <div id="form-login">
+        <h2 class="title">Registro</h2>
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'),
+        'attr': {
+            'class': 'fos_user_registration_register form_lr'
+        }}) }}
+        {{ form_widget(form) }}
+        <div class="div-buttons">
+            <a href="{{ path('fos_user_security_login') }}" class="col-md-5 btn btn-primary-reset">Cancelar</a>
+            <button type="submit" class="col-md-5 btn btn-primary-search">{{ 'registration.submit'|trans }}</button>
+        </div>
+    {{ form_end(form) }}
+    </div>
+</div>
+{% include 'MoviesBundle:Base:footer.html.twig' %}
+{% block javascripts %}
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script>
+
+        function checkLiAlert(){
+            var liAlert = $('.form_lr').children('div').children('div').children('ul').children('li');
+            liAlert.addClass('alert danger');
+        }
+
+        (function() {
+
+            var inputEmail, labelEmail, inputUsername, inputPass, inputRepeatPass, btnOk, btnCancel, inputLogin;
+
+            function initVars() {
+                inputEmail = $('#fos_user_registration_form_email');
+                labelEmail = $('label[for="fos_user_registration_form_email"]');
+                inputUsername = $('#fos_user_registration_form_username');
+                labelUsername = $('label[for="fos_user_registration_form_username"]');
+                inputPass = $('#fos_user_registration_form_plainPassword_first');
+                labelPass = $('label[for="fos_user_registration_form_plainPassword_first"]');
+                inputRepeatPass = $('#fos_user_registration_form_plainPassword_second');
+                labelRepeatPass = $('label[for="fos_user_registration_form_plainPassword_second"]');
+            }
+
+            initVars();
+
+        })();
+    </script>
+{% endblock %}

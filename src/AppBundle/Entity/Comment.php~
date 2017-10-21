@@ -61,14 +61,14 @@ class Comment
 
     /**
      * Muchos comentarios puede poner un usuario
-     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="comment")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     private $user;
 
     /**
      * Muchos comentarios tiene una película
-     * @ORM\ManyToOne(targetEntity="Movie")
+     * @ORM\ManyToOne(targetEntity="Movie", inversedBy="comment")
      * @ORM\JoinColumn(name="movie_num", referencedColumnName="NUM")
      */
     private $movie;
@@ -252,5 +252,46 @@ class Comment
     public function getMovie()
     {
         return $this->movie;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->likes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add like
+     *
+     * @param \AppBundle\Entity\Likes $like
+     *
+     * @return Comment
+     */
+    public function addLike(\AppBundle\Entity\Likes $like)
+    {
+        $this->likes[] = $like;
+
+        return $this;
+    }
+
+    /**
+     * Remove like
+     *
+     * @param \AppBundle\Entity\Likes $like
+     */
+    public function removeLike(\AppBundle\Entity\Likes $like)
+    {
+        $this->likes->removeElement($like);
+    }
+
+    /**
+     * Get likes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getLikes()
+    {
+        return $this->likes;
     }
 }

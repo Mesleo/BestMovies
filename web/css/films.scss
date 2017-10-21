@@ -101,15 +101,17 @@ div.panel-movie{
     width: 100%;
     display: flex;
     flex-direction: row;
-    background-color: $mainColor;
+    //background-color: $mainColor;
+    background: linear-gradient(to bottom, $mainColorLight2, $mainColorLight);
     padding: 10px 10px 5px 10px;
     position: relative;
     h3{
       margin: 0;
       display: inline-flex;
       width: 75%;
-      color: $secundaryTextColor;
+      color: $secundaryColorLight;
       font-weight: bold;
+      margin-bottom: 5px;
     }
     span{
       font-weight: bold;
@@ -126,9 +128,10 @@ div.panel-movie{
     }
   }
   div.title-saga{
-    min-height: 0px;
+    min-height: 55px;
     margin-bottom: 15px;
-    background-color: $mainColorLight;
+    //background-color: $mainColorLight;
+    background: linear-gradient(to bottom, $mainColorLight, $mainColor);
     padding: 10px 10px 5px 10px;
     color: $secundaryTextColor;
     border-bottom: 1px solid $shadowLight;
@@ -262,8 +265,14 @@ span.view-movie{
       padding: 10px;
       border: 1px outset $mainColor;
       cursor: pointer;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      background-color: #caaf00;
       &:hover {
         text-decoration: none;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+        background: #7E6D00;
+
       }
       &:active{
         border: 1px inset $mainColorLight;
@@ -335,6 +344,18 @@ span.first, span.last {
       background: #0E0E1C;
       box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     }
+  }
+}
+
+.score-stars{
+  height: 18px;
+  width: 150px;
+  position: absolute;
+  right: 10px;
+  bottom: 0px;
+  img{
+    width: 100%;
+    height: 100%;
   }
 }
 
@@ -487,6 +508,13 @@ div.pull-center{
       }
     }
   }
+
+  .score-stars {
+    height: 18px;
+    width: 180px;
+    right: 4%;
+  }
+
 }
 
 @media screen and (min-width: 768px){
@@ -501,7 +529,6 @@ div.pull-center{
       height: 1000px;
       margin-bottom: 100px;
       div.title-rating{
-        height: 130px;
         font-size: 1.4rem;
       }
       p.actors{
@@ -548,6 +575,13 @@ div.pull-center{
         }
       }
     }
+  }
+
+  .score-stars {
+    height: 18px;
+    width: 180px;
+    right: 4%;
+    //bottom: ;
   }
 
 }

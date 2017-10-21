@@ -1,0 +1,28 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/login.css">
+    {#<link rel="stylesheet" href="/web/css/login.css">#}
+{% endblock %}
+
+<header>
+    <div class="panel-heading-title">
+        <h1 class="center-h1 title-page">
+            <a class="title-a" href="{{ path('films') }}">
+                <div id="logo-main">
+                    <img src="{{ asset('favicon.ico') }}" alt="">
+                    {#<img src="/web/favicon.ico" alt="Best Movies">#}
+                </div>
+                Best Movies</a></h1>
+    </div>
+</header>
+<div class="container container-login">
+    <div id="form-login">
+        <h2 class="title">Email enviado</h2>
+{% block fos_user_content %}
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock fos_user_content %}
+</div>
+</div>

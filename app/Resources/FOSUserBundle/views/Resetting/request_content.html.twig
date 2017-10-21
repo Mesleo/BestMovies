@@ -1,0 +1,35 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<header>
+    <div class="panel-heading-title">
+        <h1 class="center-h1 title-page">
+            <a class="title-a" href="{{ path('films') }}">
+                <div id="logo-main">
+                    <img src="{{ asset('favicon.ico') }}" alt="">
+                    {#<img src="/web/favicon.ico" alt="Best Movies">#}
+                </div>
+                Best Movies</a></h1>
+    </div>
+</header>
+<div class="container container-login">
+    <div id="form-login">
+        <h2 class="title">Recordar contraseña</h2>
+        <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_registration_form">
+            {% if app.request.get('error') is defined and app.request.get('error')  != null %}
+                <div class="form-group2">
+                    <p class="info-error">{{ app.request.get('error')  }}</p>
+                </div>
+            {% endif %}
+            <div class="input-label">
+                <label for="username" class="lb-d">{{ 'resetting.request.username'|trans }}:</label>
+                <input type="text" id="username" name="username" class="form-control" required="required" />
+            </div>
+            <div class="div-buttons">
+                <a href="{{ path('fos_user_security_login') }}" class="col-md-5 btn btn-primary-reset">Cancelar</a>
+                {#<button type="submit" class="col-md-5 btn btn-primary-search">{{ 'resetting.submit'|trans }}</button>#}
+                <button type="submit" class="col-md-5 btn btn-primary-search">Recordar</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% include 'MoviesBundle:Base:footer.html.twig' %}

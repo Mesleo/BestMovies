@@ -32,34 +32,42 @@ div#form-login{
         color: $danger;
       }
     }
-    div.input-label, #fos_user_registration_form > div {
+    div.input-label, #fos_user_registration_form > div, #fos_user_change_password_form > div {
       display: block;
-      width: 90%;
+      width: 84%;
       margin: 0 auto;
       position: relative;
-      height: 80px;
-      margin-bottom: 10px;
+      min-height: 80px;
+      margin-top: 12px;
       input {
-        position: absolute;
-        bottom: 0;
         width: 100%;
         height: 34px;
         padding: 6px 12px;
-        border: 2px outset $secundaryColor;
+        border-top: none;
+        border-right: none;
+        border-left: none;
+        border-bottom: 2px outset $secundaryColor;
         border-radius: 0;
+        color: #212020;
         &:focus {
-          border: 1px inset $secundaryColor;
-          box-shadow: 1px 1px 3px 1px $mainColorLight,
-          -1px -1px 3px 1px $mainColorLight;
+          outline: none;
+          border-bottom: 2.3px outset $secundaryColorLight;
+          background: rgba(251, 255, 178, 0.79);
         }
       }
       label {
-        z-index: 999;
-        position: absolute;
-        bottom: 2%;
-        left: 4%;
+        display: block;
+        padding: 5px;
         font-size: 1.4rem;
         color: $secundaryColor;
+      }
+      ul>li{
+        list-style: none;
+        color: #930300;
+        padding: 10px 7px 0 7px;
+        font-style: italic;
+        color: #930300;
+        font-size: 1.3rem;
       }
     }
   }

@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: movies_javi
+    database_user: root
+    database_password: 1111
+    mailer_transport: smtp
+    mailer_host: smtp.1and1.com
+    mailer_user: registro@bestmovies.es
+    mailer_password: Pozoblanco2016?!
+    secret: 1d573c556322209198eebecf818bd13d410192e5

@@ -1,0 +1,176 @@
+<?php
+// src/AppBundle/Entity/MovieCategory.php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Table(name="movie_category")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieCategoryRepository")
+ */
+
+class MovieCategory
+{
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Movie", inversedBy="hasCategories")
+     * @ORM\JoinColumn(name="movie_id", referencedColumnName="NUM", nullable=false, unique=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $movies;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="hasMovies", cascade={"remove"})
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id", nullable=false, unique=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $categories;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="sequence", type="integer", nullable=false)
+     */
+    private $sequence;
+
+    /**
+     * @var datetime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
+
+    /**
+     * MovieCategory constructor.
+     */
+    public function __construct()
+    {
+        $this->created = new \DateTime('now');
+    }
+
+
+    /**
+     * Set movies
+     *
+     * @param \AppBundle\Entity\Movie $movies
+     *
+     * @return MovieCategory
+     */
+    public function setMovies(\AppBundle\Entity\Movie $movies = null)
+    {
+        $this->movies = $movies;
+
+        return $this;
+    }
+
+    /**
+     * Get movies
+     *
+     * @return \AppBundle\Entity\Movie
+     */
+    public function getMovies()
+    {
+        return $this->movies;
+    }
+    
+
+    /**
+     * Set categories
+     *
+     * @param \AppBundle\Entity\Category $categories
+     *
+     * @return MovieCategory
+     */
+    public function setCategories(\AppBundle\Entity\Category $categories)
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \AppBundle\Entity\Category
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+    
+
+    /**
+     * Set sequence
+     *
+     * @param integer $sequence
+     *
+     * @return MovieCategory
+     */
+    public function setSequence($sequence)
+    {
+        $this->sequence = $sequence;
+
+        return $this;
+    }
+
+    /**
+     * Get sequence
+     *
+     * @return integer
+     */
+    public function getSequence()
+    {
+        return $this->sequence;
+    }
+
+    /**
+     * Set dateAdd
+     *
+     * @param \DateTime $dateAdd
+     *
+     * @return MovieCategory
+     */
+    public function setDateAdd($dateAdd)
+    {
+        $this->dateAdd = $dateAdd;
+
+        return $this;
+    }
+
+    /**
+     * Get dateAdd
+     *
+     * @return \DateTime
+     */
+    public function getDateAdd()
+    {
+        return $this->dateAdd;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return MovieCategory
+     */
+    public function setCreated()
+    {
+        $this->created = date('Y-m-d H:i:s');;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+}

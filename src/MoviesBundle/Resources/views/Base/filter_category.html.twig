@@ -3,12 +3,13 @@
     <button type="button" id="button-filtrar-hidden" class="col-md-5 btn btn-secundary-search">Ocultar</button>
 </div>
 <div class="form-group" id="filters-categories">
-    <label class="sr-only" for="exampleInputPassword3">Categoría</label>
     <!-- All categories -->
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Acción</button>
-        <input type="checkbox" name="category" id="category" value="Acci" class="hidden custom-checkbox"  />
-    </span>
+    {#{% for c in categories %}#}
+        {#<span class="button-checkbox">#}
+            {#<button type="button" class="btn btn-custom-checkbox" data-color="info">{{ c.name }}</button>#}
+            {#<input type="checkbox" name="category" id="category" value="{{ c.id }}" class="hidden custom-checkbox"  />#}
+        {#</span>#}
+    {#{% endfor %}#}
     <span class="button-checkbox">
         <button type="button" class="btn btn-custom-checkbox" data-color="info">Animación</button>
         <input type="checkbox" name="category" id="category" value="Animaci" class="hidden custom-checkbox"  />

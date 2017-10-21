@@ -6,7 +6,7 @@ if(response.length > 0) {
     for (var i = 0; i < response.length; i++) {
         {% if app.user %}
         if(response[i]['user'] == '{{ app.user.username }}') {
-            user = "Tú mismo";
+            user = "Tu comentario";
         }else{
             if(response[i]['user'] == null){
                 user = '- Anónimo -';
