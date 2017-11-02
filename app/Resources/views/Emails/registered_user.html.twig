@@ -1,0 +1,11 @@
+{# app/Resources/views/Emails/registered_user.html.twig #}
+{% block body_html %}
+<br>
+<div class="logo">
+    <img src="https://www.bestmovies.es/web/upload/icons/logo_bestmovies.png" alt="BestMovies" title="BestMovies">
+</div>
+<h1>Un nuevo usuario se ha registrado en tu web</h1>
+<h3>Datos: </h3>
+<p><b>Nombre de usuario: </b>{{ user.username }}</p>
+<p><b>Email: </b>{{ user.email }}</p>
+{% endblock %}

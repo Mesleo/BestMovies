@@ -25,14 +25,14 @@ class Likes
     /**
      * @var boolean
      *
-     * @ORM\Column(name="like_not_like", type="boolean")
+     * @ORM\Column(name="like_not_like", type="boolean", nullable=true)
      */
-    private $like_not_like;
+    private $likeNotLike;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="useful", type="boolean")
+     * @ORM\Column(name="useful", type="boolean", nullable=true)
      */
     private $useful;
 
@@ -46,7 +46,7 @@ class Likes
     /**
      * @var DateTime
      *
-     * @ORM\Column(name="updated", type="datetime", nullable=false)
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
      */
     private $updated;
 
@@ -69,6 +69,7 @@ class Likes
         $this->created = new \DateTime();
     }
    
+
     /**
      * Get id
      *
@@ -80,27 +81,27 @@ class Likes
     }
 
     /**
-     * Set like
+     * Set likeNotLike
      *
-     * @param boolean $like
+     * @param boolean $likeNotLike
      *
-     * @return Like
+     * @return Likes
      */
-    public function setLike($like)
+    public function setLikeNotLike($likeNotLike)
     {
-        $this->like = $like;
+        $this->likeNotLike = $likeNotLike;
 
         return $this;
     }
 
     /**
-     * Get like
+     * Get likeNotLike
      *
      * @return boolean
      */
-    public function getLike()
+    public function getLikeNotLike()
     {
-        return $this->like;
+        return $this->likeNotLike;
     }
 
     /**
@@ -108,7 +109,7 @@ class Likes
      *
      * @param boolean $useful
      *
-     * @return Like
+     * @return Likes
      */
     public function setUseful($useful)
     {
@@ -132,7 +133,7 @@ class Likes
      *
      * @param \DateTime $created
      *
-     * @return Like
+     * @return Likes
      */
     public function setCreated($created)
     {
@@ -156,7 +157,7 @@ class Likes
      *
      * @param \DateTime $updated
      *
-     * @return Like
+     * @return Likes
      */
     public function setUpdated($updated)
     {
@@ -180,9 +181,9 @@ class Likes
      *
      * @param \AppBundle\Entity\Comment $comment
      *
-     * @return Like
+     * @return Likes
      */
-    public function setComment(\AppBundle\Entity\Comment $comment = null)
+    public function setComment(\AppBundle\Entity\Comment $comment)
     {
         $this->comment = $comment;
 
@@ -204,9 +205,9 @@ class Likes
      *
      * @param \AppBundle\Entity\User $user
      *
-     * @return Like
+     * @return Likes
      */
-    public function setUser(\AppBundle\Entity\User $user = null)
+    public function setUser(\AppBundle\Entity\User $user)
     {
         $this->user = $user;
 
@@ -221,29 +222,5 @@ class Likes
     public function getUser()
     {
         return $this->user;
-    }
-
-    /**
-     * Set likeNotLike
-     *
-     * @param boolean $likeNotLike
-     *
-     * @return Likes
-     */
-    public function setLikeNotLike($likeNotLike)
-    {
-        $this->like_not_like = $likeNotLike;
-
-        return $this;
-    }
-
-    /**
-     * Get likeNotLike
-     *
-     * @return boolean
-     */
-    public function getLikeNotLike()
-    {
-        return $this->like_not_like;
     }
 }

@@ -1,4 +1,4 @@
-(function(){
+// (function(){
     var minSpanAnio, maxSpanAnio ,minSpanTiempo, maxSpanTiempo, valueAnioMin, valueAnioMax, valueLengthMin, valueLengthMax;
     var slider = new Slider('#anio', {});
     var slider2 = new Slider('#length', {});
@@ -38,4 +38,4 @@
         setLength();
     });
     initVars();
-})();
+// })();

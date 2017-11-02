@@ -31,8 +31,15 @@ class CommentController extends Controller
     {
         $this->initialize();
         if($this->getUserLogged() != null){
-            $this->params['comments'] = $this->em->getRepository('AppBundle:Comment')
-                ->getCommentsOrderByDate(null, null, 1, $this->getUserLogged()->getId(), 3);
+//            $this->params['comments'] = $this->em->getRepository('AppBundle:Comment')
+//                ->getCommentsOrderBy(null, null, 1, $this->getUserLogged()->getId(), 3);
+            $query = $this->em->getRepository('AppBundle:Comment')->createQueryBuilder('c')
+                ->where('c.user = :user')
+                ->setParameter('user', $this->getUserLogged()->getId())
+                ->orderBy('c.dateAdd', 'DESC')
+                ->setMaxResults(3)
+                ->getQuery();
+            $this->params['comments'] = $query->getResult();
             $this->params['comments_length'] = $this->em->getRepository('AppBundle:Comment')
                 ->getCommentsCount($this->getUserLogged()->getId());
             return $this->render('MoviesBundle:Comment:comments.html.twig', $this->params);
@@ -52,6 +59,18 @@ class CommentController extends Controller
         if($request->query->has('m')){
             $this->params['comment'] = $this->em->getRepository('AppBundle:Comment')
             ->findOneById($request->query->get('m'));
+            $totalLikes = $this->em->getRepository('AppBundle:Likes')
+                ->findBy([
+                    'comment' => $this->params['comment'],
+                    'likeNotLike' => 1
+                ]);
+            $totalNoLikes = $this->em->getRepository('AppBundle:Likes')
+                ->findBy([
+                    'comment' => $this->params['comment'],
+                    'likeNotLike' => 0
+                ]);
+            $this->params['total_likes'] = $totalLikes;
+            $this->params['total_no_likes'] = $totalNoLikes;
             return $this->render('MoviesBundle:Comment:comment.html.twig', $this->params);
         }
         return false;
@@ -121,7 +140,11 @@ class CommentController extends Controller
                         }
                     }
                 }
-                $comment->setDateAdd(new \DateTime());
+                if($comment == null || $comment->getId() != null){
+                    $comment->setUpdated(new \DateTime());
+                }else{
+                    $comment->setDateAdd(new \DateTime());
+                }
 
                 if ($comment->getMovie() != null && $comment->getUser() != null
                     && $comment->getScore() != null
@@ -188,19 +211,67 @@ class CommentController extends Controller
      */
     public function loadCommentsFilm(Request $request){
         $this->initialize();
+        $array = [];
         if($request->request->has('scroll')
             && $request->request->has('film')){
+            $array['comments'] = [];
             $more = $request->request->get('scroll');
             $film = $request->request->get('film');
-            $comments = $this->em->getRepository('AppBundle:Comment')
-                ->getCommentsByFilm($film, $more);
-            return new JsonResponse($comments);
+            $array['total_comments'] = count($this->em->getRepository('AppBundle:Comment')
+                ->getCommentsByFilm($film, null, null, false));
+            $array['comments'] = $this->em->getRepository('AppBundle:Comment')
+                ->getCommentsByFilm($film, $more, 0, true);
+            return new JsonResponse($array);
         }
         return null;
     }
 
     /**
-     * Carga la nota media de una película
+     * Carga los comentarios de una película paginados
+     * @Route("/film/comments", name="comments_film_pagination" )
+     */
+    public function loadCommentsFilmPagination(Request $request){
+        $this->initialize();
+        $array = [];
+        if ($request->query->has('page')
+            && $request->query->has('film')){
+            $pageNum = 0;
+            $total_paginas = 1;
+            $film = $request->query->get('film');
+            $comments = $this->em->getRepository('AppBundle:Comment')
+                ->getCommentsByFilm($film, null, null, false);
+            $totalComments = count($comments);
+
+            //Si hay registros
+            if ($totalComments > 0) {
+                //numero de registros por página
+                $rowsPerPage = 3;
+
+                $pageNum = $request->query->get('page');
+                // si $_GET['page'] esta definido, usamos este número de página
+//                if (isset($_GET['page'])) {
+//                    $pageNum = $_GET['page'];
+//                }
+
+                //contando el desplazamiento
+                $offset = $pageNum * $rowsPerPage;
+                $total_paginas = ceil($totalComments / $rowsPerPage);
+                $comments = $this->em->getRepository('AppBundle:Comment')
+                    ->getCommentsByFilm($film, 3, $offset, false);
+            }
+            $array = array(
+                'total_paginas' => $total_paginas ,
+                'page_num' => intval($pageNum),
+                'total_comments' => $totalComments,
+                'comments' => $comments
+            );
+
+        }
+        return new JsonResponse($array);
+    }
+
+    /**
+     * Carga la nota media de todos los comentarios de una película
      * @Route("/mediaScore", name="media_comments_film" )
      */
     public function getMediaCommentsFilm(Request $request){
@@ -249,7 +320,8 @@ class CommentController extends Controller
                 $search = $request->request->get('s');
             }
             $comments = $this->em->getRepository('AppBundle:Comment')
-                ->getCommentsOrderByDate($searchName, $search, $order, $this->getUserLogged()->getId(), $more);
+                ->getCommentsOrderBy($searchName, $search, $order, $this->getUserLogged()->getId(), $more);
+
             return new JsonResponse($comments);
         }
         return null;

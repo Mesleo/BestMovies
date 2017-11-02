@@ -4,7 +4,7 @@ div#form-login {
   background-color: #ffffff; }
   div#form-login h2.title {
     margin: 0;
-    padding: 10px;
+    padding: 15px;
     background-color: #2a14b9;
     color: #d3d7d1;
     text-align: center;
@@ -26,14 +26,17 @@ div#form-login {
       list-style: none;
       font-style: italic;
       color: #c80800; }
-  div#form-login form div.input-label, div#form-login form #fos_user_registration_form > div, div#form-login form #fos_user_change_password_form > div {
+  div#form-login form div.input-label, div#form-login form #fos_user_registration_form > div,
+  div#form-login form #fos_user_resetting_form > div, div#form-login form #fos_user_change_password_form > div,
+  div#form-login form #fos_user_profile_form > div, div#form-login form .fos_user_profile_form > div {
     display: block;
     width: 84%;
     margin: 0 auto;
     position: relative;
-    min-height: 80px;
     margin-top: 12px; }
-    div#form-login form div.input-label input, div#form-login form #fos_user_registration_form > div input, div#form-login form #fos_user_change_password_form > div input {
+    div#form-login form div.input-label input:not(.radio), div#form-login form #fos_user_registration_form > div input:not(.radio),
+    div#form-login form #fos_user_resetting_form > div input:not(.radio), div#form-login form #fos_user_change_password_form > div input:not(.radio),
+    div#form-login form #fos_user_profile_form > div input:not(.radio), div#form-login form .fos_user_profile_form > div input:not(.radio) {
       width: 100%;
       height: 34px;
       padding: 6px 12px;
@@ -43,16 +46,22 @@ div#form-login {
       border-bottom: 2px outset #7E6D00;
       border-radius: 0;
       color: #212020; }
-      div#form-login form div.input-label input:focus, div#form-login form #fos_user_registration_form > div input:focus, div#form-login form #fos_user_change_password_form > div input:focus {
+      div#form-login form div.input-label input:not(.radio):focus, div#form-login form #fos_user_registration_form > div input:not(.radio):focus,
+      div#form-login form #fos_user_resetting_form > div input:not(.radio):focus, div#form-login form #fos_user_change_password_form > div input:not(.radio):focus,
+      div#form-login form #fos_user_profile_form > div input:not(.radio):focus, div#form-login form .fos_user_profile_form > div input:not(.radio):focus {
         outline: none;
         border-bottom: 2.3px outset #caaf00;
         background: rgba(251, 255, 178, 0.79); }
-    div#form-login form div.input-label label, div#form-login form #fos_user_registration_form > div label, div#form-login form #fos_user_change_password_form > div label {
+    div#form-login form div.input-label label:not(.radio-inline), div#form-login form #fos_user_registration_form > div label:not(.radio-inline),
+    div#form-login form #fos_user_resetting_form > div label:not(.radio-inline), div#form-login form #fos_user_change_password_form > div label:not(.radio-inline),
+    div#form-login form #fos_user_profile_form > div label:not(.radio-inline), div#form-login form .fos_user_profile_form > div label:not(.radio-inline) {
       display: block;
       padding: 5px;
       font-size: 1.4rem;
       color: #7E6D00; }
-    div#form-login form div.input-label ul > li, div#form-login form #fos_user_registration_form > div ul > li, div#form-login form #fos_user_change_password_form > div ul > li {
+    div#form-login form div.input-label ul > li, div#form-login form #fos_user_registration_form > div ul > li,
+    div#form-login form #fos_user_resetting_form > div ul > li, div#form-login form #fos_user_change_password_form > div ul > li,
+    div#form-login form #fos_user_profile_form > div ul > li, div#form-login form .fos_user_profile_form > div ul > li {
       list-style: none;
       color: #930300;
       padding: 10px 7px 0 7px;

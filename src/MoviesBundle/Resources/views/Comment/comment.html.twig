@@ -3,13 +3,20 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="/web/css/comment.css" />
+    <link rel="stylesheet" href="{{ asset('css/comment.css') }}" />
+    {#<link rel="stylesheet" href="/web/css/comment.css" />#}
 {% endblock %}
 
 {% block body %}
     {% if comment is defined and comment != null %}
         <div id="v-comment">
             <header>
+                <div class="w30">
+                    <a href="{{ path('film_view', {'m' : comment.movie.originalTitle }) }}">
+                        <img src="/upload/img/{{ comment.movie.picture }}" alt="{{ comment.movie.originaltitle }}" title="{{ comment.movie.originaltitle }}">
+                        {#<img src="/web/upload/img/{{ comment.movie.picture }}" alt="{{ comment.movie.originaltitle }}" title="{{ comment.movie.originaltitle }}">#}
+                    </a>
+                </div>
                 <h2>
                     {{ comment.movie.originaltitle }}
                 </h2>
@@ -21,7 +28,6 @@
                         <article id="comment">
                                 <div class="panel panel-body">
                                     <header id="header">
-
                                         <div class="date">
                                             <div><b>
                                                     {% if app.user and app.user.id == comment.user.id %}
@@ -43,6 +49,7 @@
                                             <p class="text-comment">{{ comment.comment }}</p>
                                         </div>
                                     {% endif %}
+                                    <div class="view-useful-one">
                                     {% if app.user and app.user.id == comment.user.id %}
                                         <div class="div-buttons">
                                                 <form action="{{ path('comment_add') }}" method="post">
@@ -53,17 +60,20 @@
                                                 </form>
                                         </div>
                                     {% endif %}
-                                    <div>
-                                        <div class="like">
-
+                                        <div class="useful">
+                                            <div><a href="javascript:void(0);" data-c="{{ comment.id }}" data-l="1">
+                                                    <img src="/upload/icons/like.png" alt="Me gusta" title="Me gusta">
+                                                    {#<img src="/web/upload/icons/like.png" alt="Me gusta" title="Me gusta">#}
+                                                    </a></div><div class="like_{{ comment.id }}" >{{ total_likes|length }}</div>
+                                            <div><a href="javascript:void(0);" data-c="{{ comment.id }}" data-l="0">
+                                                    <img src="/upload/icons/no_like.png" alt="No me gusta" title="No me gusta">
+                                                    {#<img src="/web/upload/icons/no_like.png" alt="No me gusta" title="No me gusta">#}
+                                                    </a></div><div class="no_like_{{ comment.id }}" >{{ total_no_likes|length }}</div>
+                                            </div>
                                         </div>
-                                        <div class="not-like">
-
-                                        </div>
-                                    </div>
                                 </div>
                         </article>
-                        <a href="javascript:history.back(-1);">Atrás</a>
+                        <a class="btn btn-back" href="javascript:history.back(-1);">Atrás</a>
                     </section>
                 </main>
             </div>
@@ -74,4 +84,55 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
+    <script>
+        $('.useful a').on('click', function(e){
+            e.preventDefault();
+            var comme = $(this).attr('data-c');
+            var lik = $(this).attr('data-l');
+            {% if app.user %}
+            window.location.href = $(this).attr('href');
+            $.ajax({
+                type: "POST",
+                url: "{{ path('like_no_like') }}",
+                data: { like: lik, comment: comme },
+                dataType: 'json',
+                success: function(data) {
+                    $('.like_'+comme).html(data['like']['total']);
+                    $('.no_like_'+comme).html(data['no_like']['total']);
+                }
+            });
+            {% else %}
+            var url = window.location.href;
+            $.ajax({
+                type: "POST",
+                url: "{{ path('fos_user_security_login') }}",
+                data: { url: url },
+                dataType: 'json',
+                success: function() {
+                }
+            });
+            $.sweetModal({
+                title: 'Votar',
+                content: '<div class="vote"><p>Para poder votar debes iniciar sessión</p></div>',
+                buttons: {
+                    someOtherAction: {
+                        label: 'Cancelar',
+                        classes: 'btn btn-primary-reset',
+                        action: function() {
+
+                        }
+                    },
+
+                    someAction: {
+                        label: 'Acceder',
+                        classes: 'btn btn-primary-search',
+                        action: function() {
+                            window.location.href = "{{ path('fos_user_security_login') }}";
+                        }
+                    },
+                }
+            });
+            {% endif %}
+        });
+    </script>
 {% endblock %}

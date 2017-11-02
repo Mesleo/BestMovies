@@ -49,12 +49,12 @@ body {
   cursor: pointer;
   right: 22px;
   color: #839892;
-  padding: 0px 7px 1px 8px;
+  padding: 0px 7px;
   border-radius: 13px;
   top: 4px;
   border: 0.5px groove yellow;
   font-size: 16px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  box-shadow: inset -1px 1px 3px rgba(141, 141, 141, 0.75);
   background-color: rgba(184, 134, 11, 0.5); }
 
 div.buttons-share {
@@ -72,14 +72,14 @@ div.buttons-share {
       cursor: pointer; }
   div.buttons-share div.button-share {
     position: absolute;
-    width: 35px;
-    height: 35px;
+    width: 27px;
+    height: 27px;
     margin: 3px;
     display: inline-block; }
-    div.buttons-share div.button-share i.fa {
-      -webkit-box-shadow: 1px 1px 20px 2px gray;
-      -moz-box-shadow: 1px 1px 20px 2px gray;
-      box-shadow: 1px 1px 20px 2px gray; }
+    div.buttons-share div.button-share:active, div.buttons-share div.button-share:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23); }
+    div.buttons-share div.button-share img {
+      width: 100%; }
 
 div.status {
   display: none !important; }
@@ -136,7 +136,8 @@ button, a.btn {
   border-radius: 0 !important; }
 
 div.panel-heading, div.title-rating {
-  font-family: "Taviraj"; }
+  font-family: "Taviraj";
+  background-color: rgba(245, 215, 0, 0.82); }
 
 #bs-example-navbar-collapse-1 {
   display: block; }
@@ -277,7 +278,7 @@ div.panel-heading-title {
   position: relative;
   width: 84%;
   height: 55px;
-  margin: 26px auto 15px; }
+  margin: 18px auto 15px; }
   #form-films div.div-buttons .btn-primary-search, #form-login div.div-buttons .btn-primary-search {
     background-color: #2a14b9;
     color: #d3d7d1;
@@ -335,14 +336,6 @@ div.panel-heading-title {
   min-height: 130px;
   text-align: center; }
 
-.info-error {
-  color: #930300;
-  padding: 10px 7px 0 7px;
-  margin-bottom: -5px;
-  font-style: italic;
-  color: #930300;
-  font-size: 1.3rem; }
-
 .navbar.navbar-default {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
   background-color: #13143c;
@@ -373,6 +366,11 @@ footer {
     footer div#socials a {
       padding: 7px; }
 
+.panel-search {
+  padding: 10px;
+  margin: 0 auto;
+  margin-bottom: 20px; }
+
 .sweet-modal-overlay.dark-modal {
   z-index: 9999 !important; }
   .sweet-modal-overlay.dark-modal .sweet-modal-box {
@@ -397,7 +395,6 @@ div.sweet-modal-box.alert.confirm, div.sweet-modal-box.prompt {
 div.sweet-modal-overlay.dark-overlay.dark-modal.open div.sweet-modal-box.alert {
   width: 90% !important;
   left: 5%;
-  top: 5%;
   height: 380px;
   border: 2px outset #2a14b9;
   box-shadow: 3px 3px 15px 1.5px rgba(218, 234, 241, 0.55), 3px -3px 15px 1.5px rgba(218, 234, 241, 0.55), -3px -3px 15px 1.5px rgba(218, 234, 241, 0.55), -3px 3px 15px 1.5px rgba(218, 234, 241, 0.55); }
@@ -414,8 +411,8 @@ div.sweet-modal-box {
 div.show-trailer {
   width: 90%;
   margin: 0 auto;
-  margin-top: 30px;
-  margin-bottom: 40px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   text-align: center; }
 
 .title-page a {
@@ -442,10 +439,18 @@ div.show-trailer {
   animation-name: toTop;
   animation-duration: 2s;
   animation-iteration-count: infinite; }
-  .to-top img {
-    width: 100%; }
   .to-top .scrollToTop:hover {
     text-decoration: none; }
+
+.w30 {
+  width: 30%;
+  margin-right: 2%; }
+
+.w70 {
+  width: 67%; }
+
+img {
+  width: 100%; }
 
 /* The animation code */
 @keyframes toTop {
@@ -478,6 +483,14 @@ div.show-trailer {
   div.container-login {
     width: 70%; } }
 @media screen and (min-width: 768px) {
+  .close-cross {
+    display: none !important; }
+
+  .description {
+    padding: 0; }
+    .description p.image {
+      padding: 0; }
+
   div.container {
     padding: 0;
     width: 87%; }
@@ -494,7 +507,12 @@ div.show-trailer {
 
   .navbar.navbar-default div > div > ul > li {
     width: auto;
-    margin: 0 auto; } }
+    margin: 0 auto; }
+
+  .panel-search {
+    width: 75%;
+    padding: 20px;
+    background: cadetblue; } }
 @media screen and (min-width: 900px) {
   div.panel-heading-title h1 {
     width: auto;
@@ -505,5 +523,8 @@ div.show-trailer {
       width: 60px; }
   div.panel-heading-title div.div-login {
     margin-bottom: 15px; } }
+@media screen and (min-width: 900px) {
+  .panel-search {
+    width: 75%; } }
 
 /*# sourceMappingURL=main.css.map */

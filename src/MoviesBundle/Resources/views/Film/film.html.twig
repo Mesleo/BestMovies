@@ -21,7 +21,7 @@
         </div>
     {% endif %}
 
-    <div class="panel panel-info">
+    <div class="panel panel-body">
         <div class="panel-heading">
             <div class="panel-title row">
                 {% if film is defined %}
@@ -107,8 +107,8 @@
                         <div class="col-xs-12 col-sm-12">
                             <label for="category" class="col-xs-12 col-sm-1">Categoría: </label>
                             <div class="col-xs-12 col-sm-11">
-                                <input type="text" class="form-control" name="category" id="category" title="Escriba una categoría y aparecerán sugerencias">
-                                <input type="text" class="hidden" name="categories" id="categories">
+                                <input type="text" class="form-control" name="category" id="category" value="{% if film is defined %} {{ film.category }} {% endif %}">
+                                {#<input type="text" class="hidden" name="categories" id="categories">#}
                             </div>
                         </div>
                     </div>
@@ -149,11 +149,11 @@
                             </div>
                             <div id="image">
                                 {% if film.picture == null or film.picture == "" %}
-                                    <img src="/upload/img/img_not_found.png" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">
-                                    {#<img src="/web/upload/img/img_not_found.png" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">#}
+                                    {#<img src="/upload/img/img_not_found.png" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">#}
+                                    <img src="/web/upload/img/img_not_found.png" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">
                                 {% else %}
-                                    <img src="/upload/img/{{ film.picture }}" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">
-                                    {#<img src="/web/upload/img/{{ film.picture }}" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">#}
+                                    {#<img src="/upload/img/{{ film.picture }}" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">#}
+                                    <img src="/web/upload/img/{{ film.picture }}" alt="{{ film.originalTitle }}" title="{{ film.originalTitle }}">
                                 {% endif %}
                             </div>
                         </div>
@@ -214,12 +214,13 @@
                         <button type="button" class="btn btn-danger" id="btn-del">Eliminar</button>
                     </div>
                 {% endif %}
-                <div class="form-group pull-right">
+                <div class="panel-info pull-right">
                     <a class="btn btn-cancel" href="{{ path('films') }}">Cancelar</a>
                     <button class="btn btn-accept">Aceptar</button>
                 </div>
             </div>
         </form>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -228,10 +229,10 @@
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
     <script src="https://twitter.github.io/typeahead.js/releases/latest/typeahead.bundle.js"></script>
-    <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
-    {#<script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>#}
-    <script src="{{ asset('js/tagmanager/tagmanager.js') }}"></script>
-    {#<script src="/web/js/tagmanager/tagmanager.js"></script>#}
+    {#<script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>#}
+    <script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>
+    {#<script src="{{ asset('js/tagmanager/tagmanager.js') }}"></script>#}
+    <script src="/web/js/tagmanager/tagmanager.js"></script>
     <script>
         (function(){
 
@@ -247,14 +248,14 @@
                 btnSave = $('button.btn-accept');
                 inputCategory = $('input#category');
                 getDate(inputDateAdd);
-                {% if film is defined and film.categories is defined %}
-                arrCategories = [
-                    {% for c in film.hasCategories %}
-                    "{{ c.categories.name }}" {% if not loop.last %},{% endif %}
-                    {% endfor %}
-                ];
-                {% else %}
-                {% endif %}
+                {#{% if film is defined and film.categories is defined %}#}
+                {#arrCategories = [#}
+                    {#{% for c in film.hasCategories %}#}
+                    {#"{{ c.categories.name }}" {% if not loop.last %},{% endif %}#}
+                    {#{% endfor %}#}
+                {#];#}
+                {#{% else %}#}
+                {#{% endif %}#}
                 {% if film is not defined %}
                     getDate(inputLastUpdate);
                 {% endif %}
@@ -313,12 +314,12 @@
                     response(results.slice(0, 10));
                 }
             });
-            {#$('input#category').autocomplete({#}
-                {#source: function(request, response) {#}
-                    {#var results = $.ui.autocomplete.filter({{ categories|raw }}, request.term);#}
-                    {#response(results.slice(0, 16));#}
-                {#}#}
-            {#});#}
+            $('input#category').autocomplete({
+                source: function(request, response) {
+                    var results = $.ui.autocomplete.filter({{ categories|raw }}, request.term);
+                    response(results.slice(0, 16));
+                }
+            });
             $('input#format').autocomplete({
                 source: function(request, response) {
                     var results = $.ui.autocomplete.filter({{ format|raw }}, request.term);
@@ -333,51 +334,51 @@
             });
 
             // Funcionamiento sugerencias categorias base de datos JSON
-            var categories = new Bloodhound({
-                datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
-                queryTokenizer: Bloodhound.tokenizers.whitespace,
-                limit: 10,
-                prefetch: {
-                    url: '{{ path('categories_json') }}',
-                    filter: function (list) {
-                        return $.map(list, function (field) {
-                            return { name: field };
-                        });
-                    }
-                }
-            });
+//            var categories = new Bloodhound({
+                {#datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),#}
+                {#queryTokenizer: Bloodhound.tokenizers.whitespace,#}
+                {#limit: 10,#}
+                {#prefetch: {#}
+                    {#url: '{{ path('categories_json') }}',#}
+                    {#filter: function (list) {#}
+                        {#return $.map(list, function (field) {#}
+                            {#return { name: field };#}
+                        {#});#}
+                    {#}#}
+                {#}#}
+//            });
 
-            categories.initialize();
+            {#categories.initialize();#}
 
-            var tagApi = inputCategory.tagsManager({
-                {% if film is defined and film.categories is defined %}
-                prefilled:
-                        [
-                        {% for c in film.hasCategories|sort %}
-                        "{{ c.categories.name }}" {% if not loop.last %},{% endif %}
-                        {% endfor %}
-                        ]
-                        {% endif %}
-            });
-            inputCategory.typeahead(null, {
-                name: 'categories',
-                displayKey: 'name',
-                source: categories.ttAdapter()
-            }).on('typeahead:selected', function (e, d) {
-                tagApi.tagsManager("pushTag", d.name);
-            });
+            {#var tagApi = inputCategory.tagsManager({#}
+                {#{% if film is defined and film.categories is defined %}#}
+                {#prefilled:#}
+                        {#[#}
+                        {#{% for c in film.hasCategories|sort %}#}
+                        {#"{{ c.categories.name }}" {% if not loop.last %},{% endif %}#}
+                        {#{% endfor %}#}
+                        {#]#}
+                        {#{% endif %}#}
+            {#});#}
+            {#inputCategory.typeahead(null, {#}
+                {#name: 'categories',#}
+                {#displayKey: 'name',#}
+                {#source: categories.ttAdapter()#}
+            {#}).on('typeahead:selected', function (e, d) {#}
+                {#tagApi.tagsManager("pushTag", d.name);#}
+            {#});#}
 
             btnSave.on('click', function (e) {
                 e.preventDefault();
-                var arrCategories = [], inputCategories = $('input#categories');
-                arrCategories = $('.tm-tag>span');
-                for(var i = 0; i<arrCategories.length; i++){
-                    if(inputCategories.val() == ""){
-                        inputCategories.val(arrCategories[i].textContent);
-                    }else{
-                        inputCategories.val(inputCategories.val()+"/"+arrCategories[i].textContent);
-                    }
-                }
+//                var arrCategories = [], inputCategories = $('input#categories');
+//                arrCategories = $('.tm-tag>span');
+//                for(var i = 0; i<arrCategories.length; i++){
+//                    if(inputCategories.val() == ""){
+//                        inputCategories.val(arrCategories[i].textContent);
+//                    }else{
+//                        inputCategories.val(inputCategories.val()+"/"+arrCategories[i].textContent);
+//                    }
+//                }
                 $(this).parent('div').parent('div').parent('form').submit();
             });
 

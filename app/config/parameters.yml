@@ -8,5 +8,5 @@ parameters:
     mailer_transport: smtp
     mailer_host: smtp.1and1.com
     mailer_user: registro@bestmovies.es
-    mailer_password: Pozoblanco2016?!
+    mailer_password: PjaviPozo2017.
     secret: 1d573c556322209198eebecf818bd13d410192e5

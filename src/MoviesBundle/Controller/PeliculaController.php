@@ -164,37 +164,37 @@ class PeliculaController extends Controller
             $movie->setDirector(trim($request->request->get('director')));
             $movie->setCountry(trim($request->request->get('country')));
             $movie->setRating(trim($request->request->get('rating')));
+            $movie->setCategory(trim($request->request->get('category')));
             $movie->setDateUpdate(new \DateTime());
-            $arrCategories = explode("/", trim($request->request->get('categories')));
-            $this->em->getRepository("AppBundle:MovieCategory")
-                ->deleteFromMovieCategory($movie->getNum());
-
-            $a = 1;
-            foreach($arrCategories as $category){
-                $categ = $this->em->getRepository("AppBundle:Category")
-                    ->findOneBy(['name' => $category]);
-                if($categ==null){
-                    $categ = new Category();
-                    $categ->setName($category);
-                    $this->em->persist($categ);
-//                    $this->em->flush();
-                }
-                $movieCateg = $this->em->getRepository("AppBundle:MovieCategory")
-                    ->findOneBy(
-                        ['movies' => $movie->getNum(),
-                        'categories' => $categ->getId()
-                        ]
-                    );
-                if($movieCateg == null){
-                    $movieCateg = new MovieCategory();
-                }
-                $movieCateg->setCategories($categ);
-                $movieCateg->setMovies($movie);
-                $movieCateg->setSequence($a);
-                $movie->addHasCategory($movieCateg);
-                $this->em->persist($movieCateg);
-                $a++;
-            }
+//            $arrCategories = explode("/", trim($request->request->get('categories')));
+//            $this->em->getRepository("AppBundle:MovieCategory")
+//                ->deleteFromMovieCategory($movie->getNum());
+//            $a = 1;
+//            foreach($arrCategories as $category){
+//                $categ = $this->em->getRepository("AppBundle:Category")
+//                    ->findOneBy(['name' => $category]);
+//                if($categ==null){
+//                    $categ = new Category();
+//                    $categ->setName($category);
+//                    $this->em->persist($categ);
+////                    $this->em->flush();
+//                }
+//                $movieCateg = $this->em->getRepository("AppBundle:MovieCategory")
+//                    ->findOneBy(
+//                        ['movies' => $movie->getNum(),
+//                        'categories' => $categ->getId()
+//                        ]
+//                    );
+//                if($movieCateg == null){
+//                    $movieCateg = new MovieCategory();
+//                }
+//                $movieCateg->setCategories($categ);
+//                $movieCateg->setMovies($movie);
+//                $movieCateg->setSequence($a);
+//                $movie->addHasCategory($movieCateg);
+//                $this->em->persist($movieCateg);
+//                $a++;
+//            }
 
             $movie->setActors(trim($request->request->get('actors')));
             $movie->setDescription(trim($request->request->get('description')));
@@ -340,9 +340,13 @@ class PeliculaController extends Controller
                 ->getDistincValuesByField("COUNTRY")
         );
         $this->params['categories'] = json_encode(
-            $this->em->getRepository('AppBundle:Category')
-                ->findAll()
+            $this->em->getRepository("AppBundle:Movie")
+                ->getDistincValuesByField("CATEGORY")
         );
+//        $this->params['categories'] = json_encode(
+//            $this->em->getRepository('AppBundle:Category')
+//                ->findAll()
+//        );
         $this->params['format'] = json_encode(
             $this->em->getRepository("AppBundle:Movie")
                 ->getDistincValuesByField("VIDEOFORMAT")

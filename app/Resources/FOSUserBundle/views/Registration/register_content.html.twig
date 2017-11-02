@@ -14,11 +14,20 @@
 <div class="container container-login">
     <div id="form-login">
         <h2 class="title">Registro</h2>
+        {% if app.request.query.get("info") %}
+            <div class="form-group2">
+                <p class="info-error">{{ app.request.query.get("info") }}</p>
+            </div>
+        {% endif %}
     {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'),
         'attr': {
             'class': 'fos_user_registration_register form_lr'
         }}) }}
         {{ form_widget(form) }}
+        <div class="div-buttons">
+            <label class="checkbox-inline"><input required type="checkbox" name="accept-clause" value="">Al registrarse declara ser mayor de
+                edad y estar de acuerdo con <a href="{{ path('clause_acceptance') }}">nuestra Política de Privacidad</a>.</label>
+        </div>
         <div class="div-buttons">
             <a href="{{ path('fos_user_security_login') }}" class="col-md-5 btn btn-primary-reset">Cancelar</a>
             <button type="submit" class="col-md-5 btn btn-primary-search">{{ 'registration.submit'|trans }}</button>

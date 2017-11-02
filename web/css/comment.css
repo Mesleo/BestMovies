@@ -1,17 +1,38 @@
-div.container > header h2 {
-  margin: 25px 0;
-  text-align: center; }
-div.container > header > p.no-comment {
-  font-size: 1.5em;
-  margin-bottom: 60px; }
+div.container > header, #v-comment > header {
+  background-color: rgba(54, 29, 255, 0.93) !important;
+  padding: 10px 5px; }
+  div.container > header h2, #v-comment > header h2 {
+    color: #d3d7d1;
+    text-align: center; }
+  div.container > header > p.no-comment, #v-comment > header > p.no-comment {
+    font-size: 1.5em;
+    margin-bottom: 60px; }
+
+#v-comment > header {
+  display: flex;
+  flex-direction: row; }
 
 article#comments .box-comment {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  padding: 15px;
+  padding: 10px;
   border: 2.5px solid bisque;
-  border-radius: 10px;
-  background-color: rgba(203, 220, 137, 0.85);
-  box-shadow: 2px 2px 5px 3px; }
+  border-radius: 6px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(6, 6, 6, 0.36); }
+  article#comments .box-comment .div-vertical {
+    display: flex;
+    flex-direction: row; }
+    article#comments .box-comment .div-vertical .w30 > a {
+      width: 100%; }
+      article#comments .box-comment .div-vertical .w30 > a img {
+        width: 100%;
+        max-width: 220px; }
+    article#comments .box-comment .div-vertical .w70 {
+      position: relative; }
+      article#comments .box-comment .div-vertical .w70 > div {
+        margin-bottom: 50px; }
   article#comments .box-comment h3 {
     text-align: center;
     margin-bottom: 20px;
@@ -55,6 +76,29 @@ article#comments .box-comment {
       article#comments .box-comment .div-buttons button:active {
         top: 51%;
         box-shadow: 0.5px 0.5px 0px 1px #24129b; }
+
+.c-date-add {
+  color: #caaf00;
+  font-size: 1.5rem;
+  font-family: 'Inknut Antiqua', serif;
+  font-style: italic; }
+
+.div-button-edit {
+  position: absolute;
+  bottom: 5px;
+  left: 40%; }
+  .div-button-edit .btn-primary-search {
+    width: 100%;
+    background-color: #2a14b9;
+    color: #d3d7d1;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    border: none;
+    box-shadow: 1px 1px 3px 1px #abc3c1, -1px -1px 3px 1px #abc3c1, 1px -1px 3px 1px #abc3c1, -1px 1px 3px 1px #abc3c1; }
+    .div-button-edit .btn-primary-search:active {
+      border: none;
+      box-shadow: none;
+      color: white; }
 
 .box-comment {
   margin-bottom: 30px; }
@@ -105,13 +149,15 @@ div#view-comment {
 span.score {
   position: absolute;
   right: 0px;
-  padding: 6px;
+  padding: 7px 10px 5px 10px;
   top: -4px;
   font-size: 1.9rem;
+  font-family: 'Droid Serif', serif;
   font-weight: 600;
-  background-color: aqua;
+  background-color: cadetblue;
+  color: white;
   border-radius: 5px;
-  border: 1px solid; }
+  border: 1.5px outset cadetblue; }
 
 h4.title-comment {
   padding: 10px 0;
@@ -130,7 +176,7 @@ p.text-comment {
 
 div.view-comments {
   width: 100%;
-  height: 400px;
+  height: 385px;
   padding: 7px;
   overflow-y: auto; }
   div.view-comments .box-comment {
@@ -146,9 +192,12 @@ div.view-comments {
       padding: 10px 0px 0 0; }
       div.view-comments .box-comment header h3 {
         font-size: 1.5rem;
+        text-transform: capitalize;
         padding: 0 2px;
         margin: 0;
-        max-width: 90%; }
+        max-width: 90%;
+        font-weight: 600;
+        text-shadow: 2px 2px rgba(189, 189, 189, 0.89); }
       div.view-comments .box-comment header hr {
         width: 100%;
         margin: 11px 2px 5px 0;
@@ -156,32 +205,122 @@ div.view-comments {
     div.view-comments .box-comment p.date-comment {
       margin: 0;
       padding: 0;
-      font-size: 1rem; }
+      font-size: 1.2rem; }
     div.view-comments .box-comment p.comment {
       padding: 0;
-      font-size: 1.2rem; }
-    div.view-comments .box-comment p.p-button-view {
-      padding: 0;
-      margin-top: 15px; }
-      div.view-comments .box-comment p.p-button-view a {
-        padding: 4px;
-        font-size: 1.2rem; }
+      font-size: 1.4rem; }
+    div.view-comments .box-comment .view-useful {
+      display: flex;
+      flex-direction: row; }
+      div.view-comments .box-comment .view-useful .p-button-view {
+        padding: 0;
+        margin-top: 15px;
+        width: 50%; }
+        div.view-comments .box-comment .view-useful .p-button-view a {
+          padding: 5px 7px;
+          font-size: 1.2rem;
+          background: #8ce9ff;
+          color: #002020;
+          font-family: 'Taviraj', serif;
+          border: 1px outset; }
+          div.view-comments .box-comment .view-useful .p-button-view a:hover {
+            color: #002020; }
+          div.view-comments .box-comment .view-useful .p-button-view a:active {
+            background: #5ea5b9;
+            color: #002020;
+            border: 1px inset; }
+      div.view-comments .box-comment .view-useful .useful {
+        position: relative;
+        display: block;
+        padding-top: 20px;
+        width: 50%; }
+        div.view-comments .box-comment .view-useful .useful > div {
+          display: inline-block; }
+        div.view-comments .box-comment .view-useful .useful a {
+          cursor: pointer; }
+        div.view-comments .box-comment .view-useful .useful > div:first-child {
+          position: relative;
+          width: 22px;
+          height: 22px; }
+          div.view-comments .box-comment .view-useful .useful > div:first-child img {
+            position: absolute;
+            bottom: -4px;
+            left: 4px; }
+        div.view-comments .box-comment .view-useful .useful > div:nth-child(3) {
+          position: relative;
+          width: 22px;
+          height: 22px; }
+          div.view-comments .box-comment .view-useful .useful > div:nth-child(3) img {
+            position: absolute;
+            transform: rotate(175deg);
+            bottom: -9px;
+            left: 5px; }
+        div.view-comments .box-comment .view-useful .useful > div:nth-child(2), div.view-comments .box-comment .view-useful .useful > div:nth-child(4) {
+          width: 30%;
+          padding: 10px;
+          font-family: "Roboto", "Open Sans", sans-serif;
+          font-size: 1.3rem; }
   div.view-comments a {
     color: #0003b3; }
+
+.view-useful-one {
+  display: flex;
+  flex-direction: row; }
+  .view-useful-one .div-buttons {
+    padding: 0;
+    margin-top: 15px;
+    width: 50%; }
+  .view-useful-one .useful {
+    position: relative;
+    display: block;
+    padding-top: 42px;
+    width: 50%; }
+    .view-useful-one .useful > div {
+      display: inline-block; }
+    .view-useful-one .useful a {
+      cursor: pointer; }
+    .view-useful-one .useful > div:first-child {
+      position: relative;
+      width: 22px;
+      height: 22px; }
+      .view-useful-one .useful > div:first-child img {
+        position: absolute;
+        bottom: -4px;
+        left: 4px; }
+    .view-useful-one .useful > div:nth-child(3) {
+      position: relative;
+      width: 22px;
+      height: 22px; }
+      .view-useful-one .useful > div:nth-child(3) img {
+        position: absolute;
+        transform: rotate(175deg);
+        bottom: -9px;
+        left: 5px; }
+    .view-useful-one .useful > div:nth-child(2), .view-useful-one .useful > div:nth-child(4) {
+      width: 30%;
+      padding: 10px;
+      font-family: "Roboto", "Open Sans", sans-serif;
+      font-size: 1.3rem; }
+
+.panel-comments {
+  padding: 15px;
+  font-size: 1.8rem; }
 
 #form-add {
   width: 95%;
   margin: 0 auto; }
   #form-add .box-field-form {
     margin-bottom: 7px; }
-  #form-add #appbundle_comment_score input[type=radio] {
-    margin-right: 1%;
-    margin-left: 3%;
-    width: 1.3em;
-    height: 1.3em; }
-  #form-add #appbundle_comment_score label {
-    margin-bottom: 10px;
-    vertical-align: middle; }
+  #form-add #appbundle_comment_score {
+    padding: 7px; }
+    #form-add #appbundle_comment_score input[type=radio] {
+      margin-right: 1%;
+      margin-left: 3%;
+      width: 1.3em;
+      height: 1.3em; }
+    #form-add #appbundle_comment_score label {
+      margin-bottom: 10px;
+      vertical-align: middle; }
   #form-add textarea {
     max-width: 100%;
     height: 90px;
@@ -189,7 +328,7 @@ div.view-comments {
   #form-add > div.div-buttons {
     display: flex;
     flex-direction: row;
-    margin-top: 25px; }
+    margin: 25px 0; }
     #form-add > div.div-buttons > div:last-child {
       order: 1;
       width: 47%; }
@@ -239,6 +378,23 @@ div.view-comments {
         border: none;
         box-shadow: 1px 1px 1px 0px #d6341d; }
 
+.btn-primary-search-edit {
+  width: 100%;
+  margin-top: 15px;
+  background-color: #2a14b9;
+  color: #d3d7d1;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  border: none;
+  text-decoration: none;
+  box-shadow: 1px 1px 3px 1px #abc3c1, -1px -1px 3px 1px #abc3c1, 1px -1px 3px 1px #abc3c1, -1px 1px 3px 1px #abc3c1; }
+  .btn-primary-search-edit:hover {
+    color: #d3d7d1; }
+  .btn-primary-search-edit:active {
+    border: none;
+    box-shadow: none;
+    color: white; }
+
 .form-inline {
   margin-bottom: 20px; }
 
@@ -282,18 +438,48 @@ input#comment-filter {
       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
       border: 2px outset #2a14b9; }
 
+.text-center-wh {
+  text-align: center;
+  font-size: 1.7rem;
+  color: #d3d7d1; }
+
+.view-all-comments {
+  width: 100%; }
+
+.btn-all {
+  display: block;
+  width: 60%;
+  margin: 0 auto;
+  color: #d3d7d1;
+  background: rgba(54, 29, 255, 0.93);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23); }
+  .btn-all:hover, .btn-all:visited, .btn-all:link {
+    color: #d3d7d1; }
+  .btn-all:active {
+    color: #d3d7d1;
+    background: #2a14b9;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.16), 0 1px 4px rgba(0, 0, 0, 0.23); }
+
 @media screen and (min-width: 768px) {
   article#comments .box-comment {
-    width: 90%;
     margin: auto;
-    padding: 30px;
+    padding: 25px;
     margin-bottom: 30px; }
 
-  div.container header {
+  div.container > header, #v-comment > header {
+    width: 75%;
     margin: auto;
-    padding: 10px 0px; }
-    div.container header > p.no-comment {
-      margin-bottom: 210px; }
+    padding: 9px 8px; }
+  div.container .cont, #v-comment .cont {
+    width: 75%;
+    margin: 0 auto; }
+  div.container > p.no-comment, #v-comment > p.no-comment {
+    margin-bottom: 210px; }
+
+  #v-comment > header {
+    width: 75%; }
+  #v-comment img {
+    max-width: 120px; }
 
   div#view-comment {
     padding: 30px; }
@@ -301,10 +487,17 @@ input#comment-filter {
   #form-add {
     width: 85%; }
 
+  .view-useful > div, .view-useful-one > div {
+    width: 80%; }
+
   .view-plus {
     width: 40%;
     left: 30%; } }
 @media screen and (min-width: 992px) {
+  div.container > header, #v-comment > header {
+    padding: 10px 10px;
+    width: 75%; }
+
   #form-add {
     width: 75%; }
 

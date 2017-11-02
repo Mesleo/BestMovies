@@ -1,85 +1,80 @@
-<div class="div-buttons">
-    <button type="button" id="button-filtrar" class="col-md-5 btn btn-secundary-search">Filtros</button>
-    <button type="button" id="button-filtrar-hidden" class="col-md-5 btn btn-secundary-search">Ocultar</button>
-</div>
-<div class="form-group" id="filters-categories">
-    <!-- All categories -->
-    {#{% for c in categories %}#}
-        {#<span class="button-checkbox">#}
-            {#<button type="button" class="btn btn-custom-checkbox" data-color="info">{{ c.name }}</button>#}
-            {#<input type="checkbox" name="category" id="category" value="{{ c.id }}" class="hidden custom-checkbox"  />#}
-        {#</span>#}
-    {#{% endfor %}#}
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Animación</button>
-        <input type="checkbox" name="category" id="category" value="Animaci" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Aventuras</button>
-        <input type="checkbox" name="category" id="category" value="Aventuras" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Bélico</button>
-        <input type="checkbox" name="category" id="category" value="lico" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Biográfico</button>
-        <input type="checkbox" name="category" id="category" value="Biogr" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Ciencia Ficción</button>
-        <input type="checkbox" name="category" id="category" value="Ciencia Ficc" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Comedia</button>
-        <input type="checkbox" name="category" id="category" value="Comedia" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Drama</button>
-        <input type="checkbox" name="category" id="category" value="Drama" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Erótico</button>
-        <input type="checkbox" name="category" id="category" value="Erotic" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Fantasía</button>
-        <input type="checkbox" name="category" id="category" value="Fantástic" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Infantil</button>
-        <input type="checkbox" name="category" id="category" value="Infantil" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Intriga</button>
-        <input type="checkbox" name="category" id="category" value="Intriga" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Romance</button>
-        <input type="checkbox" name="category" id="category" value="Romance" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Terror</button>
-        <input type="checkbox" name="category" id="category" value="Terror" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Thriller</button>
-        <input type="checkbox" name="category" id="category" value="Thriller" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox" data-color="info">Western</button>
-        <input type="checkbox" name="category" id="category" value="Western" class="hidden custom-checkbox"  />
-    </span>
-</div>
-{% if is_granted('ROLE_ADMIN') %}
-<div class="form-group group-view">
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox check-view" data-color="info">Vistas</button>
-        <input type="checkbox" name="view" id="view" value="1" class="hidden custom-checkbox"  />
-    </span>
-    <span class="button-checkbox">
-        <button type="button" class="btn btn-custom-checkbox check-view" data-color="info">No vistas</button>
-        <input type="checkbox" name="view" id="view" value="0" class="hidden custom-checkbox"  />
-    </span>
-</div>
+{% if vfOne is defined and vfOne == false %}
+    <div class="div-buttons">
+        <button type="button" id="button-filtrar" class="col-md-5 btn btn-secundary-search">Filtros</button>
+        <button type="button" id="button-filtrar-hidden" class="col-md-5 btn btn-secundary-search">Ocultar</button>
+    </div>
+    <div class="form-group" id="filters-categories">
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Animación</button>
+            <input type="checkbox" name="category" id="category" value="Animaci" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Aventuras</button>
+            <input type="checkbox" name="category" id="category" value="Aventuras" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Bélico</button>
+            <input type="checkbox" name="category" id="category" value="lico" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Biográfico</button>
+            <input type="checkbox" name="category" id="category" value="Biogr" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Ciencia Ficción</button>
+            <input type="checkbox" name="category" id="category" value="Ciencia Ficc" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Comedia</button>
+            <input type="checkbox" name="category" id="category" value="Comedia" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Drama</button>
+            <input type="checkbox" name="category" id="category" value="Drama" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Erótico</button>
+            <input type="checkbox" name="category" id="category" value="Erotic" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Fantasía</button>
+            <input type="checkbox" name="category" id="category" value="Fantástic" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Infantil</button>
+            <input type="checkbox" name="category" id="category" value="Infantil" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Intriga</button>
+            <input type="checkbox" name="category" id="category" value="Intriga" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Romance</button>
+            <input type="checkbox" name="category" id="category" value="Romance" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Terror</button>
+            <input type="checkbox" name="category" id="category" value="Terror" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Thriller</button>
+            <input type="checkbox" name="category" id="category" value="Thriller" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox" data-color="info">Western</button>
+            <input type="checkbox" name="category" id="category" value="Western" class="hidden custom-checkbox"  />
+        </span>
+    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="form-group group-view">
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox check-view" data-color="info">Vistas</button>
+            <input type="checkbox" name="view" id="view" value="1" class="hidden custom-checkbox"  />
+        </span>
+        <span class="button-checkbox">
+            <button type="button" class="btn btn-custom-checkbox check-view" data-color="info">No vistas</button>
+            <input type="checkbox" name="view" id="view" value="0" class="hidden custom-checkbox"  />
+        </span>
+    </div>
+    {% endif %}
 {% endif %}

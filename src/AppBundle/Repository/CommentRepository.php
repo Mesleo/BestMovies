@@ -17,7 +17,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
      * @param null $limit
      * @return array
      */
-    public function getCommentsOrderByDate($searchName = null, $search = null, $order = null,
+    public function getCommentsOrderBy($searchName = null, $search = null, $order = null,
                                            $user, $limit = null){
 
         $conn = $this->getEntityManager()->getConnection();
@@ -68,6 +68,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                       DATE_FORMAT(c.dateAdd, '%d-%m-%Y %H:%i') AS fechaAdd,
                       c.score,
                       m.originaltitle,
+                      m.picturename AS picture,
                       m.num AS film
                   FROM 
                       comment AS c
@@ -98,7 +99,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
     }
 
     /**
-     * Obtiene todos los comentarios de una película
+     * Obtiene el numero total de comentarios de una película
      * @param $idFilm
      * @param null $limit
      * @return array
@@ -127,18 +128,33 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
      * @param null $limit
      * @return array
      */
-    public function getCommentsByFilm($idFilm, $limit = null){
+    public function getCommentsByFilm($idFilm, $limit = 3, $startIndex = 0, $bool){
         $conn = $this->getEntityManager()->getConnection();
 
         $query = "SELECT
                       c.id,
                       u.username AS user,
+                      u.id AS user_id,
                       c.title,
                       c.comment,
                       DATE_FORMAT(c.dateAdd, '%d-%m-%Y') AS fechaAdd,
                       c.score,
                       m.originaltitle,
-                      m.num AS film
+                      m.num AS film,
+                      (SELECT 
+                            count(*)
+                            FROM likes 
+                            WHERE 
+                            comment_id = c.id 
+                            AND like_not_like = 1) 
+                            AS likes,
+                      (SELECT 
+                            count(*)
+                            FROM likes 
+                            WHERE 
+                            comment_id = c.id 
+                            AND like_not_like = 0) 
+                            AS no_likes
                   FROM 
                       comment AS c
                   LEFT JOIN movies AS m
@@ -146,10 +162,19 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                   LEFT JOIN user AS u
                       ON c.user_id = u.id
                   WHERE
-                      c.movie_num = :film";
+                      c.movie_num = :film ";
+
+        if($bool){
+            $query .= " AND 
+                      c.comment != '' ";
+        }
+
+        $query .= " ORDER BY 
+                      c.dateadd DESC";
 
         if($limit != null) {
-            $query .= " LIMIT 0, $limit";
+            $query .= " 
+                        LIMIT $startIndex, $limit";
         }
 
         $stmt = $conn->prepare($query);
@@ -245,7 +270,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
                   LEFT JOIN movies AS m
                       ON c.movie_num = m.num
                   WHERE
-                      c.movie_num = :film ";
+                      c.movie_num = :film";
 
         $stmt = $conn->prepare($query);
         $stmt->bindValue(':film', trim($film));

@@ -304,13 +304,11 @@ class DefaultController extends Controller
             'name_filter' => $this->filter,
             'vfOne' => false
         );
-
-
         return new JsonResponse($array);
     }
 
     /**
-     * Obtengo una película por el titulo
+     * Obtengo una película por el titulo o por id
      *
      * @Route("/films/film" , name="film_view")
      * @Method({"GET"})
@@ -320,6 +318,10 @@ class DefaultController extends Controller
         if($request->query->has('m') || $request->query->has('idF')){
             $url = null;
             $movie = null;
+            $com = false;
+            if($request->query->has('com')){
+                $com = trim($request->query->get('com'));
+            }
             if($request->query->has('m')) {
                 $url = trim($request->query->get('m'));
                 $url = str_replace('%5O', ' ', $url);
@@ -357,7 +359,8 @@ class DefaultController extends Controller
                     'vfOne' => true,
                     'film' => $film,
                     'url' => trim($request->query->get('m')),
-                    'values' => $this->params['values']
+                    'values' => $this->params['values'],
+                    'com' => $com
                 ));
             }
         }

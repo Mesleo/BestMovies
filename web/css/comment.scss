@@ -1,9 +1,10 @@
 @import "variables/colors";
 
-
-div.container > header {
+div.container > header, #v-comment > header {
+  background-color: $mainColorLight3 !important;
+  padding: 10px 5px;
   h2 {
-    margin: 25px 0;
+    color: $secundaryTextColor;
     text-align: center;
   }
   >p.no-comment{
@@ -12,15 +13,42 @@ div.container > header {
   }
 }
 
+#v-comment{
+  > header {
+    display: flex;
+    flex-direction: row;
+  }
+}
 
 article#comments{
   .box-comment {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     border: 2.5px solid bisque;
-    border-radius: 10px;
-    background-color: rgba(203, 220, 137, 0.85);
-    box-shadow: 2px 2px 5px 3px;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 4px rgba(6, 6, 6, 0.36);
+    .div-vertical{
+      display: flex;
+      flex-direction: row;
+      .w30{
+        >a{
+          width: 100%;
+          img{
+            width: 100%;
+            max-width: 220px;
+          }
+        }
+      }
+      .w70{
+        position: relative;
+        >div{
+          margin-bottom: 50px;
+        }
+      }
+    }
     h3 {
       text-align: center;
       margin-bottom: 20px;
@@ -76,6 +104,36 @@ article#comments{
           box-shadow: 0.5px 0.5px 0px 1px #24129b;
         }
       }
+    }
+  }
+}
+
+.c-date-add{
+  color: $secundaryColorLight;
+  font-size: 1.5rem;
+  font-family: 'Inknut Antiqua', serif;
+  font-style: italic;
+}
+
+.div-button-edit{
+  position: absolute;
+  bottom: 5px;
+  left: 40%;
+  .btn-primary-search{
+    width: 100%;
+    background-color: $mainColorLight;
+    color: $secundaryTextColor;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    border: none ;
+    box-shadow: 1px 1px 3px 1px #abc3c1,
+    -1px -1px 3px 1px #abc3c1,
+    1px -1px 3px 1px #abc3c1,
+    -1px 1px 3px 1px #abc3c1;
+    &:active{
+      border: none ;
+      box-shadow: none;
+      color: white;
     }
   }
 }
@@ -137,13 +195,15 @@ div#view-comment{
 span.score{
   position: absolute;
   right: 0px;
-  padding: 6px;
+  padding: 7px 10px 5px 10px;
   top: -4px;
   font-size: 1.9rem;
+  font-family: 'Droid Serif', serif;
   font-weight: 600;
-  background-color: aqua;
+  background-color: cadetblue;
+  color: white;
   border-radius: 5px;
-  border: 1px solid;
+  border: 1.5px outset cadetblue;
 }
 h4.title-comment{
   padding: 10px 0;
@@ -163,7 +223,7 @@ p.text-comment{
 
 div.view-comments{
   width: 100%;
-  height: 400px;
+  height: 385px;
   padding: 7px;
   overflow-y: auto;
   .box-comment{
@@ -179,9 +239,12 @@ div.view-comments{
       padding: 10px 0px 0 0;
       h3{
         font-size: 1.5rem;
+        text-transform: capitalize;
         padding: 0 2px;
         margin: 0;
         max-width: 90%;
+        font-weight: 600;
+        text-shadow: 2px 2px rgba(189, 189, 189, 0.89);
       }
       hr{
         width: 100%;
@@ -192,24 +255,134 @@ div.view-comments{
     p.date-comment{
       margin: 0;
       padding: 0;
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
     p.comment{
       padding: 0;
-      font-size: 1.2rem;
+      font-size: 1.4rem;
     }
-    p.p-button-view{
-      padding: 0;
-      margin-top: 15px;
-      a{
-        padding: 4px;
-        font-size: 1.2rem;
+    .view-useful{
+      display: flex;
+      flex-direction: row;
+      .p-button-view{
+        padding: 0;
+        margin-top: 15px;
+        width: 50%;
+        a{
+          padding: 5px 7px;
+          font-size: 1.2rem;
+          background: #8ce9ff;
+          color: $mainTextColor;
+          font-family: 'Taviraj', serif;
+          border: 1px outset;
+          &:hover{
+            color: $mainTextColor;
+          }
+          &:active{
+            background: #5ea5b9;
+            color: $mainTextColor;
+            border: 1px inset;
+          }
+        }
+      }
+      .useful{
+        position: relative;
+        display: block;
+        padding-top: 20px;
+        width: 50%;
+        >div{
+          display: inline-block;
+        }
+        a{
+          cursor: pointer;
+        }
+        >div:first-child{
+          position: relative;
+          width: 22px;
+          height: 22px;
+          img{
+            position: absolute;
+            bottom: -4px;
+            left: 4px;
+          }
+        }
+        >div:nth-child(3){
+          position: relative;
+          width: 22px;
+          height: 22px;
+          img{
+            position: absolute;
+            transform: rotate(175deg);
+            bottom: -9px;
+            left: 5px;
+          }
+        }
+        >div:nth-child(2), >div:nth-child(4){
+          width: 30%;
+          padding: 10px;
+          font-family: "Roboto", "Open Sans", sans-serif;
+          font-size: 1.3rem;
+        }
       }
     }
   }
   a{
     color: #0003b3;
   }
+}
+
+.view-useful-one{
+  display: flex;
+  flex-direction: row;
+  .div-buttons{
+    padding: 0;
+    margin-top: 15px;
+    width: 50%;
+  }
+  .useful{
+    position: relative;
+    display: block;
+    padding-top: 42px;
+    width: 50%;
+    >div{
+      display: inline-block;
+    }
+    a{
+      cursor: pointer;
+    }
+    >div:first-child{
+      position: relative;
+      width: 22px;
+      height: 22px;
+      img{
+        position: absolute;
+        bottom: -4px;
+        left: 4px;
+      }
+    }
+    >div:nth-child(3){
+      position: relative;
+      width: 22px;
+      height: 22px;
+      img{
+        position: absolute;
+        transform: rotate(175deg);
+        bottom: -9px;
+        left: 5px;
+      }
+    }
+    >div:nth-child(2), >div:nth-child(4){
+      width: 30%;
+      padding: 10px;
+      font-family: "Roboto", "Open Sans", sans-serif;
+      font-size: 1.3rem;
+    }
+  }
+}
+
+.panel-comments{
+  padding: 15px;
+  font-size: 1.8rem;
 }
 
 #form-add{
@@ -219,6 +392,7 @@ div.view-comments{
     margin-bottom: 7px;
   }
   #appbundle_comment_score{
+    padding: 7px;
     input[type=radio]{
       margin-right: 1%;
       margin-left: 3%;
@@ -238,7 +412,7 @@ div.view-comments{
   >div.div-buttons {
     display: flex;
     flex-direction: row;
-    margin-top: 25px;
+    margin: 25px 0;
     >div:last-child{
       order: 1;
       width: 47%;
@@ -250,9 +424,9 @@ div.view-comments{
         letter-spacing: 1.5px;
         border: none ;
         box-shadow: 1px 1px 3px 1px #abc3c1,
-                    -1px -1px 3px 1px #abc3c1,
-                    1px -1px 3px 1px #abc3c1,
-                    -1px 1px 3px 1px #abc3c1;
+        -1px -1px 3px 1px #abc3c1,
+        1px -1px 3px 1px #abc3c1,
+        -1px 1px 3px 1px #abc3c1;
         &:active{
           border: none ;
           box-shadow: none;
@@ -302,6 +476,29 @@ div.view-comments{
         box-shadow: 1px 1px 1px 0px #d6341d;
       }
     }
+  }
+}
+
+.btn-primary-search-edit{
+  width: 100%;
+  margin-top: 15px;
+  background-color: $mainColorLight;
+  color: $secundaryTextColor;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  border: none ;
+  text-decoration: none;
+  box-shadow: 1px 1px 3px 1px #abc3c1,
+  -1px -1px 3px 1px #abc3c1,
+  1px -1px 3px 1px #abc3c1,
+  -1px 1px 3px 1px #abc3c1;
+  &:hover{
+    color:$secundaryTextColor;
+  }
+  &:active{
+    border: none ;
+    box-shadow: none;
+    color: white;
   }
 }
 
@@ -357,19 +554,60 @@ input#comment-filter{
   }
 }
 
+.text-center-wh{
+  text-align: center;
+  font-size: 1.7rem;
+  color: $secundaryTextColor;
+}
+
+.view-all-comments{
+  width: 100%;
+}
+
+.btn-all{
+  display: block;
+  width: 60%;
+  margin: 0 auto;
+  color: $secundaryTextColor;
+  background: $mainColorLight3;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  &:hover, &:visited, &:link{
+    color: $secundaryTextColor;
+  }
+  &:active{
+    color: $secundaryTextColor;
+    background: $mainColorLight;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.23);
+  }
+}
+
 @media screen and (min-width: 768px){
 
   article#comments .box-comment{
-    width: 90%;
     margin: auto;
-    padding: 30px;
+    padding: 25px;
     margin-bottom: 30px;
   }
-  div.container header{
-    margin: auto;
-    padding: 10px 0px;
+  div.container, #v-comment {
+    >header{
+      width: 75%;
+      margin: auto;
+      padding: 9px 8px;
+    }
+    .cont{
+      width: 75%;
+      margin: 0 auto;
+    }
     >p.no-comment{
       margin-bottom: 210px;
+    }
+  }
+  #v-comment{
+    > header {
+      width: 75%;
+    }
+    img{
+      max-width: 120px;
     }
   }
   div#view-comment{
@@ -380,14 +618,25 @@ input#comment-filter{
     width: 85%;
   }
 
+  .view-useful, .view-useful-one{
+    >div{
+      width: 80%;
+    }
+  }
+
   .view-plus{
     width: 40%;
     left: 30%;
   }
-
 }
 
 @media screen and (min-width: 992px){
+  div.container, #v-comment {
+    > header {
+      padding: 10px 10px;
+      width: 75%;
+    }
+  }
   #form-add {
     width: 75%;
   }

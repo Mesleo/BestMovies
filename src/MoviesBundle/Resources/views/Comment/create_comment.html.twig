@@ -2,10 +2,10 @@
 {% extends 'MoviesBundle:Base:base.html.twig' %}
 
 {% block stylesheets %}
-    {#<link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />#}
-    <link rel="stylesheet" href="/web/bower_components/sweetalert/dist/sweetalert.css" />
-    {#<link rel="stylesheet" href="{{ asset('css/comment.css') }}" />#}
-    <link rel="stylesheet" href="/web/css/comment.css" />
+    <link rel="stylesheet" href="/bower_components/sweetalert/dist/sweetalert.css" />
+    {#<link rel="stylesheet" href="/web/bower_components/sweetalert/dist/sweetalert.css" />#}
+    <link rel="stylesheet" href="{{ asset('css/comment.css') }}" />
+    {#<link rel="stylesheet" href="/web/css/comment.css" />#}
 {% endblock %}
 
 {% block body %}
@@ -65,8 +65,8 @@
     {% endif %}
 {% endblock %}
 {% block javascripts %}
-    {#<script src="{{ asset('bower_components/sweetalert/dist/sweetalert.min.js') }}"></script>#}
-    <script src="/web/bower_components/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="{{ asset('bower_components/sweetalert/dist/sweetalert.min.js') }}"></script>
+    {#<script src="/web/bower_components/sweetalert/dist/sweetalert.min.js"></script>#}
     <script>
         (function(){
             {% if comment is defined and comment.id != null %}

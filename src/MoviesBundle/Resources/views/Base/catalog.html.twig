@@ -10,77 +10,78 @@
         {% for movie in pagination %}
             <li class="movie col-xs-12 col-sm-6 col-md-4">
                 <div class="panel-movie" >
-                    <div class="title-rating">
-                        {#{% set punt = movie.rating|replace({".": ""}) %}#}
-                        {#{% set rest = 100 - punt %}#}
-                        <span class="score-stars">
+                    <div class="header-film">
+                        <div class="title-rating">
+                            {#{% set punt = movie.rating|replace({".": ""}) %}#}
+                            {#{% set rest = 100 - punt %}#}
+                            <span class="score-stars">
                             {% if movie.rating < 1.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_1.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_1.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_1.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_1.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 1.5 and movie.rating < 2 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_1.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_1.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_1.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_1.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 2 and movie.rating < 2.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_2.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_2.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 2.5 and movie.rating < 3 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 3 and movie.rating < 3.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_3.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_3.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_3.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_3.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 3.5 and movie.rating < 4 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 4 and movie.rating < 4.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_4.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_4.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_4.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_4.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 4.5 and movie.rating < 5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_4.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_4.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 5 and movie.rating < 5.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
-
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 5.5 and movie.rating < 6 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_5.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_5.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_5.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_5.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 6 and movie.rating < 6.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_6.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_6.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_6.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_6.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 6.5 and movie.rating < 7 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_6.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_6.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_6.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_6.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 7 and movie.rating < 7.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_7.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_7.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_7.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_7.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 7.5 and movie.rating < 8 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_7.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_7.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_7.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_7.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 8 and movie.rating < 8.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_8.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_8.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_8.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_8.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 8.5 and movie.rating < 9 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_8.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_8.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_8.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_8.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 9 and movie.rating < 9.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_9.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_9.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_9.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_9.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 9.5 and movie.rating < 10 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_9.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_9.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_9.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_9.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% elseif movie.rating >= 9.5 %}
-                                <img src="{{ asset('upload/icons/stars_stuffed_10.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
-                                {#<img src="/web/upload/icons/stars_stuffed_10.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_10.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_10.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
                             {% endif %}
                         </span>
-                        <h3>{{ movie.originalTitle }}</h3><span class="rating">{{ movie.rating }}</span>
-                        {#<span class="punt" style="background: linear-gradient(to top, #CAAF00 {{ punt }}%, #fffffa 0%, #fffffa {{ rest }}%)"></span>#}
-                    </div>
-                    <div class="title-saga">
-                    {% if movie.saga != null %}
-                        <h4><b>Saga: </b>{{ movie.saga }}</h4>
-                    {% endif %}
+                            <h3>{{ movie.originalTitle }}</h3><span class="rating">{{ movie.rating }}</span>
+                            {#<span class="punt" style="background: linear-gradient(to top, #CAAF00 {{ punt }}%, #fffffa 0%, #fffffa {{ rest }}%)"></span>#}
+                        </div>
+                        <div class="title-saga">
+                        {% if movie.saga != null %}
+                            <h4><b>Saga: </b>{{ movie.saga }}</h4>
+                        {% endif %}
+                        </div>
                     </div>
                     <ul class="nav nav-tabs nav-film">
                         <li role="presentation" class="a-desc active" data-id="{{ movie.num }}">
@@ -96,44 +97,53 @@
                     <div class="description" data-id="{{ movie.num }}">
                         <p class="image">
                             {#<img class="img-film" src="/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">#}
-                            <img class="img-film" src="web/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">
+                            <img class="img-film" src="/web/upload/img/{{ movie.picture }}" alt="{{ movie.originalTitle }}">
                         </p>
-                        <p><b>Director: </b> {{ movie.director }}</p>
-                        <p class="actors"><b>Actores: </b> {{ movie.actors }}</p>
-                        <div class="year-length">
-                            <span><b>Año: </b> {{ movie.year }}</span><span><b>Duración: </b>{{ movie.length }} min</span>
-                        </div>
-                        <p><b>Género: </b>
-                            {% if movie.categories is defined and movie.categories|length > 1 %}
-                                {% for c in movie.categories %}
-                                    {{ c }}{% if not loop.last %}, {% endif %}
-                                {% endfor %}
+                        <div class="description-hidden">
+                            {% if movie.description is defined and movie.description != null %}
+                                <h4>Sinopsis</h4>
+                                <p class="sipnosis">
+                                    {{ movie.description }}
+                                </p>
                             {% else %}
-                                {{ movie.category }}
+                                <h4>No hay sinopsis para esta película.</h4>
                             {% endif %}
-                        </p>
-                        <p class="country-ubication">
-                            <span><b>País: </b> {{ movie.country }}</span>
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <span><b>Ubicación: </b> {{ movie.media }}</span>
-                        {% endif %}
-                        </p>
-                        <div class="buttons-share">
-                            <div class="button-share">
-                                <a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.hol.es/films/film?idF={{ movie.num }}"
-                                   class="share-facebook" >
-                                    <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="button-share">
-                                <a href="javascript:void(0);" data-id="{{ movie.num }}" data-film="{{ movie.originalTitle|replace({' ':'','-':'','+':'Mas',':':''}) }}"
-                                   class="share-twitter" >
-                                    <i class="fa fa-twitter-square fa-2x"></i>
-                                </a>
+                            {#<p><b>Director: </b> {{ movie.director }}</p>#}
+                            {#<p class="actors"><b>Actores: </b> {{ movie.actors }}</p>#}
+                            {#<div class="year-length">#}
+                                {#<span><b>Año: </b> {{ movie.year }}</span><span><b>Duración: </b>{{ movie.length }} min</span>#}
+                            {#</div>#}
+                            <p><b>Género: </b>
+                                {% if movie.categories is defined and movie.categories|length > 1 %}
+                                    {% for c in movie.categories %}
+                                        {{ c }}{% if not loop.last %}, {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    {{ movie.category }}
+                                {% endif %}
+                            </p>
+                            <div class="buttons-share">
+                                <div class="button-share">
+                                    <a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.es/films/film?idF={{ movie.num }}"
+                                       class="share-facebook" >
+                                        <img src="{{ asset('upload/icons/ico-facebook.png') }}" alt="Compartir en Facebook" title="Compartir en Facebook">
+                                        {#<img src="/web/upload/icons/ico-facebook.png" alt="Compartir en Facebook" title="Compartir en Facebook">#}
+                                    </a>
+                                </div>
+                                <div class="button-share">
+                                    <a href="javascript:void(0);" data-id="{{ movie.num }}" data-film="{{ movie.originalTitle|replace({' ':'','-':'','+':'Mas',':':''}) }}"
+                                       class="share-twitter" >
+                                        <img src="{{ asset('upload/icons/ico-twitter.png') }}" alt="Compartir en Twitter" title="Compartir en Twitter">
+                                        {#<img src="/web/upload/icons/ico-twitter.png" alt="Compartir en Twitter" title="Compartir en Twitter">#}
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="trailers" data-id="{{ movie.num }}">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
+                        {% endif %}
                         {% if movie.urlVideo is defined and movie.urlVideo != null %}
                             <div class="show-trailer">
                                 <button type="button" class="btn btn-info btn-url-video" data-url="{{ movie.urlVideo }}">Ver tráiler</button>
@@ -141,39 +151,42 @@
                         {% else %}
                             <h4>No hay ningún vídeo para mostrar.</h4>
                         {% endif %}
-                        {% if movie.description is defined and movie.description != null %}
-                            <h4>Sinopsis</h4>
-                            <p class="sipnosis">
-                                {{ movie.description }}
-                            </p>
-                        {% else %}
-                            <h4>No hay sinopsis para esta película.</h4>
-                        {% endif %}
-                        {% if movie.visto is defined %}
-                            {% if movie.visto == 1 %}
-                                {% set che = 'checked' %}
-                            {% else %}
-                                {% set che = '' %}
-                            {% endif %}
-                            <p class="format-view" id="p_{{ movie.num }}">
-                                <span><b>Formato: </b> {{ movie.videoFormat }}</span>
-                                {% if is_granted('ROLE_ADMIN') %}
-                                <span class="view"><b>Vista: </b></span>
-                                {% endif %}
-                            </p>
+                        <p><b>Director: </b> {{ movie.director }}</p>
+                        <div class="year-length">
+                            <span><b>Año: </b> {{ movie.year }}</span><span><b>Duración: </b>{{ movie.length }} min</span>
+                        </div>
+                        <p class="actors"><b>Actores: </b> {{ movie.actors }}</p>
+                        <p class="country-ubication">
+                            <span><b>País: </b> {{ movie.country }}</span>
                             {% if is_granted('ROLE_ADMIN') %}
-                                <input class="inline" type="checkbox" data-film="{{ movie.num }}" name="checkbox-view" {{ che }}>
+                                <span><b>Ubicación: </b> {{ movie.media }}</span>
                             {% endif %}
-                            <p class="hidden view_{{ movie.num }}"></p>
-                        {% endif %}
-                        {#{% if movie.miNota is defined and movie.miNota != null %}#}
-                            {#<p class="my-punt_{{ movie.num }}"><b>Nota media usuarios: </b><span class="rating">{{ movie.miNota|replace({'.0':''}) }}</span> </p>#}
-                        {#{% endif %}#}
-                        <p id="punt_{{ movie.num }}"></p>
-                        <p><b>Tamaño: </b>{{ movie.fileSize }} GB</p>
+                        </p>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
+                            {% if movie.visto is defined %}
+                                {% if movie.visto == 1 %}
+                                    {% set che = 'checked' %}
+                                {% else %}
+                                    {% set che = '' %}
+                                {% endif %}
+                                <p class="format-view" id="p_{{ movie.num }}">
+                                    <span><b>Formato: </b> {{ movie.videoFormat }}</span>
+                                    <span class="view"><b>Vista: </b></span>
+                                </p>
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <input class="inline" type="checkbox" data-film="{{ movie.num }}" name="checkbox-view" {{ che }}>
+                                {% endif %}
+                                <p class="hidden view_{{ movie.num }}"></p>
+                            {% endif %}
+                            {#{% if movie.miNota is defined and movie.miNota != null %}#}
+                                {#<p class="my-punt_{{ movie.num }}"><b>Nota media usuarios: </b><span class="rating">{{ movie.miNota|replace({'.0':''}) }}</span> </p>#}
+                            {#{% endif %}#}
+                            <p><b>Tamaño: </b>{{ movie.fileSize }} GB</p>
+                            {#{% if is_granted('ROLE_ADMIN') %}#}
+                                {#<p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>#}
+                            {#{% endif %}#}
                         {% endif %}
+                            <p id="punt_{{ movie.num }}"></p>
                     </div>
                     <div class="plus" data-id="{{ movie.num }}">
                         <div class="view-comments"></div>
@@ -196,8 +209,69 @@
                 {% set rest = 100 - punt %}
                 <h3>{{ movie.originalTitle }}</h3>
                 <div class="punt-rating">
-                    <span class="punt"></span>
+                    {#{% set punt = movie.rating|replace({".": ""}) %}#}
+                    {#{% set rest = 100 - punt %}#}
                     <span class="rating">{{ movie.rating|replace({'.0':''}) }}</span>
+                    <span class="score-stars-vertical">
+                            {% if movie.rating < 1.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_1.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_1.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 1.5 and movie.rating < 2 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_1.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_1.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 2 and movie.rating < 2.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 2.5 and movie.rating < 3 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 3 and movie.rating < 3.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_3.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_3.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 3.5 and movie.rating < 4 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 4 and movie.rating < 4.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_4.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_4.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 4.5 and movie.rating < 5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_4.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 5 and movie.rating < 5.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 5.5 and movie.rating < 6 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_5.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_5.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 6 and movie.rating < 6.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_6.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_6.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 6.5 and movie.rating < 7 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_6.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_6.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 7 and movie.rating < 7.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_7.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_7.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 7.5 and movie.rating < 8 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_7.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_7.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 8 and movie.rating < 8.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_8.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_8.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 8.5 and movie.rating < 9 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_8.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_8.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 9 and movie.rating < 9.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_9.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_9.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 9.5 and movie.rating < 10 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_9.5.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_9.5.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% elseif movie.rating >= 9.5 %}
+                                {#<img src="{{ asset('upload/icons/stars_stuffed_10.png') }}" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">#}
+                                <img src="/web/upload/icons/stars_stuffed_10.png" alt="La puntuación media de esta película es {{ movie.rating }}" title="La puntuación media de esta película es {{ movie.rating }}">
+                            {% endif %}
+                        </span>
                 </div>
             </div>
             {% if movie.saga != null %}
@@ -214,11 +288,11 @@
                         <a href="javascript:void(0);" data-id="{{ movie.num }}">Más...</a>
                     </li>
                 {% endif %}
-                <li role="presentation" class="a-plus" data-id="{{ movie.num }}">
+                <li role="presentation" class="a-plus2" data-id="{{ movie.num }}">
                     <a href="javascript:void(0);" data-id="{{ movie.num }}">Comentarios</a>
                 </li>
             </ul>
-            <div class="description" data-id="{{ movie.num }}">
+            <div class="description description-one" data-id="{{ movie.num }}">
                 <div class="img-video" data-id="{{ movie.num }}">
                     <div class="image">
                         {% if movie.urlVideo is defined and movie.urlVideo != null %}
@@ -255,14 +329,14 @@
                                     {{ c }}{% if not loop.last %}, {% endif %}
                                 {% endfor %}
                             {% else %}
-                                {#{{ movie.category }}#}
+                                {{ movie.category }}
                             {% endif %}</span>
                     </div>
                     <h5>Actores</h5>
                     <p class="actors">{{ movie.actors }}</p>
                     {% if movie.description is defined and movie.description != null %}
                         <h5>Sinopsis</h5>
-                        <p class="sipnosis">
+                        <p class="sipnosis-one">
                             {{ movie.description }}
                         </p>
                     {% else %}
@@ -270,7 +344,7 @@
                     {% endif %}
                     <div class="buttons-share">
                         <div class="button-share">
-                            <a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.hol.es/films/film?idF={{ movie.num }}"
+                            <a href="http://www.facebook.com/sharer.php?s=100&u=https://bestmovies.es/films/film?idF={{ movie.num }}"
                                class="share-facebook" >
                                 <i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>
                             </a>
@@ -287,6 +361,12 @@
             </div>
             {% if is_granted('ROLE_ADMIN') %}
                 <div class="trailers" data-id="{{ movie.num }}">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="field-film">
+                            <span><b>Ubicación: </b> {{ movie.media }}</span>
+                        </div>
+                        <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
+                    {% endif %}
                     {% if movie.visto is defined %}
                         {% if movie.visto == 1 %}
                             {% set che = 'checked' %}
@@ -304,20 +384,15 @@
                     {% endif %}
                     <p id="punt_{{ movie.num }}"></p>
                     <div class="field-film"><b>Tamaño: </b>{{ movie.fileSize }} GB</div>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <div class="field-film">
-                            <span><b>Ubicación: </b> {{ movie.media }}</span>
-                        </div>
-                        <p class="p-button-edit"><a class="btn btn-default" href="{{ path('show_edit_film', {'id_film':movie.num }) }}">Editar</a></p>
-                    {% endif %}
                 </div>
             {% endif %}
-            <div class="plus" data-id="{{ movie.num }}">
+            <div class="plus plus-one" data-id="{{ movie.num }}">
                 <div class="view-comments"></div>
+                <div class="pagination-comments"></div>
                 {% if app.user %}
-                    <form action="{{ path('comment_add') }}" id="punt-film" method="post">
+                    <form action="{{ path('comment_add') }}" method="post">
                         <input type="text" class="hidden" value="{{ movie.num }}" name="film" id="film">
-                        <p class="p-button-edit"><button type="submit" class="btn btn-default">Puntuar</button></p>
+                        <p class="p-button-edit-one"><button type="submit" class="btn btn-default">Puntuar</button></p>
                     </form>
                 {% endif %}
             </div>

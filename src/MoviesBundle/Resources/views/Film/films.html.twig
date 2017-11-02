@@ -43,8 +43,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{{ asset('node_modules/sweetalert/dist/sweetalert.min.js') }}"></script>
     {#<script src="/web/node_modules/sweetalert/dist/sweetalert.min.js"></script>#}
-    <script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.min.js') }}"></script>
-    {#<script src="/web/node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"></script>#}
+    <script src="{{ asset('node_modules/bootstrap-slider/dist/bootstrap-slider.js') }}"></script>
+    {#<script src="/web/node_modules/bootstrap-slider/dist/bootstrap-slider.js"></script>#}
     <script src="{{ asset('js/jquery.sweet-modal.min.js') }}"></script>
     {#<script src="/web/js/jquery.sweet-modal.min.js"></script>#}
     <script src="{{ asset('js/bootstrap-switch.min.js') }}"></script>
@@ -55,16 +55,16 @@
     {#<script src="/web/js/filter_range.js"></script>#}
     <script>
         (function(){
-            var response = "", paginationFilms, pNumFilms, bNumFilms, idFilm, arrView, arrCategories, limit = 1, lastScrollTop = 0,
-                    coorY = "", crossClose;
+            var response = "", pNumFilms, bNumFilms, idFilm, arrView, arrCategories, limit = 1, lastScrollTop = 0,
+                    coorY = "", crossClose, com;
             const offset = 40;
 
             function initVars(){
                 bNumFilms = $('#num_films');
                 pNumFilms = $('#p-num-films');
-                paginationFilms = $('.pagination-films');
                 idFilm = "";
                 crossClose = $('div.close-cross');
+                com = true;
             }
 
             var normalize = (function() {
@@ -135,8 +135,8 @@
                     }
                 }).autocomplete("instance")._renderItem = function (ul, item) {
                     return $("<li>")
-//                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/upload/img/" + item.icon + "' />" + item.label + "</div>")
-                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/web/upload/img/" + item.icon + "' />" + item.label + "</div>")
+                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/upload/img/" + item.icon + "' />" + item.label + "</div>")
+//                            .append("<div id='film_"+item.id+"' class='suggestion'><img src='/web/upload/img/" + item.icon + "' />" + item.label + "</div>")
                             .appendTo(ul);
                 };
             });
@@ -189,10 +189,10 @@
                 $("[name='checkbox-view']").bootstrapSwitch({
                     'onColor': 'default',
                     'offColor': 'danger',
-//                    'onText': '<img class="img-ico" src="/upload/icons/tick_true.png" alt="Vista">',
-                    'onText': '<img class="img-ico" src="/web/upload/icons/tick_true.png" alt="Vista">',
-//                    'offText': '<img class="img-ico" src="/upload/icons/icon_red.png" alt="Vista">',
-                    'offText': '<img class="img-ico" src="/web/upload/icons/icon_red.png" alt="Vista">',
+                    'onText': '<img class="img-ico" src="/upload/icons/tick_true.png" alt="Vista">',
+//                    'onText': '<img class="img-ico" src="/web/upload/icons/tick_true.png" alt="Vista">',
+                    'offText': '<img class="img-ico" src="/upload/icons/icon_red.png" alt="Vista">',
+//                    'offText': '<img class="img-ico" src="/web/upload/icons/icon_red.png" alt="Vista">',
                     'onSwitchChange': function(){
                         var idFilm = $(this).attr('data-film');
                         var che = $(this).is(':checked');
@@ -240,9 +240,7 @@
             }
 
             {% if num_films is defined and page == 0 %}
-
                 $('#myModal').modal();
-
                 setTimeout(function() {
                     $('#myModal').modal('hide');
                 }, 3000);
@@ -253,19 +251,74 @@
                     {% set vfOne = false %}
                     response = '<ul id="list-movies"  class="row">';
                     for (var i = 0; i < data['movies'].length; i++) {
-                        var movie = data['movies'][i]['originalTitle'];
-                        var punt = data['movies'][i]['rating'].replace(".", "");
-                        var rest = 100 - punt;
-                        response += '<li class="movie col-xs-12 col-sm-6 col-md-4"><div class="panel-movie" ><div class="title-rating">' +
-                                '<h3>' + data['movies'][i]["originalTitle"] + '</h3><span class="rating">' + data['movies'][i]["rating"] +
-                                '</span><span class="punt" style="background: linear-gradient(to top, #CAAF00 ' + punt + '%,' +
-                                '#fffffa 0%, #fffffa ' + rest + '%)"></span>' +
+                        var movie = data['movies'][i]['originalTitle'], imageStars = "";
+                            if(data['movies'][i]['rating'] < 1.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_1.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_1.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 1.5 && data['movies'][i]['rating'] < 2){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_1.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_1.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 2.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_2.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_2.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 2.5 && data['movies'][i]['rating'] < 3){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_2.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_2.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 3.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_3.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_3.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 3.5 && data['movies'][i]['rating'] < 4){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_3.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_3.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 4.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_4.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_4.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 4.5 && data['movies'][i]['rating'] < 5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_4.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 5.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 5.5 && data['movies'][i]['rating'] < 6){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_1.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_5.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 6.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_6.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_6.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 6.5 && data['movies'][i]['rating'] < 7){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_6.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_6.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 7.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_7.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_7.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 7.5 && data['movies'][i]['rating'] < 8){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_7.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_7.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 8.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_8.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_8.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 8.5 && data['movies'][i]['rating'] < 9){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_8.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] < 9.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_9.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_9.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 9.5 && data['movies'][i]['rating'] < 10){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_9.5.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_4.5.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }else if(data['movies'][i]['rating'] >= 9.5){
+                                {#imageStars = '<img src="{{ asset('upload/icons/stars_stuffed_10.png') }}" alt="La puntuación media de esta película es "'+data['movies'][i]['rating']+'" title="La puntuación media de esta película es "'+data['movies'][i]['rating']+'">';#}
+                                imageStars = '<img src="/web/upload/icons/stars_stuffed_10.png" alt="La puntuación media de esta película es '+data['movies'][i]['rating']+'" title="La puntuación media de esta película es '+data['movies'][i]['rating']+'" >';
+                            }
+                        response += '<li class="movie col-xs-12 col-sm-6 col-md-4"><div class="panel-movie" ><div class="header-film"><div class="title-rating">' +
+                                '<span class="score-stars">'+imageStars+'</span>'+
+                                '<h3>' + data['movies'][i]["originalTitle"] + '</h3><span class="rating">' + data['movies'][i]["rating"] + '</span>' +
                                 '</div>';
                         response += '<div class="title-saga">';
                         if (data['movies'][i]['saga'] != "") {
                             response += '<h4><b>Saga : </b>' + data['movies'][i]['saga'] + '</h4>';
                         }
-                        response += '</div>';
+                        response += '</div></div>';
                         response += '<ul class="nav nav-tabs nav-film">' +
                                 '<li role="presentation" class="a-desc active" data-id="' + data['movies'][i]['num'] + '">' +
                                 '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '">Descripción</a>' +
@@ -279,21 +332,22 @@
                                 '</ul>' +
                                 '<div class="description" data-id="' + data['movies'][i]['num'] + '">' +
                                 '<p class="image"><img class="img-film" ' +
-//                                'src="/upload/img/' + data['movies'][i]["picture"] + '" alt="' + data['movies'][i]["originalTitle"] + '"></p>' +
-                            'src="/web/upload/img/'+data['movies'][i]["picture"]+'" alt="'+data['movies'][i]["originalTitle"]+'"></p>' +
-                                '<p><b>Director:</b>' + data['movies'][i]["director"] + '</p><p class="actors"><b>Actores: </b>' + data['movies'][i]["actors"] + '</p>' +
-                                '<div class="year-length"><span><b>Año: </b>' + data['movies'][i]["year"] + '</span><span><b>Duración: ' +
-                                '</b>' + data['movies'][i]["length"] + ' min</span></div><p><b>Género: </b>' + data['movies'][i]["category"] + '</p>' +
-                                '<p class="country-ubication"><span><b>País: </b> ' + data['movies'][i]["country"] + ' </span>';
-                        {% if is_granted('ROLE_ADMIN') %}
-                        response += '<span><b> Ubicación: </b>' + data['movies'][i]["media"] + '</span>';
-                        {% endif %}
-                        response += '</p>';
+                                'src="/upload/img/' + data['movies'][i]["picture"] + '" alt="' + data['movies'][i]["originalTitle"] + '"></p>' +
+//                            'src="/web/upload/img/'+data['movies'][i]["picture"]+'" alt="'+data['movies'][i]["originalTitle"]+'"></p>' +
+                                '<div class="description-hidden">';
+                        if(data['movies'][i]["description"] != null && data['movies'][i]["originalTitle"] != ""){
+                            response += '<h4>Sinopsis</h4>'+
+                                        '<p class="sipnosis">'+data['movies'][i]["description"]+'</p>';
+                        }else{
+                            response += '<h4>No hay sinopsis para esta película.</h4>';
+                        }
+                        response += '<p><b>Género: </b>' + data['movies'][i]["category"] + '</p>';
                         response += '<div class="buttons-share">' +
                                 '<div class="button-share">' +
-                                '<a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.hol.es/films/film?idF=' + data['movies'][i]['num'] + '"' +
+                                '<a href="http://www.facebook.com/sharer.php?s=100&u=http://bestmovies.es/films/film?idF=' + data['movies'][i]['num'] + '"' +
                                 'class="share-facebook" >' +
-                                '<i class="fa fa-facebook-official fa-2x" aria-hidden="true"></i>' +
+                                '<img src="{{ asset('upload/icons/ico-facebook.png') }}" alt="Compartir en Facebook" title="Compartir en Facebook">'+
+//                                '<img src="/web/upload/icons/ico-facebook.png" alt="Compartir en Facebook" title="Compartir en Facebook">'+
                                 '</a>' +
                                 '</div>' +
                                 '<div class="button-share">';
@@ -307,8 +361,10 @@
                         movie = movie.replace(':', '');
                         response += '<a href="javascript:void(0);" data-id="' + data['movies'][i]['num'] + '" data-film="' + movie + '"' +
                                 'class="share-twitter" >' +
-                                '<i class="fa fa-twitter-square fa-2x"></i>' +
+                                '<img src="{{ asset('upload/icons/ico-twitter.png') }}" alt="Compartir en Twitter" title="Compartir en Twitter">'+
+//                                '<img src="/web/upload/icons/ico-twitter.png" alt="Compartir en Twitter" title="Compartir en Twitter">'+
                                 '</a>' +
+                                '</div>' +
                                 '</div>' +
                                 '</div>' +
                                 '</div>' +
@@ -319,12 +375,16 @@
                         } else {
                             response += '<h4>No hay ningún vídeo para mostrar.</h4>';
                         }
-
-                        if (data['movies'][i]['description'] != "") {
-                            response += '<h4>Sinopsis</h4><p class="sipnosis">' + data['movies'][i]['description'] + '</p>';
-                        } else {
-                            response += '<h4>No hay sinopsis para esta película.</h4>';
-                        }
+                        response +='<p><b>Director:</b>' + data['movies'][i]["director"] + '</p>' +
+                                '<div class="year-length"><span><b>Año: </b>' + data['movies'][i]["year"] + '</span><span><b>Duración: ' +
+                                '</b>' + data['movies'][i]["length"] + ' min</span></div>'+
+                                '<p class="actors"><b>Actores: </b>' + data['movies'][i]["actors"] + '</p>' +
+                                '<p class="country-ubication"><span><b>País: </b> ' + data['movies'][i]["country"] + ' </span>';
+                        {% if is_granted('ROLE_ADMIN') %}
+                        response += '<span><b> Ubicación: </b>' + data['movies'][i]["media"] + '</span>';
+                        {% endif %}
+                        response += '</p>';
+                        {% if is_granted('ROLE_ADMIN') %}
                         if (data['movies'][i]['visto']) {
                             if (data['movies'][i]['visto'] == 1) {
                                 che = "checked";
@@ -333,26 +393,22 @@
                             }
                             response += '<p class="format-view" id="' + data['movies'][i]['num'] + '">' +
                                     '<span><b>Formato: </b>' + data['movies'][i]['videoFormat'] + '</span>';
-                            {% if is_granted('ROLE_ADMIN') %}
                             response += '<span class="view"><b>Vista: </b></span>';
-                            {% endif %}
                             response += '</p>';
-                            {% if is_granted('ROLE_ADMIN') %}
                             response += '<input class="inline view_' + data['movies'][i]['num'] + '" type="checkbox" ' +
                                     'data-film="' + data['movies'][i]['num'] + '" name="checkbox-view" ' + che + '>';
-                            {% endif %}
                             response += '<p class="hidden view_' + data['movies'][i]['num'] + '" ></p>';
                         }
                         response += '<p id="punt_' + data['movies'][i]['num'] + '"></p>' +
                                 '<p><b>Tamaño: </b>' + data['movies'][i]['fileSize'] + ' GB</p>';
-                        {% if is_granted('ROLE_ADMIN') %}
                         var value = data['movies'][i]['num'];
                         var url = "{{ path('show_edit_film', {'id_film': 'wid'}) }}";
                         url = url.replace("wid", value);
                         response += '<p class="p-button-edit"><a class="btn btn-default" href="' + url + '">Editar</a></p>';
                         {% endif %}
 
-                        response += '</div>' +
+                        response += '<p id="punt_'+data['movies'][i]['num']+'"></p>' +
+                                '</div>'+
                                 '<div class="plus" data-id="' + data['movies'][i]['num'] + '"><div class="view-comments"></div>';
                         {% if app.user %}
                         response += '<form action="{{ path('comment_add') }}" method="post">' +
@@ -384,16 +440,17 @@
                         pNumFilms.addClass("hidden");
                         $('p#result-films').css('display', "block");
                     }
-                    writePagination(data);
+                    writePagination(data, $('.pagination-films'));
                     changeNavFilm();
                     showModalVideo();
                     changeInputView();
-                    getFunctionPagination();
+                    getFunctionPaginationFilms();
                     functionsButtonsShare();
+                    likeNoLike();
                 }
             }
 
-            function writePagination(data) {
+            function writePagination(data, divPagination) {
                 var paginate = "";
                 if (data['total_paginas'] > 1) {
                     paginate = '<div class="pagination-true">';
@@ -424,9 +481,10 @@
                         }
                     }
                     paginate += '</div>';
-                    paginationFilms.html(paginate);
-                }else
-                    paginationFilms.html('');
+                    divPagination.html(paginate);
+                }else{
+                    divPagination.html('');
+                }
             }
 
             function ajaxCommentsMedia(film) {
@@ -444,7 +502,7 @@
                         var html = "";
                         if(response['media'] != null){
                             html += '<b>Nota media usuarios: </b><span class="rating">'
-                                    +response['media'].replace('.0', '')+'</span>';
+                                    +Math.round(response['media'].replace('.0', '') * 10) / 10+'</span>';
                         }
                         item.html(html);
                     }
@@ -452,13 +510,40 @@
             }
 
             /**
-             * Obtiene los comentarios de una película por AJAX
+             * Obtiene los tres últimos comentarios de una película por AJAX
              */
             function ajaxCommentsFilm(film, divComments) {
                 $.ajax({
                     type: "POST",
                     url: "{{ path('comments_film') }}",
-                    data: {'scroll': limit += 1, 'film': film},
+                    data: {'scroll': 3, 'film': film},
+                    dataType: 'json',
+                    beforeSend: function () {
+                        divComments.html("");
+                        divComments.html("<p class='proccessing' >Procesando, espere por favor...</p>");
+                    },
+                    success: function (data) {
+                        var html = "", response = [];
+                        response = data['comments'];
+                        {% include 'MoviesBundle:Comment:comment.js.twig' %}
+                        divComments.html(html);
+                        $('.btn-all').on('click', function(e){
+                            var film = $(this).data('name');
+                            window.location.href = "{{ path('film_view')}}?m="+film+'&com=true';
+                        });
+                        likeNoLike();
+                    }
+                });
+            }
+
+            /**
+             * Obtiene los comentarios paginados de una película por AJAX
+             */
+            function ajaxCommentsFilmPagination(idFilm, divComments, page) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ path('comments_film_pagination') }}",
+                    data: {'page': page, 'film': idFilm},
                     dataType: 'json',
                     beforeSend: function () {
                         divComments.html("");
@@ -466,35 +551,88 @@
                     },
                     success: function (response) {
                         var html = "";
-                        {% include 'MoviesBundle:Comment:comment.js.twig' %}
+                        {% include 'MoviesBundle:Comment:comment_pagination.js.twig' %}
                         divComments.html(html);
-                        var altDiv = divComments.height();
-                        divComments.scroll(function() {
-                            $(document).mousemove(function(event){
-                                coorY = event.pageY;
-                                var st = altDiv;
-                                var winScroll = Number($(window).scrollTop());
-                                var winHeight = Number(window.innerHeight);
-                                if (st > lastScrollTop) {
-                                    // Scroll hacia abajo
-//                                if ((winScroll + st >= (docHeight - offset))
-//                                        && (Number($(window).scrollTop()) + Number($(window).height()) <= Number($(document).height() - 10))) {
-                                    ajaxCommentsFilm(film, divComments);
-//                                }
-                                } else {
-                                    // Scroll hacia arriba
-                                }
-                                lastScrollTop = st;
-                            });
+                        writePagination(response, $('.pagination-comments'));
+                        $('.pagination-comments .a-page').on('click', function() {
+                            var pageNew = $(this).attr('data-page');
+                            ajaxCommentsFilmPagination(idFilm, divComments, pageNew);
                         });
+                    },
+                    complete: function(){
+                        com = false;
+                        changeNavFilm();
+                        changeInputView();
+                        functionsButtonsShare();
+                        likeNoLike();
                     }
                 });
             }
 
-            /**
-             * Funciones para los elementos li de cada película (menu pestañas)
-             */
-            function changeNavFilm(){
+            function likeNoLike(){
+                $('.useful a').on('click', function(e){
+                    e.preventDefault();
+                    var comme = $(this).attr('data-c');
+                    var lik = $(this).attr('data-l');
+                    {% if app.user %}
+                        window.location.href = $(this).attr('href');
+                        $.ajax({
+                            type: "POST",
+                            url: "{{ path('like_no_like') }}",
+                            data: { like: lik, comment: comme },
+                            dataType: 'json',
+                            success: function(data) {
+                                $('.like_'+comme).html(data['like']['total']);
+                                $('.no_like_'+comme).html(data['no_like']['total']);
+                            }
+                        });
+                    {% else %}
+                    var url = window.location.href;
+                    $.ajax({
+                        type: "POST",
+                        url: "{{ path('fos_user_security_login') }}",
+                        data: { url: url },
+                        dataType: 'json',
+                        success: function() {
+                        }
+                    });
+                    $.sweetModal({
+                        title: 'Votar',
+                        content: '<div class="vote"><p>Para poder votar debes iniciar sessión</p></div>',
+                        buttons: {
+                            someOtherAction: {
+                                label: 'Cancelar',
+                                classes: 'btn btn-primary-reset',
+                                action: function() {
+
+                                }
+                            },
+
+                            someAction: {
+                                label: 'Acceder',
+                                classes: 'btn btn-primary-search',
+                                action: function() {
+                                    window.location.href = "{{ path('fos_user_security_login') }}";
+                                }
+                            },
+                        }
+                    });
+                    {% endif %}
+                });
+            }
+
+            function changeViewComments(idF) {
+                var divPlus = $('.plus-one[data-id="' + idF + '"]');
+                var divComments = divPlus.children('div.view-comments');
+                $('li[role="presentation"][data-id="' + idF + '"]').removeClass('active');
+                $('.a-plus2').addClass('active');
+                $('.description[data-id="' + idFilm + '"]').css('display', 'none');
+                $('.trailers[data-id="' + idFilm + '"]').css('display', 'none');
+                divPlus.css('display', 'block');
+                ajaxCommentsFilmPagination(idF, divComments, 0);
+            }
+
+            function functionTabFilm(){
                 $('.a-desc').on('click', function(){
                     idFilm = $(this).attr('data-id');
                     $('li[role="presentation"][data-id="'+idFilm+'"]').removeClass('active');
@@ -527,12 +665,32 @@
                     lastScrollTop = 0;
                     ajaxCommentsFilm(idFilm, divComments);
                 });
+                $('.a-plus2').on('click', function(){
+                    idFilm = $(this).attr('data-id');
+                    changeViewComments(idFilm);
+                });
             }
 
             /**
-             * Obtiene la paginación por AJAX
+             * Funciones para los elementos li de cada película (menu pestañas)
              */
-            function getFunctionPagination(){
+            function changeNavFilm(){
+                {% if com is defined and com == true %}
+                    if(com){
+                        idFilm = '{{ film.num }}';
+                        changeViewComments(idFilm);
+                    }else{
+                        functionTabFilm();
+                    }
+                {% else %}
+                    functionTabFilm();
+                {% endif %}
+            }
+
+            /**
+             * Cambia de página de películas por AJAX
+             */
+            function getFunctionPaginationFilms(){
                 $('a.a-page').on('click', function(){
                     var page = $(this).attr('data-page');
                     $.ajax({
@@ -541,7 +699,7 @@
                         data: {'page':page},
                         dataType : 'json',
                         beforeSend: function () {
-                            paginationFilms.html("");
+                            $('.pagination-films').html("");
                             $("#list-movies").html("<p class='proccessing' >Procesando, espere por favor...</p>");
                         },
                         success: function(data) {
@@ -670,6 +828,7 @@
             });
 
             functionsButtonsShare();
+            likeNoLike();
         })();
     </script>
 {% endblock %}

@@ -13,11 +13,57 @@
 <div class="container container-login">
     <div id="form-login">
         <h2 class="title">Editar perfil</h2>
-{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+        {% if app.request.get('info') is defined %}
+            <p class=info-error>{{ app.request.get('info') }}</p>
+        {% endif %}
+{{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_resseting' } }) }}
     {{ form_widget(form) }}
-    <div>
-        <input type="submit" value="{{ 'profile.edit.submit'|trans }}" />
-    </div>
+        <div class="fos_user_profile_form">
+            <div>
+                <label for="date">Fecha nacimiento</label>
+                <input type="date" id="date" name="date" {% if user.bithDate is defined %} value="{{ user.bithDate|date('Y-m-d') }}" {% endif %}>
+            </div>
+        </div>
+        <div class="fos_user_profile_form">
+            <div class="div-min">
+                <label for="date">Sexo</label>
+                <label class="radio-inline">
+                    <input type="radio" class="radio" name="sex" value="1"
+                            {% if user.sex is defined and user.sex == 1 %} checked {% endif %}>Hombre
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="radio" name="sex" value="0"
+                            {% if user.sex is defined and user.sex == 0 %} checked {% endif %}>Mujer
+                </label>
+            </div>
+        </div>
+        <div class="fos_user_profile_form">
+            <div>
+                <label for="country">País</label>
+                <input type="text" id="country" name="country" {% if user is defined %} value="{{ user.country }}" {% endif %}>
+            </div>
+        </div>
+        <div class="fos_user_profile_form">
+            <div>
+                <label for="question">Pregunta seguridad</label>
+                <select class="form-control" id="question" name="question" title="Es recomendable este dato como seguridad en caso de que olvide la contraseña">
+                    {% for q in questions  %}
+                        <option value="{{ loop.index }}" {% if user.question.id == loop.index %} selected {% endif %}>{{ q.title }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="fos_user_profile_form">
+            <div>
+                <label for="answer" title="Es recomendable este dato como seguridad en caso de que olvide la contraseña">Respuesta</label>
+                <input type="text" id="answer" name="answer" title="Es recomendable este dato como seguridad en caso de que olvide la contraseña"
+                        {% if user is defined %} value="{{ user.answer }}" {% endif %}>
+            </div>
+        </div>
+        <div class="div-buttons">
+            <a href="{{ path('films') }}" class="btn btn-primary-reset">Cancelar</a>
+            <input type="submit" class="btn btn-primary-search" value="Actualizar" />
+        </div>
 {{ form_end(form) }}
     </div>
 </div>

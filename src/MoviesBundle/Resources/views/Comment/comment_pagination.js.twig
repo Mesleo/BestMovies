@@ -1,0 +1,66 @@
+if(response['comments'].length > 0) {
+    var user = "";
+    var comments = response['comments'];
+    {% if not app.user %}
+    html += '<p>Para poder valorar la película debes estar logeado. <a href="{{ path('comment_add') }}?film='+idFilm+'&p=1">Valorar</a></p>';
+    {% endif %}
+    if(response['comments'].length == 1){
+        longt = 1;
+    }else if(response['comments'].length >= 3){
+        longt = 3;
+    }else{
+        longt = 2;
+    }
+
+    for (var i = 0; i < longt; i++) {
+        {% if app.user %}
+        if(comments[i]['user'] == '{{ app.user.username }}') {
+            user = "Tu comentario";
+        }else{
+            if(comments[i]['user'] == null){
+                user = '- Anónimo -';
+            }else {
+                user = comments[i]['user'];
+            }
+        }
+        {% else %}
+        user = comments[i]['user'];
+        {% endif %}
+        html += '<div class="box-comment">' +
+                '<header>' +
+                '<h3>' + user + ' <span class="score">' + comments[i]['score'] + '</span></h3><hr></header>' +
+                '<p class="date-comment">' + comments[i]['fechaAdd'] + '</p>';
+        if (comments[i]['title'] != null) {
+            html += '<h4 class="title-comment">' + comments[i]['title'] + '</h4>';
+        }
+        if (comments[i]['comment'] != null) {
+            var text = comments[i]['comment'];
+            if (text.length > 15) {
+                text = text.slice(0, 200) + '...';
+            }
+            html += '<p class="comment">' + text + '</p>';
+            html += '<div class="view-useful">';
+            html += '<p class="p-button-view">';
+            if (text.length > 15) {
+                html += '<a href="{{ path('comment_view') }}?m=' + comments[i]["id"] + '" ' +
+                        'class="btn btn-default">Ver más...</a>';
+            }
+            html += '</p>';
+            html += '<div class="useful">' +
+                    '<div><a href="javascript:void(0);" data-c="'+comments[i]['id']+'" data-l="1">'+
+                    '<img src="/upload/icons/like.png" alt="Me gusta" title="Me gusta">'+
+                    {#'<img src="/web/upload/icons/like.png" alt="Me gusta" title="Me gusta">'+#}
+                    '</a></div><div class="like_'+comments[i]['id']+'" >'+comments[i]['likes']+'</div>'+
+                    '<div><a href="javascript:void(0);" data-c="'+comments[i]['id']+'" data-l="0">'+
+                    '<img src="/upload/icons/no_like.png" alt="No me gusta" title="No me gusta">'+
+                    {#'<img src="/web/upload/icons/no_like.png" alt="No me gusta" title="No me gusta">'+#}
+                    '</a></div><div class="no_like_'+comments[i]['id']+'" >'+comments[i]['no_likes']+'</div>'+
+                    '</div>'+
+                    '</div>';
+        }
+        html += '</div>';
+    }
+}else{
+    html += '<h4>No hay críticas aún sobre esta película</h4>' +
+            '<p class="first-com"><a href="{{ path('comment_add') }}?film='+film+'&p=1">Se el primero</a>';
+}

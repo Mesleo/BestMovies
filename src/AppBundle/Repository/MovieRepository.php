@@ -207,12 +207,12 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             }
         }
 
-        if($category != null){
-            for($i = 0; $i < count($category); $i++){
-                $query .= " AND
-                        c.id = :category$i";
-            }
-        }
+//        if($category != null){
+//            for($i = 0; $i < count($category); $i++){
+//                $query .= " AND
+//                        c.id = :category$i";
+//            }
+//        }
 
         if($view != "TODO" || $view == false){
             $query .= " AND
@@ -326,7 +326,8 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
                       DATEADD AS dateAdd, 
                       RATING AS rating,
                       DIRECTOR AS director, 
-                      COUNTRY AS country,  
+                      COUNTRY AS country, 
+                      CATEGORY AS category,
                       YEAR AS year, 
                       LENGTH AS length, 
                       ACTORS AS actors, 

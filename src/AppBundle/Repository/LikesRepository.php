@@ -10,4 +10,30 @@ namespace AppBundle\Repository;
  */
 class LikesRepository extends \Doctrine\ORM\EntityRepository
 {
+
+    /**
+     * Devuelve la cantidad de comentarios que gustan o no
+     * @param $comment
+     * @param $like
+     * @return mixed
+     */
+    public function getLikesComment($comment, $like){
+
+        $conn = $this->getEntityManager()->getConnection();
+
+        $query = "SELECT 
+                      count(*) AS total
+                  FROM likes 
+                  WHERE 
+                      comment_id = :comment 
+                      AND like_not_like = :likes";
+
+        $stmt = $conn->prepare($query);
+        $stmt->bindValue(':comment', trim($comment));
+        $stmt->bindValue(':likes', trim($like));
+
+        $stmt->execute();
+        return $stmt->fetch();
+    }
+
 }

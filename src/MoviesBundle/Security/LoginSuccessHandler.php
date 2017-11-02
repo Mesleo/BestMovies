@@ -24,16 +24,16 @@ class LoginSuccessHandler implements AuthenticationSuccessHandlerInterface {
 
         $response = null;
 
-        if($request->request->has('film') && $request->request->has('p')
+        if(isset($_SESSION['_sf2_attributes']['url']) && !empty($_SESSION['_sf2_attributes']['url'])){
+            $response = new RedirectResponse($_SESSION['_sf2_attributes']['url']);
+        } else if($request->request->has('film') && $request->request->has('p')
             && $request->request->get('p') == 1){
             $response = new RedirectResponse($this->router->generate('comment_add'));
-        }
-        else if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        } else if ($this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             $response = new RedirectResponse($this->router->generate('films'));
         } else if ($this->authorizationChecker->isGranted('ROLE_USER')) {
             $response = new RedirectResponse($this->router->generate('films'));
         }
-//        var_dump($response);
         return $response;
     }
 

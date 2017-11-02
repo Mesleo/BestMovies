@@ -823,4 +823,28 @@ class Movie
 //    {
 //        return $this->hasCategories;
 //    }
+
+    /**
+     * Set urlTorrent
+     *
+     * @param string $urlTorrent
+     *
+     * @return Movie
+     */
+    public function setUrlTorrent($urlTorrent)
+    {
+        $this->urlTorrent = $urlTorrent;
+
+        return $this;
+    }
+
+    /**
+     * Get urlTorrent
+     *
+     * @return string
+     */
+    public function getUrlTorrent()
+    {
+        return $this->urlTorrent;
+    }
 }

@@ -1,0 +1,52 @@
+{% extends "MoviesBundle:Base:base.html.twig" %}
+
+{% block stylesheets %}
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="panel panel-body">
+        <div class="panel-heading">
+            <div class="panel-title">
+                <h3>Aceptación política de privacidad</h3>
+        </div>
+
+            <p>De conformidad con lo establecido en la Ley orgánica 15/1999 de Protección de Datos de Carácter Personal, le informamos que los datos
+            personales recogidos a través de los distintos formularios de nuestra página Web, serán incluidos dentro de un fichero automatizado bajo
+            responsabilidad de www.bestmovies.es, con la finalidad de ofrecer y gestionar todos los servicios que se ofrecen desde
+            nuestra página Web.</p>
+            <p>Todos los campos señalados con asterisco son de obligada respuesta, la negativa a realizarlo implica la imposibilidad de tramitar su
+            registro y a su vez, el usuario se hace responsable de la veracidad de los datos.</p>
+            <p>Así mismo, le informamos que pueden ejercer su derecho de acceso, cancelación, rectificación y oposición mediante escrito a la dirección
+            de correo electrónico informacion@bestmovies.es.</p>
+            <p>Mientras no nos comunique lo contrario, entenderemos que sus datos no han sido modificados, que usted se compromete a notificarnos
+            cualquier variación y que tenemos el consentimiento para utilizarlos a fin de poder fidelizar la relación entre las partes. También solicitamos
+            su consentimiento para la comunicación de los datos a otras empresas cuando esta comunicación sea necesaria para la ejecución
+            del presente servicio o suponga una mejora del mismo, así como la publicación de sus datos en nuestra página Web.</p>
+            <p>En cumplimiento de la ley 34/2002 del 11 de Julio de Servicios de la Sociedad de la Información y Comercio Electrónico (LSSI-CE), el
+            usuario autoriza a www.bestmovies.es, al envío en todos los formatos existentes, de publicidad y/o documentos para
+            la correcta ejecución del servicio prestado. Este consentimiento puede ser revocado por usted en cualquier momento, mediante escrito a
+            la dirección de correo anteriormente citada.</p>
+            <p>Mediante mi aceptación doy constancia de todo lo que se ha expuesto anteriormente en este documento y de que soy conocedor de mis
+            derechos y obligaciones de conformidad con la Ley 15/1999 de Protección de Datos de Carácter Personal.</p>
+            <div class="div-buttons">
+                <button type="submit" class="btn btn-danger">Atras</button>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script
+            src="http://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    <script>
+        (function(){
+            $('.btn-danger').on('click', function(){
+                window.location.href = history.back(-1);
+            })
+        })()
+    </script>
+{% endblock %}

@@ -60,6 +60,13 @@ class Comment
     private $dateAdd;
 
     /**
+     * @var DateTime
+     *
+     * @ORM\Column(name="updated", type="datetime", nullable=true)
+     */
+    private $updated;
+
+    /**
      * Muchos comentarios puede poner un usuario
      * @ORM\ManyToOne(targetEntity="User", inversedBy="comment")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
@@ -293,5 +300,29 @@ class Comment
     public function getLikes()
     {
         return $this->likes;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     *
+     * @return Comment
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Taviraj" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Bitter" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Inknut+Antiqua" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
     <link rel="stylesheet" href="/css/font-awesome/css/font-awesome.min.css">
     {#<link rel="stylesheet" href="/web/css/font-awesome/css/font-awesome.min.css">#}
     <link rel="stylesheet" href="/css/main.css">
@@ -36,9 +37,7 @@
     </div>
 </header>
 <div class="container">
-    {% if is_granted('ROLE_ADMIN') %}
-        {% include 'MoviesBundle:Base:nav_admin.html.twig' %}
-    {% elseif app.user %}
+    {% if app.user %}
         {% include 'MoviesBundle:Base:nav_userlogged.html.twig' %}
     {% endif %}
     {% block body %}{% endblock %}
